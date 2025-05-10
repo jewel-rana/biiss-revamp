@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Flot | Bootstrap Based Admin Template - Material Design</title>
+    <!-- Favicon-->
+
+    <!-- Bootstrap Core Css -->
+    
+    <!-- Custom Css -->
+    <link href="../../css/style.css" rel="stylesheet">
+
+   
+</head>
+
+<body class="">
+
+
+   
+            
+    
+    <div id="pie_chart2" class="flot-chart"></div>
+                
+               
+
+    <!-- Jquery Core Js -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/flot-charts/jquery.flot.js"></script>
+    <script src="../../plugins/flot-charts/jquery.flot.pie.js"></script>
+   
+
+  
+  
+
+   
+    
+
+    <script type="text/javascript">
+    	$(function () {
+
+            var pieChartData = [], pieChartSeries = 2;
+		    var pieChartColors = ['#E91E63', '#03A9F4'];
+		    var pieChartDatas = [4000, 200];
+
+		    for (var i = 0; i < pieChartSeries; i++) {
+		        if(i==0){
+		             var total='Total books - '+ pieChartDatas[i];
+		        }else{
+		            var total='Issue books - '+ pieChartDatas[i];
+		        }
+		        pieChartData[i] = {
+		            label: total,
+		            data: pieChartDatas[i],
+		            color: pieChartColors[i]
+		        }
+		    }
+		    $.plot('#pie_chart2', pieChartData, {
+		        series: {
+		            pie: {
+		                show: true,
+		                radius: 1,
+		                label: {
+		                    show: true,
+		                    radius: 3 / 4,
+		                    formatter: labelFormatter,
+		                    background: {
+		                        opacity: 0.5
+		                    }
+		                }
+		            }
+		        },
+		        legend: {
+		            show: false
+		        }
+		    });
+		    function labelFormatter(label, series) {
+		        return '<div style="font-size:8pt; text-align:center; padding:2px; color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
+		    }
+		   
+		});
+    </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,371 @@
+/* Some margins */
+.mr {
+    margin-right: 10px;
+}
+
+.ml {
+    margin-left: 10px;
+}
+
+.mb {
+    margin-bottom: 10px;
+}
+
+.mt {
+    margin-top: 10px;
+}
+
+.pt {
+    padding-top: 10px;
+}
+
+.pb {
+    padding-bottom: 10px;
+}
+
+.pr {
+    padding-right: 10px;
+}
+
+.pl {
+    padding-left: 10px;
+}
+
+.p-0 {
+    padding: 0 !important;
+}
+
+.bg-dark.dk, .bg-dark > .dk {
+    background-color: #fff !important;
+}
+
+.bg-primary {
+    background-color: #337ab7 !important; /* Bootstrap primary color */
+    color: #fff; /* Optional: Ensure text is visible */
+}
+
+.bg-success {
+    background-color: #5cb85c !important; /* Bootstrap success color */
+    color: #fff;
+}
+
+.bg-info {
+    background-color: #5bc0de !important; /* Bootstrap info color */
+    color: #fff;
+}
+
+.bg-warning {
+    background-color: #f0ad4e !important; /* Bootstrap warning color */
+    color: #fff;
+}
+
+.bg-danger {
+    background-color: #d9534f; /* Bootstrap danger color */
+    color: #fff;
+}
+
+.badge-success {
+    background: #3c763d !important;
+}
+.badge-danger {
+    background: #c25d41 !important;
+}
+.badge-info {
+    background: rgba(49, 160, 186, 0.64) !important;
+}
+
+.inner {
+    border: 15px solid #efefef;
+}
+
+.outer {
+    background-color: #fff;
+}
+
+.box {
+    margin: 0 !important;
+    border-bottom: 0;
+}
+
+.inner {
+    padding: 0 !important;
+}
+
+.inner h3 {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+.logo {
+    width: 100%;
+    height: auto;
+}
+#menu {
+    background-color: #fff !important;
+}
+
+#menu > li a {
+    font-size: 18px;
+}
+
+#menu ul {
+    background: rgba(0, 17, 43, 0.8);
+}
+
+#menu > li ul a {
+    font-size: 16px;
+    color: #fff;
+    margin-left: 5px;
+    border-top: 1px solid #3c6;
+}
+
+#menu > li.active > a {
+    background-color: rgb(0, 17, 43);
+    color: #fff;
+}
+
+.user-media .media-body h5.media-heading {
+    color: #8d8d8d;
+}
+
+.bg-light.dker, .bg-light > .dker {
+    background-color: #fff !important;
+}
+
+.head .main-bar h3 {
+    margin-bottom: 0;
+    color: #4f4b4b;
+    padding-left: 10px;
+    padding-top: 7px;
+}
+
+/*ul#menu ul li.active > a{*/
+/*    !* border-left: 10px solid #ff5ea1; *!*/
+/*    border-bottom: 1px solid #ff5ea1;*/
+/*    border-top: 1px solid #ff5ea1;*/
+/*    background: #d73d7e;*/
+/*    color: #0c0c0c;*/
+/*}*/
+ul#menu ul li.active > a, ul#menu ul li a:hover {
+    margin-left: 0;
+    border-left: 5px solid #3c6;
+    color: #3c6;
+}
+
+.bg-dark.dker, .bg-dark > .dker {
+    background-color: #00112b !important;
+}
+
+/* TAB */
+.no-padding {
+    padding: 0 !important;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #ddd;
+    background: #efefef;
+}
+
+.tab-content {
+    border-top-color: rgb(238, 238, 238);
+    border-top-style: solid;
+    padding: 25px;
+    background: #fff;
+    border-top: 0;
+}
+
+.nav-tabs > li > a {
+    margin-right: 6px;
+    line-height: 1;
+    border: 1px solid #f0d4d4;
+    /* border-radius: 4px 4px 0 0; */
+    background: #f2f1f1;
+    border-bottom: 0;
+}
+
+.nav-tabs > li:first-child > a, .nav-tabs > li:first-child > a:hover, .nav-tabs > li:first-child > a:focus {
+    border-left: 0;
+}
+
+.modal-dialog-lg {
+    width: 90%;
+}
+
+.modal-content {
+    color: #000 !important;
+}
+
+.modal.modal-wide .modal-dialog {
+    width: 90%;
+}
+
+.modal-wide .modal-body {
+    overflow-y: auto;
+}
+
+#reload {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    background: #0A246A1F;
+    display: none;
+}
+
+/* Table Header Styles */
+.table-green th {
+    background: #3c6;
+    color: #fff;
+}
+
+.table-yellow th {
+    background: #ecb800;
+    color: #fff;
+}
+
+.table-blue th {
+    background: #009ed8;
+    color: #fff;
+}
+
+#reload .reload-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+    color: #1ea0ee;
+    background: #ffffff63;
+    border-radius: 150%;
+}
+
+.img-flag {
+    height: 25px;
+}
+
+.profile-menu .dropdown-menu {
+    width: 220px;
+}
+
+.profile-menu .dropdown-menu li.profile-pic {
+    margin: 0 auto !important;
+    vertical-align: middle;
+    text-align: center;
+    color: #0c0c0c;
+}
+
+.profile-menu .dropdown-menu img {
+    margin: 10px auto !important;
+    border-radius: 150%;
+    width: 80px;
+    text-align: center;
+    vertical-align: middle;
+}
+.dropdown-logout button {
+    width: 100%;
+    background: none;
+    border: none;
+    background-color: none;
+    color: #d43f3a;
+    text-align: left;
+}
+.dropdown-logout button:hover {
+    background: none;
+    color: #0c0c0c;
+}
+#filterPanel .dropdown-menu-right {
+    min-width: 320px;
+}
+
+#filterPanel .panel-row {
+    margin: 10px 5px;
+}
+
+#filterPanel .form-control {
+    position: relative;
+    width: 100% !important;
+}
+
+/* Stats */
+.stats_box .stat_text {
+    min-width: 120px !important;
+}
+
+.select2-container .select2-selection--single, .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 36px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 35px;
+}
+
+.table-actions, .table-ids {
+    width: auto !important;
+    max-width: 120px;
+}
+
+.toolbar {
+    float: right;
+}
+
+.wrapText {
+    word-wrap: break-word;
+    display: inline-block;
+}
+
+.btn-logout {
+    width: 100%;
+    text-align: left;
+    border-radius: 0;
+    background-color: #fff;
+    color: #ED5826;
+    border-top: 1px solid rgba(0, 0, 0, .1) !important;
+}
+
+.profile-menu {
+    margin-right: 10px;
+    /*position: fixed;*/
+    right: 15px;
+    z-index: 999 !important;
+    padding-top: 10px;
+}
+
+.user-media .user-link {
+    margin-left: 15px;
+}
+
+.profile-img {
+    margin-top: -5px;
+    margin-right: 5px;
+    float: left;
+    background: #fff0ff url('/images/avatar.png') 50% 50% no-repeat; /* 50% 50% centers image in div */
+    background-size: auto 100%; /* Interchange this value depending on prefering width vs. height */
+    width: 30px;
+    height: 30px;
+    border-radius: 150%;
+}
+
+.login {
+    background: #e9e9e9 !important;
+    margin-top: 8% !important;
+}
+.login .tab-content {
+    padding: 0 !important;
+}
+
+#footer, .Footer {
+    border-top: 0 !important;
+    color: #0c0c0c;
+}
+
+.table-avatar {
+    width: 40px !important;
+    height: auto;
+    border-radius: 50px;
+    border: 1px solid #ebeff2;
+}
+
+.form-control#reportrange {
+    text-align: inherit !important;
+}

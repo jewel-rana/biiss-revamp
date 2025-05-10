@@ -1,0 +1,10 @@
+{
+    "Auth": true,
+    "Test": true,
+    "Default": true,
+    "Metis": true,
+    "Frontend": true,
+    "Customer": true,
+    "Activity": true,
+    "Library": true
+}
