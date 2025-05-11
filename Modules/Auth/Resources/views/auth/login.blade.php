@@ -17,6 +17,7 @@
                 Enter your credentials
             </p>
         @endif
+        <input type="hidden" name="g-recaptcha-response" id="recaptcha_token">
         <div class="form-group m-b-20">
             <input type="text" name="email" class="form-control form-control-lg"
                    placeholder="Email Address" required/>

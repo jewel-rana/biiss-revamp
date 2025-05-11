@@ -49,7 +49,7 @@
                         Wishlist (0)
                     </a>
 
-                    <a href="#" class="btn" style="background-color: #5592CB; color: #FFFFFF;">Login</a>
+                    <a href="{{ route('auth.login') }}" class="btn" style="background-color: #5592CB; color: #FFFFFF;">Login</a>
                 </div>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">

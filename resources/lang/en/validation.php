@@ -103,6 +103,10 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'g-recaptcha-response' => [
+            'required' => 'Please verify that you are not a robot.',
+            'captcha' => 'Your captcha validation failed. Please try again.',
+        ],
     ],
 
     /*

@@ -25,6 +25,8 @@
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="{{ asset('backend/color-admin-v4.2/admin/assets/plugins/pace/pace.min.js') }}"></script>
     <!-- ================== END BASE JS ================== -->
+
+    @yield('header')
 </head>
 <body class="pace-top">
 <!-- begin #page-loader -->
@@ -77,6 +79,7 @@
     });
 </script>
 
+@yield('footer')
 </body>
 
 </html>

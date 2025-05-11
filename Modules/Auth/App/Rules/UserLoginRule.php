@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\App\Rules;
 
+use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Hash;
