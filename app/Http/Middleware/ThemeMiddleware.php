@@ -19,6 +19,7 @@ class ThemeMiddleware
             'default' => config('theme.default'),
             'frontend' => config('theme.frontend'),
             'backend' => config('theme.backend'),
+            'current_path' =>  $request->path() ?? '/',
         ]);
         return $next($request);
     }

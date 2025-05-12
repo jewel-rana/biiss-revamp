@@ -13,7 +13,7 @@ class FrontController extends Controller
 {
     public function index(Request $request): View
     {
-        $data['books'] = Feature::with('item')->where('type', 'new_book')->orderBy('created_at', 'DESC')->take(15)->get();
+        $data['newBooks'] = Feature::with('item')->where('type', 'new_book')->orderBy('created_at', 'DESC')->take(15)->get();
 
         $data['featuredBooks'] = Feature::with('item')->where('type', 'book')->orderBy('created_at', 'desc')->take(15)->get();
 
@@ -21,11 +21,9 @@ class FrontController extends Controller
 
         $data['featuredSeminars'] = Feature::with('item')->where('type', 'seminar')->orderBy('created_at', 'desc')->take(15)->get();
 
-        $data['featuredMagazins'] = Feature::with('item')->where('type', 'magazine')->orderBy('created_at', 'desc')->take(15)->get();
+        $data['featuredMagazines'] = Feature::with('item')->where('type', 'magazine')->orderBy('created_at', 'desc')->take(15)->get();
 
         $data['featuredDocuments'] = Feature::with('item')->where('type', 'document')->orderBy('created_at', 'desc')->take(15)->get();
-
-        $data['banners'] = Options::where('name', 'banner')->orderBy('id', 'DESC')->take(5)->get();
 
         return view('index', $data);
     }
@@ -122,17 +120,16 @@ class FrontController extends Controller
         return view('frontend.search', $data);
     }
 
-    public function newBooks(Request $request)
+    public function newBooks(Request $request): View
     {
-
-        $data['books'] = Feature::with(['item'])->where('type', 'new_book')->orderBy('created_at', 'DESC')->paginate(16);
-
-        $data['banners'] = Options::where('name', 'banner')->orderBy('id', 'DESC')->limit(3)->get();
-
-        return view('frontend.new-books', $data)->with('i', ($request->input('page', 1) - 1) * 10);
+        $books = Feature::with(['item'])
+            ->where('type', 'new_book')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(12);
+        return view('frontend.new-books', compact('books'))->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
-    public function topBooks(Request $request)
+    public function topBooks(Request $request): View
     {
 
         $data['books'] = Feature::with(['item'])->where('type', 'book')->orderBy('id', 'DESC')->paginate(12);
@@ -143,7 +140,7 @@ class FrontController extends Controller
         return view('frontend.top-books', $data)->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
-    public function topJournals(Request $request)
+    public function topJournals(Request $request): View
     {
 
         $data['journals'] = Feature::with(['item'])->where('type', 'journal')->orderBy('id', 'DESC')->paginate(12);
@@ -155,7 +152,7 @@ class FrontController extends Controller
     }
 
 
-    public function topSeminars(Request $request)
+    public function topSeminars(Request $request): View
     {
         $data['items'] = Feature::with('item')->where('type', 'seminar')->orderBy('id', 'DESC')->paginate(12);
         $data['banners'] = Options::where('name', 'banner')->orderBy('id', 'DESC')->limit(3)->get();
@@ -165,7 +162,7 @@ class FrontController extends Controller
     }
 
 
-    public function contact()
+    public function contact(): View
     {
         $data['banners'] = Options::where('name', 'banner')->orderBy('id', 'DESC')->limit(3)->get();
         return view('frontend.contact', $data);

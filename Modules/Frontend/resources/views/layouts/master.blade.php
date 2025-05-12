@@ -45,11 +45,15 @@
             </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="d-flex gap-2">
+                    @if(auth()->guest())
                     <a href="#" class="btn btn-outline-primary" style=" color: #5592CB; border-color: #5592CB;">
                         Wishlist (0)
                     </a>
 
                     <a href="{{ route('auth.login') }}" class="btn" style="background-color: #5592CB; color: #FFFFFF;">Login</a>
+                    @else
+                        <a href="{{ route('auth.profile') }}" class="btn btn-default">Welcome {{ auth()->user()->name }}</a>
+                    @endif
                 </div>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -61,7 +65,7 @@
     <x-frontend::top-nav></x-frontend::top-nav>
 </header>
 
-@if(!request()->routeIs('front.search'))
+@if(!request()->routeIs(['front.search', 'single.show']))
     <x-frontend::hero></x-frontend::hero>
 @endif
 

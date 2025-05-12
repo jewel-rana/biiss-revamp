@@ -1,3 +1,8 @@
+@php
+    use App\Models\Category;
+    use App\Models\BookIssue;
+
+    @endphp
 @extends('frontend.app')
 
 @section('owncss')
@@ -9,11 +14,7 @@
 
     </div>
 @endsection
-<?php
-use App\Category;
-use App\BookIssue;
-use App\Book;
-?>
+
 @section('content')
 
 <div class="pageContent pt-4" 4>

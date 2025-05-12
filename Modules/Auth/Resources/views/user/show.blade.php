@@ -1,4 +1,4 @@
-@extends('metis::layouts.master')
+@extends("{$theme['default']}::layouts.master")
 
 @section('header')
 @endsection

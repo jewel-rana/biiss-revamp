@@ -2,39 +2,31 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\Feature;
+use App\Models\Library;
+use App\Models\Season;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Book;
 
 class LibraryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $type = ( isset( $_GET['type'] ) ) ? $_GET['type'] : 'book';
         $data['pageTitle'] = ucwords( $type ) . 's';
         $data['type'] = $type;
-        $data['seasons'] = \App\Season::pluck('name', 'name');
+        $data['seasons'] = Season::pluck('name', 'name');
         // $data['seasons'] = [''];
         return view('dashboard.library.index_' . strtolower( $type ), $data );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create( Request $request )
     {
         $data['type'] = ( $request->type ) ? $request->type : 'book';
         $data['search'] = ( $request->search ) ? $request->search : '';
 
         //get few list from the library items by type
-        $query = \App\Library::where('title', '!=', '');
+        $query = Library::where('title', '!=', '');
 
         //if user provide type then use this condition
         if( isset( $_GET['type'] ) && $_GET['type'] != '' )
@@ -49,17 +41,11 @@ class LibraryController extends Controller
 
         $data['items'] = $query->paginate(10);
 
-        $data['seasons'] = \App\Season::pluck('name', 'name');
+        $data['seasons'] = Season::pluck('name', 'name');
         $data['title'] = 'Add new ' . ucfirst( $data['type'] );
         return view('dashboard.library.new', $data );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         dd( $request );
@@ -67,9 +53,9 @@ class LibraryController extends Controller
 
     public function add( $id )
     {
-        $item = \App\Library::find( $id );
+        $item = Library::find( $id );
 
-        $feature = new \App\Feature;
+        $feature = new Feature;
         $feature->book_id = $item->id;
         $feature->type = $item->type;
         $feature->save();
@@ -77,16 +63,10 @@ class LibraryController extends Controller
         return redirect()->back()->with('success', 'Featured Item has been added.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //retrive library item
-        $data['item'] = \App\Library::findOrFail( $id );
+        $data['item'] = Library::findOrFail( $id );
 
         //check library items found or not
         if( !$data['item'] )
@@ -98,16 +78,10 @@ class LibraryController extends Controller
         return view('dashboard.library.single_' . strtolower($data['item']->type), $data );
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //retrieve item
-         $data['library'] = \App\Library::findOrFail( $id );
+         $data['library'] = Library::findOrFail( $id );
 
         //check library items found or not
         if( !$data['library'] )
@@ -115,22 +89,16 @@ class LibraryController extends Controller
         //load view
         $data['title'] = 'Edit ' . $data['library']->type;
         $data['type'] = strtolower( $data['library']->type );
-        $data['seasons'] = \App\Season::pluck('name', 'name');
+        $data['seasons'] = Season::pluck('name', 'name');
 
         $data['subview'] = 'edit_' . strtolower( $data['type'] );
         return view('dashboard.library.edit', $data );
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function cloneJournal($id)
     {
         //retrieve item
-        $data['library'] = \App\Library::findOrFail( $id );
+        $data['library'] = Library::findOrFail( $id );
 
         //check library items found or not
         if( !$data['library'] )
@@ -139,26 +107,19 @@ class LibraryController extends Controller
         //load view
         $data['title'] = 'Clone ' . $data['library']->type;
         $data['type'] = strtolower( $data['library']->type );
-        $data['seasons'] = \App\Season::pluck('name', 'name');
+        $data['seasons'] = Season::pluck('name', 'name');
 
         $data['subview'] = 'clone_' . $data['type'];
         return view('dashboard.library.clone', $data );
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request, $id )
     {
-        $feature = \App\Feature::find($id);
+        $feature = Feature::find($id);
         if( $feature )
             $feature->delete();
 
-        $item = \App\Library::findOrFail( $id );
+        $item = Library::findOrFail( $id );
 
         if( !$item ) :
             if( $request->ajax() ){
@@ -187,7 +148,7 @@ class LibraryController extends Controller
 
     public function remove( Request $request, $id )
     {
-        $item = \App\Library::findOrFail( $id );
+        $item = Library::findOrFail( $id );
 
         //remove item
         if( $item->delete() ) {

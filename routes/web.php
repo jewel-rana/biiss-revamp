@@ -13,6 +13,8 @@
 
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\Dashboard\LibraryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,72 +42,59 @@ Route::get('/single/{id}',[FrontController::class, 'show'])->name('single.show')
 
 
 //Ajax Request
-//Route::group(['prefix' => 'ajax'], function()
-//{
-//    //search in the front
-//    Route::get('library/front/suggestions', 'AjaxController@frontsuggestion');
-//    Route::get('library/front/suggestions/{keyword}', 'AjaxController@frontsuggestion');
-//    Route::get('library/front/authorsuggestions', 'AjaxController@authorsuggestion');
-//    Route::get('library/front/authorsuggestions/{keyword}', 'AjaxController@authorsuggestion');
-//    Route::get('library/front/categorysuggestions', 'AjaxController@catSuggest')->name('ajax.tags');
-//    Route::get('library/front/categorysuggestions/{keyword}', 'AjaxController@catSuggest')->name('ajax.tags');
+Route::group(['prefix' => 'ajax'], function()
+{
+    //search in the front
+    Route::get('library/front/suggestions', [AjaxController::class, 'frontsuggestion']);
+    Route::get('library/front/suggestions/{keyword}', [AjaxController::class, 'frontsuggestion']);
+    Route::get('library/front/authorsuggestions', [AjaxController::class, 'authorsuggestion']);
+    Route::get('library/front/authorsuggestions/{keyword}', [AjaxController::class, 'authorsuggestion']);
+    Route::get('library/front/categorysuggestions', [AjaxController::class, 'catSuggest'])->name('ajax.tags');
+    Route::get('library/front/categorysuggestions/{keyword}', [AjaxController::class, 'catSuggest'])->name('ajax.tags');
     Route::get('library/front/search', [AjaxController::class, 'search'])->name('datatable.frontend.search');
-//
-//    //search in the backend
-//    Route::get('library/suggestions', 'AjaxController@suggestion');
-//    Route::get('library/suggestions/{keyword}', 'AjaxController@suggestion');
-//    Route::get('library/item/{id}', 'AjaxController@singleitem');
-//    Route::get('library/single/{id}', 'AjaxController@single');
-//    Route::get('member/suggestions', 'AjaxController@member_suggestion');
-//    Route::get('member/suggestions/{keyword}', 'AjaxController@member_suggestion');
-//    Route::get('member/single/{id}', 'AjaxController@member_single');
-//    Route::post('createIssue', 'AjaxController@createIssue');
-//    Route::post('extendIssue', 'AjaxController@extendIssue');
-//    Route::post('issueReturn', 'AjaxController@issueReturn');
-//    Route::get('get-all-items', 'AjaxController@getAllItems')->name('ajax.datatable.items');
-//    Route::post('dashboard/library/create', 'AjaxController@create')->name('dashboard.ajax.create');
-//    Route::post('dashboard/library/update', 'AjaxController@update')->name('dashboard.ajax.update');
-//    Route::get('dashboard/library/delete/{id}', 'AjaxController@deleteItem')->name('dashboard.ajax.delete');
-//    Route::post('dashboard/library/lost', 'AjaxController@lostItem')->name('dashboard.ajax.lost.item');
-//    Route::post('dashboard/library/add-copy', 'AjaxController@addMoreCopy')->name('dashboard.ajax.add.more.copy');
-//    Route::post('dashboard/jqupload', 'AjaxController@jqupload')->name('dashboard.ajax.jqupload');
-//    Route::post('dashboard/author/delete', 'AjaxController@deleteAuthor')->name('dashboard.ajax.author.delete');
-//});
 
+    //search in the backend
+    Route::get('library/suggestions', [AjaxController::class, 'suggestion']);
+    Route::get('library/suggestions/{keyword}', [AjaxController::class, 'suggestion']);
+    Route::get('library/item/{id}', [AjaxController::class, 'singleitem']);
+    Route::get('library/single/{id}', [AjaxController::class, 'single']);
+    Route::get('member/suggestions', [AjaxController::class, 'member_suggestion']);
+    Route::get('member/suggestions/{keyword}', [AjaxController::class, 'member_suggestion']);
+    Route::get('member/single/{id}', [AjaxController::class, 'member_single']);
+    Route::post('createIssue', [AjaxController::class, 'createIssue']);
+    Route::post('extendIssue', [AjaxController::class, 'extendIssue']);
+    Route::post('issueReturn', [AjaxController::class, 'issueReturn']);
+    Route::get('get-all-items', [AjaxController::class, 'getAllItems'])->name('ajax.datatable.items');
+    Route::post('dashboard/library/create', [AjaxController::class, 'create'])->name('dashboard.ajax.create');
+    Route::post('dashboard/library/update', [AjaxController::class, 'update'])->name('dashboard.ajax.update');
+    Route::get('dashboard/library/delete/{id}', [AjaxController::class, 'deleteItem'])->name('dashboard.ajax.delete');
+    Route::post('dashboard/library/lost', [AjaxController::class, 'lostItem'])->name('dashboard.ajax.lost.item');
+    Route::post('dashboard/library/add-copy', [AjaxController::class, 'addMoreCopy'])->name('dashboard.ajax.add.more.copy');
+    Route::post('dashboard/jqupload', [AjaxController::class, 'jqupload'])->name('dashboard.ajax.jqupload');
+    Route::post('dashboard/author/delete', [AjaxController::class, 'deleteAuthor'])->name('dashboard.ajax.author.delete');
+});
+
+
+
+Route::group(['prefix' => 'dashboard','middleware' => ['auth:web']], function() {
+
+    Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 //
-////Route::auth();
-//Route::get('logout', function() {
-//    Auth::logout(); // logout user
-//    //return Redirect::to('/login');
+//    Route::get('member',['as'=>'users.index','uses'=>'UserController@index']);
 //
-//    return redirect()->route('login');
+//    Route::get('member/create',['as'=>'users.create','uses'=>'UserController@create']);
 //
-//});
-//
-//Route::group(['middleware' => 'prevent-back-history'],function(){
-//    //Auth::routes();
-//    Route::auth();
-//});
-//
-//Route::group(['prefix' => 'dashboard','middleware' => ['auth','prevent-back-history']], function() {
-//
-//    Route::get('/', ['as'=>'home.index','uses'=>'HomeController@index']);
-//
-//    Route::get('member',['as'=>'users.index','uses'=>'UserController@index','middleware' => ['permission:user-list|user-create|user-edit|user-delete']]);
-//
-//    Route::get('member/create',['as'=>'users.create','uses'=>'UserController@create','middleware' => ['permission:user-create']]);
-//
-//    Route::post('member/create',['as'=>'users.store','uses'=>'UserController@store','middleware' => ['permission:user-create']]);
+//    Route::post('member/create',['as'=>'users.store','uses'=>'UserController@store']);
 //
 //    Route::get('member/profile/{id}',['as'=>'users.show','uses'=>'UserController@show']);
 //
-//    Route::get('member/{id}/edit',['as'=>'users.edit','uses'=>'UserController@edit','middleware' => ['permission:user-edit']]);
+//    Route::get('member/{id}/edit',['as'=>'users.edit','uses'=>'UserController@edit']);
 //
-//    Route::patch('member/{id}',['as'=>'users.update','uses'=>'UserController@update','middleware' => ['permission:user-edit']]);
+//    Route::patch('member/{id}',['as'=>'users.update','uses'=>'UserController@update']);
 //
-//    Route::delete('member/{id}',['as'=>'users.destroy','uses'=>'UserController@destroy','middleware' => ['permission:user-delete']]);
+//    Route::delete('member/{id}',['as'=>'users.destroy','uses'=>'UserController@destroy']);
 //
-//    Route::group(['prefix' => 'profile', 'middleware' => ['auth']], function()
+//    Route::group(['prefix' => 'profile', 'middleware' => ['auth:web']], function()
 //    {
 //        Route::get('/', 'UserController@profile')->name('dashboard.user.profile');
 //        Route::get('/change-password', 'UserController@change_password')->name('dashboard.user.password');
@@ -113,7 +102,7 @@ Route::get('/single/{id}',[FrontController::class, 'show'])->name('single.show')
 //    });
 //
 //    //messaging routes group
-//    Route::group(['prefix' => 'message', 'middleware' => ['auth']], function()
+//    Route::group(['prefix' => 'message', 'middleware' => ['auth:web']], function()
 //    {
 //        Route::get('/', 'Dashboard\MessageController@index')->name('dashboard.message.inbox');
 //        Route::get('view/{message}', 'Dashboard\MessageController@show')->name('dashboard.message.view');
@@ -125,49 +114,49 @@ Route::get('/single/{id}',[FrontController::class, 'show'])->name('single.show')
 //
 //
 //    //member
-//    Route::get('roles',['as'=>'roles.index','uses'=>'RoleController@index','middleware' => ['permission:role-list|role-create|role-edit|role-delete']]);
-//    Route::get('roles/create',['as'=>'roles.create','uses'=>'RoleController@create','middleware' => ['permission:role-create']]);
-//    Route::post('roles/create',['as'=>'roles.store','uses'=>'RoleController@store','middleware' => ['permission:role-create']]);
+//    Route::get('roles',['as'=>'roles.index','uses'=>'RoleController@index']);
+//    Route::get('roles/create',['as'=>'roles.create','uses'=>'RoleController@create']);
+//    Route::post('roles/create',['as'=>'roles.store','uses'=>'RoleController@store']);
 //    Route::get('roles/{id}',['as'=>'roles.show','uses'=>'RoleController@show']);
-//    Route::get('roles/{id}/edit',['as'=>'roles.edit','uses'=>'RoleController@edit','middleware' => ['permission:role-edit']]);
-//    Route::patch('roles/{id}',['as'=>'roles.update','uses'=>'RoleController@update','middleware' => ['permission:role-edit']]);
-//    Route::delete('roles/{id}',['as'=>'roles.destroy','uses'=>'RoleController@destroy','middleware' => ['permission:role-delete']]);
+//    Route::get('roles/{id}/edit',['as'=>'roles.edit','uses'=>'RoleController@edit']);
+//    Route::patch('roles/{id}',['as'=>'roles.update','uses'=>'RoleController@update']);
+//    Route::delete('roles/{id}',['as'=>'roles.destroy','uses'=>'RoleController@destroy']);
 //
 //    //category
-//    Route::get('category',['as'=>'category.index','uses'=>'CategoryController@index','middleware' => ['permission:category-list|category-create|category-edit|category-delete']]);
-//    Route::get('category/create',['as'=>'category.create','uses'=>'CategoryController@create','middleware' => ['permission:category-create']]);
-//    Route::post('category/create',['as'=>'category.store','uses'=>'CategoryController@store','middleware' => ['permission:category-create']]);
+//    Route::get('category',['as'=>'category.index','uses'=>'CategoryController@index']);
+//    Route::get('category/create',['as'=>'category.create','uses'=>'CategoryController@create']);
+//    Route::post('category/create',['as'=>'category.store','uses'=>'CategoryController@store']);
 //    Route::get('category/view/{id}',['as'=>'category.show','uses'=>'CategoryController@show']);
-//    Route::get('category/{id}/edit',['as'=>'category.edit','uses'=>'CategoryController@edit','middleware' => ['permission:category-edit']]);
-//    Route::patch('category/{id}',['as'=>'category.update','uses'=>'CategoryController@update','middleware' => ['permission:category-edit']]);
-//    Route::delete('category/{id}',['as'=>'category.destroy','uses'=>'CategoryController@destroy','middleware' => ['permission:category-delete']]);
+//    Route::get('category/{id}/edit',['as'=>'category.edit','uses'=>'CategoryController@edit']);
+//    Route::patch('category/{id}',['as'=>'category.update','uses'=>'CategoryController@update']);
+//    Route::delete('category/{id}',['as'=>'category.destroy','uses'=>'CategoryController@destroy']);
 //
 //    //Library
-//    Route::group(['prefix' => 'library', 'middleware' => ['auth']], function()
+//    Route::group(['prefix' => 'library', 'middleware' => ['auth:web']], function()
 //    {
 //
-//        Route::get('/',['as'=>'dashboard.library.index','uses'=>'Dashboard\LibraryController@index','middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
-//        Route::get('search',['as'=>'book.search','uses'=>'BooksController@search','middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
-//        Route::get('create',['as'=>'book.create','uses'=>'BookController@create','middleware' => ['auth']]);
+//        Route::get('/', [LibraryController::class,  'index'])->name('dashboard.library.index');
+//        Route::get('search',['as'=>'book.search','uses'=>'BooksController@search']);
+//        Route::get('create',['as'=>'book.create','uses'=>'BookController@create']);
 //        // Route::get('create',['as'=>'book.create','uses'=>'BookController@create','middleware' => ['permission:book-create']]);
-//        Route::post('createbook',['as'=>'book.store','uses'=>'BooksController@store','middleware' => ['permission:book-create']]);
+//        Route::post('createbook',['as'=>'book.store','uses'=>'BooksController@store']);
 //
-//        Route::post('createseminar',['as'=>'seminar.store','uses'=>'BooksController@storeseminar','middleware' => ['permission:book-create']]);
-//        Route::post('createjournal',['as'=>'journal.store','uses'=>'BooksController@storejournal','middleware' => ['permission:book-create']]);
-//        Route::get('item/{id}',['as'=>'dashboard.library.view','uses'=>'Dashboard\LibraryController@show']);
-//        Route::get('/edit/{id}',['as'=>'dashboard.library.edit','uses'=>'Dashboard\LibraryController@edit','middleware' => ['permission:book-edit']]);
-//        Route::patch('/edit/{id}',['as'=>'dashboard.library.update','uses'=>'Dashboard\LibraryController@update','middleware' => ['permission:book-edit']]);
-//        Route::delete('delete/{id}',['as'=>'dashboard.library.delete','uses'=>'Dashboard\LibraryController@destroy','middleware' => ['auth']]);
-//        Route::get('clone/{id}',['as'=>'dashboard.library.clone','uses'=>'Dashboard\LibraryController@cloneJournal','middleware' => ['auth']]);
-//        Route::get('remove/{id}',['as'=>'book.destroy','uses'=>'Dashboard\LibraryController@remove','middleware' => ['auth']]);
+//        Route::post('createseminar',['as'=>'seminar.store','uses'=>'BooksController@storeseminar']);
+//        Route::post('createjournal',['as'=>'journal.store','uses'=>'BooksController@storejournal']);
+//        Route::get('item/{id}', [LibraryController::class,  'show'])->name('dashboard.library.view');
+//        Route::get('/edit/{id}',['as'=>'dashboard.library.edit',[LibraryController::class,  'edit']]);
+//        Route::patch('/edit/{id}',['as'=>'dashboard.library.update',[LibraryController::class,  'update']]);
+//        Route::delete('delete/{id}',['as'=>'dashboard.library.delete',[LibraryController::class,  'destroy']]);
+//        Route::get('clone/{id}',['as'=>'dashboard.library.clone',[LibraryController::class,  'cloneJournal']]);
+//        Route::get('remove/{id}',['as'=>'book.destroy',[LibraryController::class,  'remove']]);
 //
 //        Route::post('printqr', 'BookController@printqr')->name('dashboard.library.print.qr');
 //
 //        //search items
 //        Route::get('search', 'BookController@index')->name('dashboard.library.search');
 //
-//        Route::get('/new', 'Dashboard\LibraryController@create')->name('dashboard.library.create');
-//        Route::post('/new', 'Dashboard\LibraryController@store')->name('dashboard.library.store');
+//        Route::get('/new', [LibraryController::class, 'create'])->name('dashboard.library.create');
+//        Route::post('/new', [LibraryController::class, 'store'])->name('dashboard.library.store');
 //
 //        //Seasons
 //        Route::group(['prefix' => 'season', 'middleware' => ['auth']], function()
@@ -247,6 +236,6 @@ Route::get('/single/{id}',[FrontController::class, 'show'])->name('single.show')
 //    Route::get('banners/{id}/edit',['as'=>'banners.edit','uses'=>'OptionController@edit','middleware' => ['permission:book-edit']]);
 //    Route::patch('banners/{id}',['as'=>'banners.update','uses'=>'OptionController@update','middleware' => ['permission:book-edit']]);
 //    Route::delete('banners/{id}',['as'=>'banners.destroy','uses'=>'OptionController@destroy','middleware' => ['permission:book-delete']]);
-//});
+});
 
 

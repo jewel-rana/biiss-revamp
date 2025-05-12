@@ -2,35 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Library;
+use App\Models\LibraryIssue;
+use App\Models\LibraryReturn;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Employee;
-use App\User;
-use App\Role;
-use App\Library;
-use App\LibraryIssue;
-use App\LibraryReturn;
-use Illuminate\Pagination\LengthAwarePaginator as Paginator;
-use Illuminate\Support\Facades\Input;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $data['title'] = 'Dashboard';

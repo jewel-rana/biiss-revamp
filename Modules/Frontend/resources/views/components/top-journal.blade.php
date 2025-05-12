@@ -9,56 +9,9 @@
             <div class="row g-4">
                 <div class="col-12 position-relative">
                     <div class="owl-carousel owl-top-journals">
-
-                        <a href="/bookDetails.html" class="text-decoration-none">
-                            <div class="book-card rounded overflow-hidden bg-white text-center">
-                                <img src="/frontend/images/one.jpg" alt="Book Cover" class="w-100"/>
-                                <div class="p-2">
-                                    <div class="card-title text-primary text-truncate">Russia And the world...</div>
-                                    <div class="card-text text-success">Aziz Elmuradev</div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="/bookDetails.html" class="text-decoration-none">
-                            <div class="book-card rounded overflow-hidden bg-white text-center">
-                                <img src="/frontend/images/two.jpg" alt="Book Cover" class="w-100"/>
-                                <div class="p-2">
-                                    <div class="card-title text-primary text-truncate">Russia And the world...</div>
-                                    <div class="card-text text-success">Aziz Elmuradev</div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="/bookDetails.html" class="text-decoration-none">
-                            <div class="book-card rounded overflow-hidden bg-white text-center">
-                                <img src="/frontend/images/three.jpg" alt="Book Cover" class="w-100"/>
-                                <div class="p-2">
-                                    <div class="card-title text-primary text-truncate">Russia And the world...</div>
-                                    <div class="card-text text-success">Aziz Elmuradev</div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="/bookDetails.html" class="text-decoration-none">
-                            <div class="book-card rounded overflow-hidden bg-white text-center">
-                                <img src="/frontend/images/four.jpg" alt="Book Cover" class="w-100"/>
-                                <div class="p-2">
-                                    <div class="card-title text-primary text-truncate">Russia And the world...</div>
-                                    <div class="card-text text-success">Aziz Elmuradev</div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="/bookDetails.html" class="text-decoration-none">
-                            <div class="book-card rounded overflow-hidden bg-white text-center">
-                                <img src="/frontend/images/five.jpg" alt="Book Cover" class="w-100"/>
-                                <div class="p-2">
-                                    <div class="card-title text-primary text-truncate">Russia And the world...</div>
-                                    <div class="card-text text-success">Aziz Elmuradev</div>
-                                </div>
-                            </div>
-                        </a>
+                        @foreach($books as $book)
+                            <x-frontend::carousel-item :book="$book"></x-frontend::carousel-item>
+                        @endforeach
                     </div>
 
                     <!-- Left Arrow -->
