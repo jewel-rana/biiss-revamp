@@ -197,11 +197,11 @@ div.dataTables_wrapper div.dataTables_filter {
                   Add new
                 </button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                  <a class="dropdown-item" href="{{ route('dashboard.library.create', ['type' => 'book']) }}" target="_blank"><i class="fa fa-plus"></i> Book</a>
-                  <a class="dropdown-item" href="{{ route('dashboard.library.create', ['type' => 'journal']) }}" target="_blank"><i class="fa fa-plus"></i> Journal</a>
-                  <a class="dropdown-item" href="{{ route('dashboard.library.create', ['type' => 'document']) }}" target="_blank"><i class="fa fa-plus"></i> Document</a>
-                  <a class="dropdown-item" href="{{ route('dashboard.library.create', ['type' => 'magazine']) }}" target="_blank"><i class="fa fa-plus"></i> Magazine</a>
-                  {{-- <a class="dropdown-item" href="{{ route('dashboard.library.create', ['type' => 'seminar']) }}" target="_blank"><i class="fa fa-plus"></i> Seminar</a> --}}
+                  <a class="dropdown-item" href="{{ route('library.create', ['type' => 'book']) }}" target="_blank"><i class="fa fa-plus"></i> Book</a>
+                  <a class="dropdown-item" href="{{ route('library.create', ['type' => 'journal']) }}" target="_blank"><i class="fa fa-plus"></i> Journal</a>
+                  <a class="dropdown-item" href="{{ route('library.create', ['type' => 'document']) }}" target="_blank"><i class="fa fa-plus"></i> Document</a>
+                  <a class="dropdown-item" href="{{ route('library.create', ['type' => 'magazine']) }}" target="_blank"><i class="fa fa-plus"></i> Magazine</a>
+                  {{-- <a class="dropdown-item" href="{{ route('library.create', ['type' => 'seminar']) }}" target="_blank"><i class="fa fa-plus"></i> Seminar</a> --}}
                 </div>
             </div>
         </div>
@@ -211,11 +211,11 @@ div.dataTables_wrapper div.dataTables_filter {
                   @php echo ( $type ) ? ucfirst( $type ) : 'Type'; @endphp
                 </button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                  <a class="dropdown-item" href="{{ route('dashboard.library.index', ['type' => 'book']) }}"><i class="fa fa-circle-o"></i> Book</a>
-                  <a class="dropdown-item" href="{{ route('dashboard.library.index', ['type' => 'journal']) }}"><i class="fa fa-circle-o"></i> Journals</a>
-                  <a class="dropdown-item" href="{{ route('dashboard.library.index', ['type' => 'document']) }}"><i class="fa fa-circle-o"></i> Documents</a>
-                  <a class="dropdown-item" href="{{ route('dashboard.library.index', ['type' => 'magazine']) }}"><i class="fa fa-circle-o"></i> Magazines</a>
-                  {{-- <a class="dropdown-item" href="{{ route('dashboard.library.index', ['type' => 'seminar']) }}"><i class="fa fa-circle-o"></i> Seminars</a> --}}
+                  <a class="dropdown-item" href="{{ route('library.index', ['type' => 'book']) }}"><i class="fa fa-circle-o"></i> Book</a>
+                  <a class="dropdown-item" href="{{ route('library.index', ['type' => 'journal']) }}"><i class="fa fa-circle-o"></i> Journals</a>
+                  <a class="dropdown-item" href="{{ route('library.index', ['type' => 'document']) }}"><i class="fa fa-circle-o"></i> Documents</a>
+                  <a class="dropdown-item" href="{{ route('library.index', ['type' => 'magazine']) }}"><i class="fa fa-circle-o"></i> Magazines</a>
+                  {{-- <a class="dropdown-item" href="{{ route('library.index', ['type' => 'seminar']) }}"><i class="fa fa-circle-o"></i> Seminars</a> --}}
                 </div>
             </div>
         </div>

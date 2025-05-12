@@ -14,6 +14,6 @@ use Modules\Season\App\Http\Controllers\SeasonController;
 |
 */
 
-Route::group([], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:web'], function () {
     Route::resource('season', SeasonController::class)->names('season');
 });

@@ -3,65 +3,65 @@
 namespace Modules\Season\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Modules\Season\App\Models\Season;
 
 class SeasonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function index(Request $request): View
     {
-        return view('season::index');
+        $items = Season::filter($request)->orderBy('id','DESC')->paginate(10);
+
+        $title = 'All Seasons';
+        return view('season::index',compact('items', 'title'))->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
-        return view('season::create');
+        $title = 'Create new season';
+        return view('season::create', compact('title'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:seasons,name'
+        ]);
+
+        Season::create($request->all());
+        return redirect()->route('season.index')->with('success','Season created successfully');
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function show(Season $season): View
     {
-        return view('season::show');
+        $data['item'] = $season;
+        $data['title'] = 'season Details';
+        return view('season::show', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function edit(Season $season): View
     {
-        return view('season::edit');
+        $data['item']  = $season;
+        $data['title'] = 'Edit season';
+        return view('season::edit',$data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, Season $season)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|unique:seasons,name,' . $season->id
+        ]);
+
+        $season->update($request->all());
+
+        return redirect()->route('season.index')->with('success','Season updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    public function destroy(Season $season)
     {
-        //
+        $season->delete();
+        return redirect()->route('season.index')->with('success','Season deleted successfully');
     }
 }

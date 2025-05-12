@@ -36,15 +36,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function (
 //            Route::get('reply/{message}', 'Dashboard\MessageController@edit')->name('dashboard.message.reply');
 //            Route::post('reply/{message}', 'Dashboard\MessageController@edit')->name('dashboard.message.replied');
 //        });
-//
-//        //category
-//        Route::get('category', ['as' => 'category.index', 'uses' => 'CategoryController@index']);
-//        Route::get('category/create', ['as' => 'category.create', 'uses' => 'CategoryController@create']);
-//        Route::post('category/create', ['as' => 'category.store', 'uses' => 'CategoryController@store']);
-//        Route::get('category/view/{id}', ['as' => 'category.show', 'uses' => 'CategoryController@show']);
-//        Route::get('category/{id}/edit', ['as' => 'category.edit', 'uses' => 'CategoryController@edit']);
-//        Route::patch('category/{id}', ['as' => 'category.update', 'uses' => 'CategoryController@update']);
-//        Route::delete('category/{id}', ['as' => 'category.destroy', 'uses' => 'CategoryController@destroy']);
+
 
         //Library
 //        Route::group(['middleware' => ['auth:web']], function () {
@@ -64,7 +56,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function (
 //            Route::get('clone/{id}', ['as' =>  route('library.clone', [LibraryController::class, 'cloneJournal']]);
 //            Route::get('remove/{id}', ['as' => 'book.destroy', [LibraryController::class, 'remove']]);
 //
-            Route::post('printqr', 'BookController@printqr')->name('library.print.qr');
+            Route::post('print-qr', 'BookController@printqr')->name('library.print.qr');
 //
 //            //search items
 //            Route::get('search', 'BookController@index')->name('library.search');
@@ -72,16 +64,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function (
 //            Route::get('/new', [LibraryController::class, 'create'])->name('library.create');
 //            Route::post('/new', [LibraryController::class, 'store'])->name('library.store');
 //
-//            //Seasons
-//            Route::group(['prefix' => 'season', 'middleware' => ['auth']], function () {
-//                Route::get('/', 'Dashboard\SeasonController@index')->name('dashboard.season.index');
-//                Route::get('/create', 'Dashboard\SeasonController@create')->name('dashboard.season.create');
-//                Route::post('/store', 'Dashboard\SeasonController@store')->name('dashboard.season.store');
-//                Route::get('/edit/{id}', 'Dashboard\SeasonController@edit')->name('dashboard.season.edit');
-//                Route::put('/update/{id}', 'Dashboard\SeasonController@update')->name('dashboard.season.update');
-//                Route::delete('/delete/{id}', 'Dashboard\SeasonController@destroy')->name('dashboard.season.delete');
-//            });
-//        });
+
 //
 //        //Stock
 //        Route::group(['prefix' => 'stock', 'middleware' => ['auth']], function () {
