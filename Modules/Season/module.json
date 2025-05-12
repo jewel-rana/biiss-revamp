@@ -1,0 +1,11 @@
+{
+    "name": "Season",
+    "alias": "season",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Season\\App\\Providers\\SeasonServiceProvider"
+    ],
+    "files": []
+}

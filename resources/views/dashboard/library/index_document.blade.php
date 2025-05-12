@@ -1,4 +1,5 @@
-@extends('master.app')
+@extends("{$theme['backend']}::layouts.master")
+
 @section('owncss')
   <link rel="stylesheet" type="text/css" href="{{ asset('plugins/DataTables/css/jquery.dataTables.min.css') }}"/>
 
@@ -24,7 +25,7 @@ div.alphabet {
     margin-bottom: 0;
     float: right;
 }
- 
+
 div.alphabet span {
     display: table-cell;
     color: #3174c7;
@@ -34,19 +35,19 @@ div.alphabet span {
     padding: 8px;
     font-size: 1.2rem;
 }
- 
+
 div.alphabet span:hover {
     text-decoration: underline;
 }
- 
+
 div.alphabet span.active {
     color: black;
 }
- 
+
 div.alphabet span.empty {
     color: red;
 }
- 
+
 div.alphabetInfo {
     display: block;
     position: absolute;
@@ -124,7 +125,12 @@ div.dataTables_wrapper div.dataTables_filter {
         <input id="start" type="text" class="form-control month" placeholder="Month" />
       </div>
       <div class="col-md-2 columns mb-3">
-        {{ Form::select('season', $seasons, null, ['class' => 'form-control season', 'placeholder' => 'Season']) }}
+          <select name="season" class="form-control season">
+              <option value="">Season</option>
+              @foreach($seasons as $key => $value)
+                  <option value="{{ $key }}">{{ $value }}</option>
+              @endforeach
+          </select>
       </div>
       <div class="col-md-1 columns mb-3">
         <input id="minYear" type="text" class="form-control year" placeholder="Year from" />
@@ -181,8 +187,9 @@ div.dataTables_wrapper div.dataTables_filter {
       <div class="col-md-12">
         <!-- begin result-container -->
         <div class="result-container">
-          {{ Form::open(['route' => 'dashboard.library.print.qr','method'=>'POST', 'id' => 'qrPrintForm', 'target' => '_blank']) }}
-          {{ @csrf_field() }}
+
+            <form action="{{ route('library.print.qr') }}" method="POST" id="qrPrintForm" target="_blank">
+                @csrf
           <div class="btn-group mb-2" role="group" aria-label="Button group with nested dropdown">
             <button type="submit" class="btn btn-primary btn-sm">Print QR</button>
             <div class="btn-group" role="group">
@@ -291,26 +298,26 @@ var _alphabetSearch = '';
 var alphabet;
 var columnData;
 var bins;
- 
+
 $.fn.DataTable.ext.search.push( function ( settings, searchData ) {
     if ( ! _alphabetSearch ) {
         return true;
     }
- 
+
     if ( searchData[1].charAt(0) === _alphabetSearch ) {
         return true;
     }
- 
+
     return false;
 } );
- 
- 
+
+
 function bin ( data ) {
     var letter, bins = {};
- 
+
     for ( var i=0, ien=data.length ; i<ien ; i++ ) {
         letter = data[i].charAt(0).toUpperCase();
- 
+
         if ( bins[letter] ) {
             bins[letter]++;
         }
@@ -318,7 +325,7 @@ function bin ( data ) {
             bins[letter] = 1;
         }
     }
- 
+
     return bins;
 }
 
@@ -328,7 +335,7 @@ $.fn.dataTable.ext.search.push(
         var max = parseInt( $('#maxYear').val(), 10 );
         var year = parseFloat( data[9] ); // use data for the year column
         // console.log(year);
- 
+
         if ( ( isNaN( min ) && isNaN( max ) ) ||
              ( isNaN( min ) && year <= max ) ||
              ( min <= year   && isNaN( max ) ) ||
@@ -358,7 +365,7 @@ $.fn.dataTable.ext.search.push(
 $(document).ready(function() {
     var table = $('#example').DataTable( {
         "processing": true,
-        "pageLength": 100, 
+        "pageLength": 100,
         "bInfo": true,
         "searching": true,
         "lengthChange": true,
@@ -386,7 +393,7 @@ $(document).ready(function() {
                 customize: function ( win ) {
                     $(win.document.body)
                         .css({'font-size': '10pt', 'padding':'50px 35px'});
- 
+
                     $(win.document.body).find( 'table' )
                         .addClass( 'compact' )
                         .css({'font-size':'inherit', 'color':'#000'});
@@ -407,12 +414,12 @@ $(document).ready(function() {
                 messageTop: 'Print Report : Documents',
                orientation: 'portrate',
                customize: function(doc) {
-                  doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10 
-                  doc.styles.tableHeader.fontSize = 8; 
+                  doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10
+                  doc.styles.tableHeader.fontSize = 8;
                   doc.defaultStyle.alignment = 'center';
                   $(doc).find('h1').css('font-size', '8pt');
                   $(doc).find('h1').css('text-align', 'center');
-               }  
+               }
             },
             {
               extend: 'csvHtml5',
@@ -512,16 +519,16 @@ $(document).ready(function() {
         var alphabet = $('<div class="alphabet"/>').append( 'Search: ' );
         var columnData = table.column(1).data();
         bins = bin( columnData );
-     
+
         $('<span class="clear active"/>')
             .data( 'letter', '' )
             .data( 'match-count', columnData.length )
             .html( 'None' )
             .appendTo( alphabet );
-     
+
         for ( var i=0 ; i<26 ; i++ ) {
             var letter = String.fromCharCode( 65 + i );
-     
+
             $('<span/>')
                 .data( 'letter', letter )
                 .data( 'match-count', bins[letter] || 0 )
@@ -529,20 +536,20 @@ $(document).ready(function() {
                 .html( letter )
                 .appendTo( alphabet );
         }
-     
+
         alphabet.insertBefore( table.table().container() );
-     
+
         alphabet.on( 'click', 'span', function () {
             alphabet.find( '.active' ).removeClass( 'active' );
             $(this).addClass( 'active' );
-     
+
             _alphabetSearch = $(this).data('letter');
             table.draw();
         } );
-     
+
         var info = $('<div class="alphabetInfo"></div>')
             .appendTo( alphabet );
-     
+
         alphabet
             .on( 'mouseenter', 'span', function () {
                 info
@@ -613,20 +620,20 @@ $(document).ready(function() {
     $("#min").datepicker({
       "dateFormat": "yy-mm-dd",
       onSelect: function () {
-        table.draw(); 
-      }, 
-      changeMonth: true, 
+        table.draw();
+      },
+      changeMonth: true,
       changeYear: true,
-      yearRange: '1945:'+(new Date).getFullYear() 
+      yearRange: '1945:'+(new Date).getFullYear()
     });
     $("#max").datepicker({
-      "dateFormat": "yy-mm-dd", 
+      "dateFormat": "yy-mm-dd",
       onSelect: function () {
         table.draw();
       },
       changeMonth: true,
       changeYear: true,
-      yearRange: '1945:'+(new Date).getFullYear() 
+      yearRange: '1945:'+(new Date).getFullYear()
     });
 
     //reset filter
@@ -660,7 +667,7 @@ $(document).ready(function() {
       } else {
         $(parent).find(".itemcheckbox").each(function(){
           $(this).prop('checked', false);
-                    
+
           //select datatable columns
           var dtparent = $(this).parents('tr');
           $(dtparent).removeClass('selected')

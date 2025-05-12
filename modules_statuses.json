@@ -6,5 +6,10 @@
     "Frontend": true,
     "Customer": true,
     "Activity": true,
-    "Library": true
+    "Library": true,
+    "Banner": true,
+    "Category": true,
+    "Stock": true,
+    "Season": true,
+    "Member": true
 }

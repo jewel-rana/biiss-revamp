@@ -32,7 +32,7 @@
 <header class="sticky-top">
     <nav class="navbar navbar-expand-lg bg-white">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <img src="/frontend/images/logo.png" alt="BIISS" height="40">
             </a>
             <!-- Search -->
