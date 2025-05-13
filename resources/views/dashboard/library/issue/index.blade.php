@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 @section('owncss')
 <link rel="stylesheet" type="text/css" href="{{ asset('plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}">
 @section('ownjs')
@@ -69,7 +69,7 @@
 											@endif
 										</td>
 										<td>
-											<a href="{{ route('users.show',$issue->member['id']) }}" target="_blank">{{ ucwords( $issue->member['name'] ) }}</a>
+											<a href="{{ route('user.show',$issue->member['id']) }}" target="_blank">{{ ucwords( $issue->member['name'] ) }}</a>
 										</td>
 										<td>{{ date('d/m/Y', strtotime( $issue->start_date ) ) }}</td>
 										<td>{{ date('d/m/Y', strtotime( $issue->end_date ) ) }}</td>

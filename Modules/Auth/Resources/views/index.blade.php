@@ -1,4 +1,4 @@
-@extends('auth::layouts.master')
+@extends("{$theme['default']}::layouts.master")
 
 @section('content')
     <h1>Hello World</h1>

@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 <?php
 use App\Category;
 ?>

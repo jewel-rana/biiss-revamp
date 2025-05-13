@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 @section('owncss')
     <link rel="stylesheet" href="{{asset('/date/jquery.datetimepicker.css') }}" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('user.index') }}"> Back</a>
             </div>
         </div>
     </div>

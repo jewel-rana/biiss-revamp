@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 @section('owncss')
   <link rel="stylesheet" type="text/css" href="{{ asset('plugins/DataTables/css/jquery.dataTables.min.css') }}"/>
 
@@ -24,7 +24,7 @@ div.alphabet {
     margin-bottom: 0;
     float: right;
 }
- 
+
 div.alphabet span {
     display: table-cell;
     color: #3174c7;
@@ -34,19 +34,19 @@ div.alphabet span {
     padding: 8px;
     font-size: 1.2rem;
 }
- 
+
 div.alphabet span:hover {
     text-decoration: underline;
 }
- 
+
 div.alphabet span.active {
     color: black;
 }
- 
+
 div.alphabet span.empty {
     color: red;
 }
- 
+
 div.alphabetInfo {
     display: block;
     position: absolute;
@@ -166,26 +166,26 @@ var _alphabetSearch = '';
 var alphabet;
 var columnData;
 var bins;
- 
+
 $.fn.DataTable.ext.search.push( function ( settings, searchData ) {
     if ( ! _alphabetSearch ) {
         return true;
     }
- 
+
     if ( searchData[1].charAt(0) === _alphabetSearch ) {
         return true;
     }
- 
+
     return false;
 } );
- 
- 
+
+
 function bin ( data ) {
     var letter, bins = {};
- 
+
     for ( var i=0, ien=data.length ; i<ien ; i++ ) {
         letter = data[i].charAt(1).toUpperCase();
- 
+
         if ( bins[letter] ) {
             bins[letter]++;
         }
@@ -193,14 +193,14 @@ function bin ( data ) {
             bins[letter] = 1;
         }
     }
- 
+
     return bins;
 }
 
 $(document).ready(function() {
     var table = $('#example').DataTable( {
         "processing": true,
-        "pageLength": 25, 
+        "pageLength": 25,
         "bInfo": true,
         "searching": true,
         "lengthChange": true,
@@ -226,16 +226,16 @@ $(document).ready(function() {
     bins = bin( columnData );
 
     console.log( bins );
- 
+
     $('<span class="clear active"/>')
         .data( 'letter', '' )
         .data( 'match-count', columnData.length )
         .html( 'None' )
         .appendTo( alphabet );
- 
+
     for ( var i=0 ; i<26 ; i++ ) {
         var letter = String.fromCharCode( 65 + i );
- 
+
         $('<span/>')
             .data( 'letter', letter )
             .data( 'match-count', bins[letter] || 0 )
@@ -243,20 +243,20 @@ $(document).ready(function() {
             .html( letter )
             .appendTo( alphabet );
     }
- 
+
     alphabet.insertBefore( table.table().container() );
- 
+
     alphabet.on( 'click', 'span', function () {
         alphabet.find( '.active' ).removeClass( 'active' );
         $(this).addClass( 'active' );
- 
+
         _alphabetSearch = $(this).data('letter');
         table.draw();
     } );
- 
+
     var info = $('<div class="alphabetInfo"></div>')
         .appendTo( alphabet );
- 
+
     alphabet
         .on( 'mouseenter', 'span', function () {
             info

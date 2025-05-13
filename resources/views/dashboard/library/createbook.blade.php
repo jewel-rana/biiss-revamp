@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 @section('owncss')
 
 @endsection
@@ -314,5 +314,5 @@
       $( "#datetimepicker_join" ).datepicker({ dateFormat: 'yy-mm-dd' });
       $( "#datetimepicker_confirmation" ).datepicker({ dateFormat: 'yy-mm-dd' });
   </script>
-  
+
 @endsection

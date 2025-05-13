@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 <?php
 use App\User;
 use App\Book;
@@ -10,7 +10,7 @@ use App\Book;
                 <h2>Book Issues list</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('book_issue.create') }}">New Issues</a>
+                <a class="btn btn-success" href="{{ route('issue.create') }}">New Issues</a>
             </div>
         </div>
     </div>
@@ -119,7 +119,7 @@ use App\Book;
 
                             <td class="col-md-4">
                                 <div class="btn-group d-flex">
-                                    <a class="btn btn-sm btn-info" href="{{ route('book_issue.edit',$item->id) }}"><i class="fa fa-exchange"></i> Re-Issue</a>
+                                    <a class="btn btn-sm btn-info" href="{{ route('issue.edit',$item->id) }}"><i class="fa fa-exchange"></i> Re-Issue</a>
 
                                     {!! Form::open(['method' => 'DELETE','route' => ['book_issue.destroy', $item->id],'style'=>'display:inline', 'class'=>'delete']) !!}
                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-remove"></i></button>

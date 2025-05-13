@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 @section('content')
     <div class="text-align-center error-404">
         <h1 class="huge">404</h1>

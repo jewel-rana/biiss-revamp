@@ -14,6 +14,6 @@ use Modules\Banner\App\Http\Controllers\BannerController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('banner', BannerController::class)->names('banner');
+Route::group(['prefix' => 'dashboard'], function () {
+    Route::resource('banner', BannerController::class);
 });

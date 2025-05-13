@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 
 @section('content')
     <div class="row">
@@ -7,7 +7,7 @@
                 <h2>Details</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('book_return.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('return.index') }}"> Back</a>
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
                                 <tr>
                                     <th>Member Name : </th>
                                     <td>
-                                        <a href="{{ route('users.show', $return->member['id']) }}" target="_blank">
+                                        <a href="{{ route('user.show', $return->member['id']) }}" target="_blank">
                                             {{ $return->member['name'] }}
                                         </a>
                                     </td>

@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 
 @section('owncss')
 <link rel="stylesheet" type="text/css" href="{{ asset('backend/color-admin-v4.2/admin/assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}">
@@ -15,7 +15,7 @@
 @endsection
 
 @section('content')
-    
+
             <!-- begin row -->
             <div class="row">
                 <!-- begin col-12 -->
@@ -58,7 +58,7 @@
                                     <h4 class="title">
                                         <a href="{{ url('dashboard/library/item/' . $item->id ) }}" target="_blank">{{ $item->title }}</a>
                                     </h4>
-                                    <p class="location">Author : 
+                                    <p class="location">Author :
                                       @if( $item->authors )
                                       @foreach( $item->authors as $author )
                                         <span class="badge badge-info">{{ $author->author_name }}</span>
@@ -83,7 +83,7 @@
                                         {{ $item->description }}
                                     </p>
                                 </div>
-                                
+
                                 <div class="result-price">
                                   @if( empty( $item->featured ) )
                                     <a href="{{ url('dashboard/feature/add/' . $item->id . '/?type=' . $type ) }}" class="btn btn-info btn-block">Add to list</a>
@@ -118,7 +118,7 @@ function initAwesomplete(){
   var input = document.getElementById("awesomplete");
   // var awesomplete = new Awesomplete(input);
   var value = input.value;
-  
+
   var awesomplete = new Awesomplete(input, Awesomplete.FILTER_STARTSWITH);
   input.onkeyup = function(e){
     var code = (e.keyCode || e.which);
@@ -147,14 +147,14 @@ function initAwesomplete(){
           }
         };
         xhr.send();
-      
+
     }
   }
 }
 
 
 function getXHR(){
-  //ajax request 
+  //ajax request
   var xhr;
   try {
     xhr = new XMLHttpRequest();
@@ -171,7 +171,7 @@ function getXHR(){
   return xhr;
 }
 
-//Load Listener 
+//Load Listener
 function addLoadListener(fn)
 {
   if(typeof window.addEventListener != 'undefined')

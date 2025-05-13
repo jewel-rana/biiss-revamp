@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 <?php
 use App\Category;
 use App\BookReturn;
@@ -19,7 +19,7 @@ if(count($bookIssueInfo)>0){
                 <h2>Details</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('book_return.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('return.index') }}"> Back</a>
             </div>
         </div>
     </div>

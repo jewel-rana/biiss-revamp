@@ -58,7 +58,7 @@ use App\Models\User;
                        <?php }
                     ?>
                     <ul class="dropdown-menu pull-right">
-                        <li><a href="{{ route('users.show',Auth::user()->id) }}"><i style="padding-right: 6px;" class="material-icons">person</i>Profile</a></li>
+                        <li><a href="{{ route('user.show',Auth::user()->id) }}"><i style="padding-right: 6px;" class="material-icons">person</i>Profile</a></li>
                         <li role="seperator" class="divider"></li>
                         <li>
                             <a href="#">

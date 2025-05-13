@@ -105,6 +105,10 @@ class Library extends Model
     	return $this->hasMany(LibraryIssue::class, 'item_id', 'id');
     }
 
+    public function getCoverPhotoAttribute($value): string
+    {
+        return ( $value != null ) ? asset( $value ) : asset('default/cover/' . strtolower( $this->type ) . '.jpg');
+    }
 
     protected static function boot(): void
     {

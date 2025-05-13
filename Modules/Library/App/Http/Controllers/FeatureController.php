@@ -6,21 +6,22 @@ namespace Modules\Library\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
 use App\Models\Library;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class FeatureController extends Controller
 {
-
-    public function index()
+    public function index(): View
     {
         $type = ( isset( $_GET['type'] ) ) ? $_GET['type'] : 'book';
         $data['items'] = Feature::with(['item'])->where('type', $type)->get();
         $data['pageTitle'] = 'Featured Top ' . ucwords( str_replace( '_', ' ', $type ) ) . 's';
         $data['type'] = $type;
-        return view('dashboard.feature.index', $data );
+        return view('library::feature.index', $data );
     }
 
-    public function create( Request $request )
+    public function create( Request $request ): View
     {
         $data['type'] = ( $request->type ) ? $request->type : 'book';
         $data['search'] = ( $request->search ) ? $request->search : '';
@@ -42,10 +43,10 @@ class FeatureController extends Controller
 
         $data['items'] = $query->paginate(10);
         $data['title'] = 'Add new featured ' . ucfirst( $data['type'] );
-        return view('dashboard.feature.create', $data );
+        return view('library::feature.create', $data );
     }
 
-    public function add( $id )
+    public function add( $id ): RedirectResponse
     {
         $item = Library::find( $id );
 
@@ -57,10 +58,10 @@ class FeatureController extends Controller
         return redirect()->back()->with('success', 'Featured Item has been added.');
     }
 
-    public function show($id)
+    public function show($id): View
     {
         $data['title'] = '';
-        return view('dashboard.feature.show', $data );
+        return view('library::feature.show', $data );
     }
 
     public function destroy(Request $request, $id )
@@ -72,7 +73,7 @@ class FeatureController extends Controller
         if($request->ajax()) :
             echo json_encode(array('success' => true ) );
         else :
-            return redirect()->route('dashboard.feature.index')->with('success','Featured item has been deleted successfully.');
+            return redirect()->route('feature.index')->with('success','Featured item has been deleted successfully.');
         endif;
     }
 }

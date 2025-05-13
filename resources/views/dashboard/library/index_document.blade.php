@@ -201,7 +201,7 @@ div.dataTables_wrapper div.dataTables_filter {
                   <a class="dropdown-item" href="{{ route('library.create', ['type' => 'journal']) }}" target="_blank"><i class="fa fa-plus"></i> Journal</a>
                   <a class="dropdown-item" href="{{ route('library.create', ['type' => 'document']) }}" target="_blank"><i class="fa fa-plus"></i> Document</a>
                   <a class="dropdown-item" href="{{ route('library.create', ['type' => 'magazine']) }}" target="_blank"><i class="fa fa-plus"></i> Magazine</a>
-                  {{-- <a class="dropdown-item" href="{{ route('library.create', ['type' => 'seminar']) }}" target="_blank"><i class="fa fa-plus"></i> Seminar</a> --}}
+                   <a class="dropdown-item" href="{{ route('library.create', ['type' => 'seminar']) }}" target="_blank"><i class="fa fa-plus"></i> Seminar</a>
                 </div>
             </div>
         </div>

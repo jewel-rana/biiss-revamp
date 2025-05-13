@@ -1,0 +1,23 @@
+@extends("{$theme['default']}::layouts.master")
+
+@section('content')
+    <!-- begin panel -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a href="{{ route('feature.create', ['type' => $type] ) }}" class="btn btn-xs btn-success"><i class="fa fa-plus"></i> Add new</a>
+                    </div>
+                    <h4 class="panel-title">{{ $title }}</h4>
+                </div>
+                <div class="panel-body">
+
+            </div>
+        </div>
+
+@endsection
+
+@section('ownjs')
+
+
+
+@endsection

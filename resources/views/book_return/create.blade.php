@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 @section('owncss')
     <link rel="stylesheet" href="{{asset('/date/jquery.datetimepicker.css') }}" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -25,7 +25,7 @@
                 <h2>Book or Journal or Seminar Return</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('book_return.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('return.index') }}"> Back</a>
             </div>
         </div>
     </div>

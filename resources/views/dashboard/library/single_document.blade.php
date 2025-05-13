@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -8,7 +8,7 @@
                 @endif
                 <a class="btn btn-secondary" href="{{ url('dashboard/library/edit/' . $item->id . '?type=' . $item->type ) }}"><i class="fa fa-edit"></i> Edit</a>
                 <a class="btn btn-danger" onclick="return confirm('Are you sure to delete this item?');" href="{{ url('dashboard/library/remove/' . $item->id) }}"><i class="fa fa-times"></i> Delete</a>
-                {{-- <a class="btn btn-success" href="{{ route('book_issue.create', $item->id) }}"><i class="fa fa-chevron-left"></i> Issue</a> --}}
+                {{-- <a class="btn btn-success" href="{{ route('issue.create', $item->id) }}"><i class="fa fa-chevron-left"></i> Issue</a> --}}
             </div>
             <div class="clearfix"></div>
         </div>
@@ -244,7 +244,7 @@
                         }
                     });
                 }
-                
+
                 return false;
 
             });
@@ -279,7 +279,7 @@
                         }
                     });
                 }
-                
+
                 return false;
 
             });

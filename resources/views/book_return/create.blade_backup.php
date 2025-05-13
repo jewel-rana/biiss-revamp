@@ -14,7 +14,7 @@
                 <h2>Book or Journal Return</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('book_return.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('return.index') }}"> Back</a>
             </div>
         </div>
     </div>

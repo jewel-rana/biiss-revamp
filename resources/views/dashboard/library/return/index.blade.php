@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 
 @section('owncss')
 
@@ -53,7 +53,7 @@
                             <td>{{ date('d-m-Y h:i a', strtotime( $item->return_date ) ) }}</td>
                             <td>{{ $item->late_count }}</td>
                             <td>
-                                <a class="btn btn-info" href="{{ route('book_return.show',$item->id) }}" target="_blank">Show</a>
+                                <a class="btn btn-info" href="{{ route('return.show',$item->id) }}" target="_blank">Show</a>
                             <!--{!! Form::open(['method' => 'DELETE','route' => ['book_return.destroy', $item->id],'style'=>'display:inline', 'class'=>'delete']) !!}
                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}-->
                                 {!! Form::close() !!}
@@ -63,7 +63,7 @@
                     @endif
                     </tbody>
                 </table>
-                
+
                     {{-- {!! $items->appends(Request::except('page'))->render() !!} --}}
             </div>
         </div>

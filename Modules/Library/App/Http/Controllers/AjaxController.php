@@ -1,10 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\Library\App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth;
+use App\Http\Controllers\Controller;
+use App\Models\Library;
+use App\Models\LibraryIssue;
+use App\Models\LibraryReturn;
+use App\Models\LibraryStock;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\Auth\Entities\User;
 
 class AjaxController extends Controller
 {
@@ -231,7 +238,7 @@ class AjaxController extends Controller
 
     public function frontsuggestion($term = '')
     {
-        $query = \App\Library::with('authors')->orWhere('title', 'like', '%' . $term . '%')->orWhere('article', 'LIKE', '%' . $term . '%');
+        $query = Library::with('authors')->orWhere('title', 'like', '%' . $term . '%')->orWhere('article', 'LIKE', '%' . $term . '%');
         if (isset($_GET['type']) && $_GET['type'] != '') :
             $query->where('type', $_GET['type']);
         endif;
@@ -388,14 +395,14 @@ class AjaxController extends Controller
     {
         $type = (isset($_GET['type'])) ? $_GET['type'] : 'book';
 
-        $items = \App\Library::select('id', 'title', 'authormark', 'isbn', 'call_number', 'acc_number', 'item_number', 'type', 'publisher', 'friq')->with(['authors', 'tags'])->where('type', $type)->get();
+        $items = Library::select('id', 'title', 'authormark', 'isbn', 'call_number', 'acc_number', 'item_number', 'type', 'publisher', 'friq')->with(['authors', 'tags'])->where('type', $type)->get();
 
         $map = $items->map(function ($item) {
             $data->checkboxes = '<input type="checkbox" name="id[]" value="' . $item->id . '" class="itemcheckbox">';
 
             $str = '<div class="btn-group">';
             if (strtolower($item->type) == 'book') {
-                $str .= '<a href="' . route('book_issue.create', $item->id) . '" onclick="addToplisted(' . $item->id . ');" target="_blank" class="btn btn-success" target="_blank" id="' . $item->id . '"><i class="fa fa-plus"></i> Issue</a>';
+                $str .= '<a href="' . route('issue.create', $item->id) . '" onclick="addToplisted(' . $item->id . ');" target="_blank" class="btn btn-success" target="_blank" id="' . $item->id . '"><i class="fa fa-plus"></i> Issue</a>';
             }
             $str .= '<a href="' . route('dashboard.library.view', $item->id) . '" onclick="viewItem(' . $item->id . ');" target="_blank" class="btn btn-primary" target="_blank" id="' . $item->id . '"><i class="fa fa-eye"></i> View</a>';
 
@@ -467,7 +474,7 @@ class AjaxController extends Controller
 
     public function deleteItem($id)
     {
-        $item = \App\Library::findOrFail($id);
+        $item = Library::findOrFail($id);
 
         if (!$item)
             return response()->json(['success' => false]);
@@ -483,7 +490,7 @@ class AjaxController extends Controller
 
     public function categorysuggestion($term = '')
     {
-        $query = \App\Category::Where('name', 'like', '%' . $term . '%');
+        $query = Category::Where('name', 'like', '%' . $term . '%');
         if (isset($_GET['type']) && $_GET['type'] != '') :
             $query->where('type', $_GET['type']);
         endif;
@@ -502,7 +509,7 @@ class AjaxController extends Controller
 
     public function authorsuggestion($term = '')
     {
-        $query = \App\LibraryAuthor::select('author_name', 'id')->where('author_name', 'like', '%' . $term . '%');
+        $query = LibraryAuthor::select('author_name', 'id')->where('author_name', 'like', '%' . $term . '%');
         $query->orderBy('author_name', 'asc');
         $query->limit(50);
         $items = $query->get();
@@ -519,7 +526,7 @@ class AjaxController extends Controller
 
     public function suggestion($term = '')
     {
-        $query = \App\Library::where('title', 'like', '%' . $term . '%')->orWhere('acc_number', 'like', '%' . $term . '%');
+        $query = Library::where('title', 'like', '%' . $term . '%')->orWhere('acc_number', 'like', '%' . $term . '%');
         if (isset($_GET['type']) && $_GET['type'] != '') :
             $query->where('type', $_GET['type']);
         endif;
@@ -553,7 +560,7 @@ class AjaxController extends Controller
 
     public function singleitem($id)
     {
-        $item = \App\Library::find($id);
+        $item = Library::find($id);
 
         $photo = ($item->cover_photo == !null) ? asset('uploads/books/' . $item->cover_photo) : asset('images/smallbook.jpeg');
         echo '
@@ -576,7 +583,7 @@ class AjaxController extends Controller
     //getting single item as json format by itemID
     public function single($id)
     {
-        $item = \App\Library::find($id);
+        $item = Library::find($id);
         $avail = array();
         $issued = ( array )$item->issuedCopies;
 
@@ -595,7 +602,7 @@ class AjaxController extends Controller
 
     public function member_suggestion($term = '')
     {
-        $query = \App\User::where('name', 'like', '%' . $term . '%');
+        $query = User::where('name', 'like', '%' . $term . '%');
         $query->orWhere('email', 'like', '%' . $term . '%');
         // $query->orWhere('account_id', $term );
         $query->orderBy('name', 'asc');
@@ -624,10 +631,10 @@ class AjaxController extends Controller
         if ($validator->fails())
             return response()->json(array('status' => false, 'msg' => $validator->errors()->first()));
 
-        $existing = \App\LibraryIssue::where(['stock_id' => $request->copy_number, 'is_returned' => 0])->first();
+        $existing = LibraryIssue::where(['stock_id' => $request->copy_number, 'is_returned' => 0])->first();
 
         if (!$existing) :
-            $issue = new \App\LibraryIssue();
+            $issue = new LibraryIssue();
             $issue->item_id = $request->book_id;
             $issue->user_id = $this->getUserIdByMemberID($request->member_id);
             $issue->admin_id = Auth::user()->id;
@@ -639,7 +646,7 @@ class AjaxController extends Controller
             $issue->save();
 
             //update stock status
-            $stock = \App\LibraryStock::findOrFail($request->copy_number);
+            $stock = LibraryStock::findOrFail($request->copy_number);
             $stock->issued = 1;
             $stock->save();
 
@@ -655,14 +662,14 @@ class AjaxController extends Controller
 
     protected function getUserIdByMemberID($memberId)
     {
-        $member = \App\User::where('account_id', $memberId)->get();
+        $member = User::where('account_id', $memberId)->get();
 
         return ($member) ? $member[0]->id : 0;
     }
 
     public function extendIssue(Request $request)
     {
-        $issue = \App\LibraryIssue::findOrFail($request->issue_id);
+        $issue = LibraryIssue::findOrFail($request->issue_id);
 
         $issue->end_date = date('Y-m-d', strtotime("+ {$request->issueDays} Day", strtotime($issue->end_date)));
 
@@ -671,7 +678,7 @@ class AjaxController extends Controller
         $stock_id = ( int )$issue->stock_id;
 
         //update stock
-        $stock = \App\LibraryStock::findOrFail($stock_id);
+        $stock = LibraryStock::findOrFail($stock_id);
         if ($stock) :
             $stock->issued = 1;
             $stock->save();
@@ -689,11 +696,11 @@ class AjaxController extends Controller
     {
         //get issue info
         $stock_id = ( int )$request->id;
-        $issue = \App\LibraryIssue::where(['stock_id' => $stock_id, 'is_returned' => 0])->first();
+        $issue = LibraryIssue::where(['stock_id' => $stock_id, 'is_returned' => 0])->first();
 
         if ($issue) :
             //create return issue
-            $return = new \App\LibraryReturn();
+            $return = new LibraryReturn();
             $return->item_id = $issue->item_id;
             $return->admin_id = Auth::user()->id;
             $return->user_id = $issue->user_id;
@@ -741,7 +748,7 @@ class AjaxController extends Controller
             return response()->json(['success' => false, 'msg' => $validator->errors()->first()], 403);
 
         //fetch item of the library
-        $item = \App\Library::find($request->id);
+        $item = Library::find($request->id);
 
         // dd( $item );
 
@@ -749,7 +756,7 @@ class AjaxController extends Controller
         $copy = ( int )$item->copy_number;
         $copy = $copy + 1;
         $copy_number = 'C-' . $copy . '-' . $item->qr_string_unique;
-        $stock = new \App\LibraryStock();
+        $stock = new LibraryStock();
         $stock->copy_number = $copy_number;
         $stock->qr_string = $item->qr_string_unique;
         $stock->item_id = $item->id;
@@ -788,7 +795,7 @@ class AjaxController extends Controller
             return response()->json(['success' => false, 'msg' => $validator->errors()->first()], 403);
 
         //change status to lost
-        $item = \App\LibraryStock::where(['item_id' => $request->id, 'copy_number' => $request->copy])->first();
+        $item = LibraryStock::where(['item_id' => $request->id, 'copy_number' => $request->copy])->first();
         $item->issued = 2;
         $ok = $item->save();
 
@@ -802,7 +809,7 @@ class AjaxController extends Controller
     //getting single item as json format by itemID
     public function member_single($id)
     {
-        $item = \App\User::find($id);
+        $item = User::find($id);
 
         echo json_encode($item);
     }
@@ -818,7 +825,7 @@ class AjaxController extends Controller
         if ($validator->fails())
             return response()->json(['success' => false, 'msg' => $validator->errors()->first()], 401);
 
-        $library = new \App\Library;
+        $library = new Library();
         $library->title = $request->title;
         $library->acc_number = ($request->acc_number) ? $request->acc_number : null;
         $library->call_number = ($request->call_number) ? $request->call_number : null;
@@ -859,7 +866,7 @@ class AjaxController extends Controller
             if ($library->copy_number) :
                 for ($i = 1; $i <= $library->copy_number; $i++) :
                     $copynumber = 'C-' . $i . '-' . $library->qr_string_unique;
-                    $stock = \App\LibraryStock::firstOrNew(['item_id' => $library->id, 'copy_number' => $copynumber]);
+                    $stock = LibraryStock::firstOrNew(['item_id' => $library->id, 'copy_number' => $copynumber]);
                     $stock->copy_number = $copynumber;
                     $stock->qr_string = $library->qr_string_unique;
                     $stock->issued = 0;
@@ -910,7 +917,7 @@ class AjaxController extends Controller
         if ($validator->fails())
             return response()->json(['success' => false, 'msg' => $validator->errors()->first()], 401);
 
-        $library = \App\Library::findOrFail($request->id);
+        $library = Library::findOrFail($request->id);
         $library->title = ($request->title) ? $request->title : $library->title;
         $library->acc_number = ($request->acc_number) ? $request->acc_number : null;
         $library->call_number = ($request->call_number) ? $request->call_number : null;
@@ -1005,7 +1012,7 @@ class AjaxController extends Controller
     public function catSuggest($term = '')
     {
         $term = (isset($_GET['search'])) ? $_GET['search'] : $term;
-        $query = \App\Category::orWhere('name', 'like', '%' . $term . '%');
+        $query = Category::orWhere('name', 'like', '%' . $term . '%');
         $query->orderBy('name', 'asc');
         $items = $query->paginate(25);
 

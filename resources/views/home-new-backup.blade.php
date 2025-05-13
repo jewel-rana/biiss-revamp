@@ -457,7 +457,7 @@ use Carbon\Carbon;
                                                                                 {!! Form::close() !!}
 
                                                                             </div>
-                                                                            <a class="btn btn-primary" href="{{ route('book_issue.edit',$issueInfo->id) }}">Re-Issue</a>
+                                                                            <a class="btn btn-primary" href="{{ route('issue.edit',$issueInfo->id) }}">Re-Issue</a>
 
 
                                                                             <?php }
@@ -474,7 +474,7 @@ use Carbon\Carbon;
                                                             </table>
                                                         <?php
                                                         }else{?>
-                                                            <a class="btn btn-success" style="float: left" href="{{ route('book_issue.create',$paginator_data['id']) }}">New Issues Book</a>
+                                                            <a class="btn btn-success" style="float: left" href="{{ route('issue.create',$paginator_data['id']) }}">New Issues Book</a>
                                                       <?php }
                                                       ?>
 
@@ -656,7 +656,7 @@ use Carbon\Carbon;
                                                                                                 {!! Form::close() !!}
 
                                                                                             </div>
-                                                                                            <a class="btn btn-primary" href="{{ route('book_issue.edit',$single_issue_history->id) }}">Re-Issue</a>
+                                                                                            <a class="btn btn-primary" href="{{ route('issue.edit',$single_issue_history->id) }}">Re-Issue</a>
 
 
 

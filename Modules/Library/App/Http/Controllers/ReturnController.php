@@ -4,12 +4,14 @@ namespace Modules\Library\App\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
-use App\LibraryIssue;
-use App\LibraryReturn;
-use App\User;
+use App\Models\LibraryIssue;
+use App\Models\LibraryReturn;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Modules\Auth\Entities\User;
 
 class ReturnController extends Controller
 {
@@ -21,7 +23,7 @@ class ReturnController extends Controller
         // dd( $items );
 
         $title = 'Issues Returned';
-        return view('dashboard.library.return.index',compact('items', 'title'));
+        return view('library::library.return.index',compact('items', 'title'));
     }
 
 
@@ -33,11 +35,6 @@ class ReturnController extends Controller
         return view('book_return.create',compact('insertData'));
     }
 
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request){
         $this->validate($request, [
             'book_issue_code' => 'required',
@@ -86,11 +83,11 @@ class ReturnController extends Controller
                 return json_encode($data2);
 
                // return response()->json($bookReturn);
-               // return redirect()->route('book_return.index')->with('success','Book return successfully');
+               // return redirect()->route('return.index')->with('success','Book return successfully');
             }
-            return redirect()->route('book_return.index')->with('error','Something went wrong!!!');
+            return redirect()->route('return.index')->with('error','Something went wrong!!!');
         }else{
-            return redirect()->route('book_return.index')->with('error','Something went wrong!!!');
+            return redirect()->route('return.index')->with('error','Something went wrong!!!');
         }
 
     }
@@ -100,7 +97,7 @@ class ReturnController extends Controller
         $data['return'] = LibraryReturn::find( $id );
 
         $data['title'] = 'Return Details';
-        return view('dashboard.library.return.show',$data);
+        return view('library::library.return.show',$data);
     }
 
     public function destroy($id){
@@ -109,7 +106,7 @@ class ReturnController extends Controller
 
         $book->delete();
 
-        return redirect()->route('book_return.index')->with('success','Return deleted successfully');
+        return redirect()->route('return.index')->with('success','Return deleted successfully');
     }
 
 
@@ -141,11 +138,9 @@ class ReturnController extends Controller
     }
 
 
-    public function returnWeekIndex(Request $request){
-
+    public function returnWeekIndex(Request $request): View
+    {
         $items = LibraryReturn::where('created_at', '>=', Carbon::now()->startOfWeek())->take(10)->paginate(10);
-
-
         return view('book_return.return_week',compact('items'))->with('i', ($request->input('page', 1) - 1) * 10);
     }
 

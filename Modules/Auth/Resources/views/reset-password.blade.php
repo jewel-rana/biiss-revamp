@@ -1,6 +1,4 @@
-
-
-@extends('metis::layouts.auth')
+@extends("{$theme['default']}::layouts.auth")
 
 @section('content')
     <style>

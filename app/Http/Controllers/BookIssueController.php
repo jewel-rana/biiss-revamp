@@ -126,9 +126,9 @@ class BookIssueController extends Controller
             $update = Book::where('id',$bookInfo->id)->update(['issue_count'=>$finalIssueCount]);
 
 
-            return redirect()->route('book_issue.index')->with('success','Book issued successfully');
+            return redirect()->route('issue.index')->with('success','Book issued successfully');
         }
-        return redirect()->route('book_issue.index')->with('error','Something went wrong!!!');
+        return redirect()->route('issue.index')->with('error','Something went wrong!!!');
 
     }
 
@@ -168,7 +168,7 @@ class BookIssueController extends Controller
 
         BookIssue::find($id)->update($data);
 
-        return redirect()->route('book_issue.index')->with('success','Re-Issue Done!!!');
+        return redirect()->route('issue.index')->with('success','Re-Issue Done!!!');
     }
 
     //new
@@ -213,7 +213,7 @@ class BookIssueController extends Controller
 
         $bookIssue->delete();
 
-        return redirect()->route('book_issue.index')->with('success','Book issue deleted successfully');
+        return redirect()->route('issue.index')->with('success','Book issue deleted successfully');
     }
 
     public function getDataByQrString($qr_string){

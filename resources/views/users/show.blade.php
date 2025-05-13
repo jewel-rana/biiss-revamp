@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 <?php
 use App\BookIssue;
 
@@ -11,7 +11,7 @@ use App\BookIssue;
                 <h2> Member Profile Details</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('user.index') }}"> Back</a>
             </div>
         </div>
     </div>
@@ -130,7 +130,7 @@ use App\BookIssue;
   var table;
 $(document).ready(function() {
     var table = $('#example').DataTable( {
-        "pageLength": 25, 
+        "pageLength": 25,
         "bInfo": true,
         "searching": true,
         "lengthChange": true,
@@ -145,7 +145,7 @@ $(document).ready(function() {
                 },
                 autoPrint: false,
                 text: 'Print',
-            },   
+            },
             {
               extend: 'csvHtml5',
               exportOptions: {

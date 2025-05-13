@@ -1,0 +1,269 @@
+
+<script language="javascript" type="text/javascript">
+  var _alphabetSearch = '';
+  var dataTable;
+  var customFilter = document.getElementById('customFilters');
+
+$.fn.dataTable.ext.search.push( function ( settings, searchData ) {
+    if ( ! _alphabetSearch ) {
+        return true;
+    }
+
+    if ( searchData[1].charAt(0) === _alphabetSearch ) {
+        return true;
+    }
+
+    return false;
+} );
+
+
+function bin ( data ) {
+    var letter, bins = {};
+
+    for ( var i=0, ien=data.length ; i<ien ; i++ ) {
+        letter = data[i].charAt(0).toUpperCase();
+
+        if ( bins[letter] ) {
+            bins[letter]++;
+        }
+        else {
+            bins[letter] = 1;
+        }
+    }
+
+    return bins;
+}
+
+
+      // "pageLength": 25,
+      // "bInfo": true,
+      // "searching": true,
+      // "lengthChange": false,
+      // "dom": '<"top"i>rt<"bottom"flp><"clear">',
+      // "order": [[1, 'asc']],
+      // "columnDefs": [{"targets": [0], "searchable": false, "orderable": false, "visible": true}],
+$(document).ready(function() {
+    dataTable = $('#example').DataTable({
+      "processing": true,
+      "serverSide": true,
+      "ajax": {
+        url: "/api/library/all",
+        data: function ( d ) {
+          return d;
+        },
+        dataFilter: function(data){
+          var json = jQuery.parseJSON( data );
+          console.log(json);
+          json.recordsTotal = json.recordsTotal;
+          json.recordsFiltered = json.recordsFiltered;
+          json.data = json.data;
+
+          return JSON.stringify( json ); // return JSON string
+        }
+
+      },
+      "columns": [
+      { "data": "first_name" },
+      { "data": "last_name" },
+      { "data": "position" },
+      { "data": "office" },
+      { "data": "start_date" },
+      { "data": "salary" }
+      ]
+    });
+
+    var alphabet = $('<div class="alphabet"/>').append( 'Search: ' );
+    var columnData = dataTable.column(1).data();
+    var bins = bin( columnData );
+
+    $('<span class="clear active"/>')
+        .data( 'letter', '' )
+        .data( 'match-count', columnData.length )
+        .html( 'None' )
+        .appendTo( alphabet );
+
+    for ( var i=0 ; i<26 ; i++ ) {
+        var letter = String.fromCharCode( 65 + i );
+
+        $('<span/>')
+            .data( 'letter', letter )
+            .data( 'match-count', bins[letter] || 0 )
+            .addClass( ! bins[letter] ? 'empty' : '' )
+            .html( letter )
+            .appendTo( alphabet );
+    }
+
+    alphabet.insertBefore( dataTable.table().container() );
+
+    alphabet.on( 'click', 'span', function () {
+        alphabet.find( '.active' ).removeClass( 'active' );
+        $(this).addClass( 'active' );
+
+        _alphabetSearch = $(this).data('letter');
+        dataTable.draw();
+    } );
+
+    var info = $('<div class="alphabetInfo"></div>').appendTo( alphabet );
+
+    alphabet.on( 'mouseenter', 'span', function () {
+            info
+                .css( {
+                    opacity: 1,
+                    left: $(this).position().left,
+                    width: $(this).width()
+                } )
+                .html( $(this).data('match-count') );
+        } )
+        .on( 'mouseleave', 'span', function () {
+            info.css('opacity', 0);
+        } );
+  //Custome Filters ( title search )
+  $(customFilter).find('.title').keyup( function() {
+    //search in the column "title" which index is 1
+    dataTable.columns(1).search( this.value ).draw();
+  } );
+
+  //Custome Filters ( Author search )
+  $(customFilter).find('.author').keyup( function() {
+    //search in the column "author" which index is 1
+    dataTable.columns(2).search( this.value ).draw();
+  } );
+
+  //Custome Filters ( Subject search )
+  $(customFilter).find('.subject').keyup( function() {
+    //search in the column "subject" which index is 1
+    dataTable.columns(3).search( this.value ).draw();
+  } );
+
+  //Custome Filters ( ISBN search )
+  $(customFilter).find('.isbn').keyup( function() {
+    //search in the column "ISBN" which index is 1
+    dataTable.columns(4).search( this.value ).draw();
+  } );
+
+} );
+    jQuery( function( $ ) {
+        $('#qrPrintForm').submit(function( e ) {
+
+            if( $( '#qrPrintForm input:checked').length > 0 ) {
+                return true;
+            }else {
+                swal('Sorry!', 'No item selected.', "error");
+                return false;
+            }
+        });
+        //category search box display on click event
+        $('#collapseCategory').on("click", function(e){
+            e.defaultPrevented;
+
+            $('#categoryFilter').toggleClass('hide');
+        });
+
+        //check all item
+        $('#checkedall').on("click", function( e ) {
+            e.defaultPrevented;
+
+            var parent = $(this).parents('table');
+
+            if( $(this).is(":checked") ) {
+                $(parent).find(".itemcheckbox").each(function(){
+                    $(this).prop('checked', true);
+                });
+            } else {
+                $(parent).find(".itemcheckbox").each(function(){
+                    $(this).prop('checked', false);
+                });
+            }
+        });
+
+        //delete library item
+        $('.deleteItem').on("click", function( e ){
+
+            var ok = confirm('Are you sure to delete this item?');
+
+            if( ok ){
+                return true;
+            } else {
+                return false;
+            }
+
+            // var item = $(this);
+            // var parent = $(this).parents('#parent');
+            // var id = $(this).attr('id');
+            // var url = "{{ url('dashboard/library') }}/" + id;
+            // var data = null;
+
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
+
+            // $.ajax({
+            //     type: "DELETE",
+            //     url: url,
+            //     data: data,
+            //     success: function(data, textStatus, xhr){
+            //         if( xhr.status == 200 ) {
+            //             $(parent).remove();
+            //         }
+            //     }
+            // });
+
+            // return false;
+        });
+    });
+
+
+
+function getXHR(){
+  //ajax request
+  var xhr;
+  try {
+    xhr = new XMLHttpRequest();
+  } catch (error)
+  {
+    try
+    {
+      xhr = new ActiveXObject('Microsoft.XMLHTTP');
+    } catch (error)
+    {
+      xhr = null;
+    }
+  }
+  return xhr;
+}
+
+//Load Listener
+function addLoadListener(fn)
+{
+  if(typeof window.addEventListener != 'undefined')
+  {
+    window.addEventListener('load', fn, false);
+  }
+  else if(typeof document.addEventListener != 'undefined')
+  {
+    document.addEventListener('load', fn, false);
+  }
+  else if(typeof window.attachEvent != 'undefined')
+  {
+    window.attachEvent('onload', fn);
+  }
+  else
+  {
+    var oldfn = window.onload;
+    if (typeof window.onload != 'function')
+    {
+      window.onload = fn;
+    }
+    else
+    {
+      window.onload = function()
+      {
+        oldfn();
+        fn();
+      };
+    }
+  }
+}
+</script>

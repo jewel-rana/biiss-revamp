@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 <?php
 use App\User;
 use App\Book;
@@ -96,7 +96,7 @@ use App\Book;
 
                             <td>
 
-                                <a class="btn btn-primary" href="{{ route('book_issue.edit',$item->id) }}">Re-Issue</a>
+                                <a class="btn btn-primary" href="{{ route('issue.edit',$item->id) }}">Re-Issue</a>
 
                                 {!! Form::open(['method' => 'DELETE','route' => ['book.destroy', $item->id],'style'=>'display:inline', 'class'=>'delete']) !!}
                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}

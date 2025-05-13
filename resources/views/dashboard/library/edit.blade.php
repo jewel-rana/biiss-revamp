@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 @section('owncss')
 <link rel="stylesheet" href="{{asset('/css/select2.min.css') }}" />
 <link rel="stylesheet" href="{{asset('/date/jquery.datetimepicker.css') }}" />
@@ -47,7 +47,7 @@ font-size: 12px;
       <div class="col-md-12">
         <!-- begin result-container -->
         <div class="result-container">
-            <form method="POST" action="{{ route('dashboard.library.store') }}" id="libraryAddNewForm">     
+            <form method="POST" action="{{ route('dashboard.library.store') }}" id="libraryAddNewForm">
             {{ csrf_field() }}
             {{ Form::hidden('id', $library->id ) }}
               <div class="row">
@@ -86,12 +86,12 @@ font-size: 12px;
                         </div>
                           @endforeach
                           @else
-                      
+
                           <div class="row fieldwrapper" id="buildyourform">
                             <div class="col-md-3 form-group">
                               <input type="text" class="fieldname form-control" name="authorName[]" placeholder="name">
                             </div>
-                            <div class="col-md-3 form-group"> 
+                            <div class="col-md-3 form-group">
                               <textarea type="text" class="fieldname form-control" name="authorArticle[]" placeholder="Articles"></textarea>
                             </div>
                             <div class="col-md-3 form-group">
@@ -110,7 +110,7 @@ font-size: 12px;
                   </div><!--/.row-->
                   <br />
                   <br />
-                  
+
                   <div class="row">
                     <hr><hr class="hr-dark">
                     <div class="col-md-12">
@@ -133,7 +133,7 @@ font-size: 12px;
         <h4 class="modal-title" id="myModalLabel">Send message</h4>
       </div>
       <div class="modal-body">
-        
+
       </div>
       <!--div class="modal-footer">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -205,19 +205,19 @@ font-size: 12px;
                 success: function (data) {
                   if( data.success == true ){
                     swal({
-                        title: "Success!", 
-                        text: "Information updated successfully.", 
+                        title: "Success!",
+                        text: "Information updated successfully.",
                         type: "success",
                     }).then((willDelete) =>{
-                      
+
                     });
                   }
 
                 },
                 error: function (jqXHR, status, err) {
                   swal({
-                        title: "Failed!", 
-                        text: "Information cannot be updated.", 
+                        title: "Failed!",
+                        text: "Information cannot be updated.",
                         type: "error",
                     }).then((willDelete) =>{
                       $(form).reset();
@@ -230,7 +230,7 @@ font-size: 12px;
             $("#add").click(function () {
                 var lastField = $("#buildyourform div:last");
                 var oldValue = 0;
-                var intId = parseFloat(oldValue) + 1;              
+                var intId = parseFloat(oldValue) + 1;
                 var fieldWrapper = $("<div class='row fieldwrapper' id='field" + intId + "'/>");
                 fieldWrapper.data("idx", intId);
 
@@ -241,7 +241,7 @@ font-size: 12px;
                 var field_article= $("<div class='col-md-3 form-group'>" +
                     " <textarea type='text' class='fieldname form-control' name='authorArticle[]' placeholder='articles'  /></textarea>" +
                     "</div>");
-                
+
                 var field_subject= $("<div class='col-md-3 form-group'>" +
                     "<textarea type='text' class='fieldname form-control' name='authorSubject[]' placeholder='Subject'  /></textarea>" +
                     "</div>");

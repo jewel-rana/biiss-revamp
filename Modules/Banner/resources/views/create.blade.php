@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 
 @section('content')
     <div class="row">
@@ -6,7 +6,7 @@
             <div class="pull-left">
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('book_issue.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('issue.index') }}"> Back</a>
             </div>
         </div>
     </div>

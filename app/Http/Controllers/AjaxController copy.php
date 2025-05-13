@@ -423,7 +423,7 @@ class AjaxController extends Controller
 
             $str = '<div class="btn-group">';
             if( strtolower( $item->type ) == 'book' ){
-                $str .= '<a href="' . route('book_issue.create', $item->id) . '" onclick="addToplisted(' . $item->id . ');" target="_blank" class="btn btn-success" target="_blank" id="' . $item->id . '"><i class="fa fa-plus"></i> Issue</a>';
+                $str .= '<a href="' . route('issue.create', $item->id) . '" onclick="addToplisted(' . $item->id . ');" target="_blank" class="btn btn-success" target="_blank" id="' . $item->id . '"><i class="fa fa-plus"></i> Issue</a>';
             }
             $str .= '<a href="' . route('dashboard.library.view', $item->id) . '" onclick="viewItem(' . $item->id . ');" target="_blank" class="btn btn-primary" target="_blank" id="' . $item->id . '"><i class="fa fa-eye"></i> View</a>';
 

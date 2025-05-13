@@ -17,7 +17,7 @@ class LibraryController extends Controller
         $data['pageTitle'] = ucwords( $type ) . 's';
         $data['type'] = $type;
         $data['seasons'] = Season::pluck('name', 'name');
-        return view('dashboard.library.index_' . strtolower( $type ), $data );
+        return view('library::index_' . strtolower( $type ), $data );
     }
 
     public function create( Request $request )
@@ -43,7 +43,7 @@ class LibraryController extends Controller
 
         $data['seasons'] = Season::pluck('name', 'name');
         $data['title'] = 'Add new ' . ucfirst( $data['type'] );
-        return view('dashboard.library.new', $data );
+        return view('library::new', $data );
     }
 
     public function store(Request $request)
@@ -75,7 +75,7 @@ class LibraryController extends Controller
         //load data and view
         $data['type'] = strtolower( $data['item']->type );
         $data['title'] = ucfirst( $data['item']->type ) . ' - ' . $data['item']->title . ' (' . $data['item']->publication_year . ')';
-        return view('dashboard.library.single_' . strtolower($data['item']->type), $data );
+        return view('library::single_' . strtolower($data['item']->type), $data );
     }
 
     public function edit($id)
@@ -92,10 +92,10 @@ class LibraryController extends Controller
         $data['seasons'] = Season::pluck('name', 'name');
 
         $data['subview'] = 'edit_' . strtolower( $data['type'] );
-        return view('dashboard.library.edit', $data );
+        return view('library::edit', $data );
     }
 
-    public function cloneJournal($id)
+    public function clone($id)
     {
         //retrieve item
         $data['library'] = Library::findOrFail( $id );
@@ -110,7 +110,7 @@ class LibraryController extends Controller
         $data['seasons'] = Season::pluck('name', 'name');
 
         $data['subview'] = 'clone_' . $data['type'];
-        return view('dashboard.library.clone', $data );
+        return view('library::clone', $data );
     }
 
     public function destroy(Request $request, $id )

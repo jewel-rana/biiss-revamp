@@ -1,4 +1,4 @@
-@extends(config('theme.default') . "::layouts.auth")
+@extends("{$theme['default']}::layouts.auth")
 
 @section('content')
 

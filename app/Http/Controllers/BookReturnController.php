@@ -21,7 +21,7 @@ class BookReturnController extends Controller
         $items = BookReturn::with(['issue', 'book', 'member', 'admin'])->orderBy('id','DESC')->get();
 
         // dd( $items );
-        
+
         $title = 'Issues Returned';
         return view('book_return.index',compact('items', 'title'));
     }
@@ -88,11 +88,11 @@ class BookReturnController extends Controller
                 return json_encode($data2);
 
                // return response()->json($bookReturn);
-               // return redirect()->route('book_return.index')->with('success','Book return successfully');
+               // return redirect()->route('return.index')->with('success','Book return successfully');
             }
-            return redirect()->route('book_return.index')->with('error','Something went wrong!!!');
+            return redirect()->route('return.index')->with('error','Something went wrong!!!');
         }else{
-            return redirect()->route('book_return.index')->with('error','Something went wrong!!!');
+            return redirect()->route('return.index')->with('error','Something went wrong!!!');
         }
 
     }
@@ -111,7 +111,7 @@ class BookReturnController extends Controller
 
         $book->delete();
 
-        return redirect()->route('book_return.index')->with('success','Return deleted successfully');
+        return redirect()->route('return.index')->with('success','Return deleted successfully');
     }
 
 

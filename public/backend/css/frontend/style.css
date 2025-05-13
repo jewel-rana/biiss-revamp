@@ -53,7 +53,7 @@ body{
 
 
 .top_area {
-    background: url(../../images/bg.png) no-repeat center center;
+    background: url(../../../images/bg.png) no-repeat center center;
     background-size: cover;
     max-width: 100%;
     height: auto;
@@ -242,12 +242,12 @@ body{
     content: "";
 }
 .first-divider {
-    background: url('../../images/shape-launge-top.svg') no-repeat;
+    background: url('../../../images/shape-launge-top.svg') no-repeat;
     background-repeat: no-repeat;
     background-position: center;
 }
 .second-divider {
-    background: url('../../images/shape-pronto-t.svg') no-repeat;
+    background: url('../../../images/shape-pronto-t.svg') no-repeat;
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -330,17 +330,17 @@ body{
 .placeholder_text_color input[type="text"]::-webkit-input-placeholder {
 color: #fff !important;
 }
- 
+
 .placeholder_text_color input[type="text"]:-moz-placeholder { /* Firefox 18- */
-color: #fff !important;  
+color: #fff !important;
 }
- 
+
 .placeholder_text_color input[type="text"]::-moz-placeholder {  /* Firefox 19+ */
-color: #fff !important;  
+color: #fff !important;
 }
- 
-.placeholder_text_color input[type="text"]:-ms-input-placeholder {  
-color: #fff !important;  
+
+.placeholder_text_color input[type="text"]:-ms-input-placeholder {
+color: #fff !important;
 }
 .badge, .label {
     white-space: inherit;

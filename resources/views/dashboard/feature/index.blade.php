@@ -1,8 +1,8 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 
 @section('content')
     <!-- begin panel -->
-    
+
 
                         <!-- begin dropdown -->
                         <div class="dropdown mb-3">

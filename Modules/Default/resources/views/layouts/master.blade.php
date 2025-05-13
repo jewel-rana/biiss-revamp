@@ -24,7 +24,7 @@
     <link href="{{ asset('backend/color-admin-v4.2/admin/assets/css/default/style.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('backend/color-admin-v4.2/admin/assets/css/default/style-responsive.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('backend/color-admin-v4.2/admin/assets/css/default/theme/default.css') }}" rel="stylesheet" id="theme" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/custom.css') }}">
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
@@ -82,7 +82,7 @@
     </div>
     <!-- end #header -->
 
-    @include('master/sidebar')
+    <x-default::sidebar></x-default::sidebar>
 
     <!-- begin #content -->
     <div id="content" class="content">

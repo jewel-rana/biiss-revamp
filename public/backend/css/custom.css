@@ -51,3 +51,8 @@
 .new_book h2 span {
 	background: #d5e5e6;
 }
+
+.nav-tabs {
+    background: none !important;
+    border-bottom: 1px solid #CCC !important;
+}

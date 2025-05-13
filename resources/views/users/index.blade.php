@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 <?php
 use App\BookIssue;
 
@@ -7,7 +7,7 @@ use App\BookIssue;
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('users.create') }}"> Create new member</a>
+                <a class="btn btn-success" href="{{ route('user.create') }}"> Create new member</a>
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@ use App\BookIssue;
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('users.show',$member->id) }}?tab=history"> 
+                                <a href="{{ route('user.show',$member->id) }}?tab=history">
                                     {{ $member->issued_books_count }} Books
                                 </a>
                             </td>
@@ -94,8 +94,8 @@ use App\BookIssue;
 
                             <td>
                             <div class="btn-group">
-                                <a class="btn btn-sm btn-info" href="{{ route('users.show',$member->id) }}">Show</a>
-                                <a class="btn btn-sm btn-warning" href="{{ route('users.edit',$member->id) }}">Edit</a>
+                                <a class="btn btn-sm btn-info" href="{{ route('user.show',$member->id) }}">Show</a>
+                                <a class="btn btn-sm btn-warning" href="{{ route('user.edit',$member->id) }}">Edit</a>
                                 {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $member->id],'style'=>'display:inline', 'class'=>'delete']) !!}
                                 {!! Form::submit('Delete', ['class' => 'btn btn-sm btn-danger']) !!}
                                 {!! Form::close() !!}

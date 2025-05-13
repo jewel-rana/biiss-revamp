@@ -1,4 +1,4 @@
-@extends('master.app')
+@extends("{$theme['default']}::layouts.master")
 <?php
 use App\Category;
 ?>
@@ -12,7 +12,7 @@ use App\Category;
                     <h4 class="panel-title">{{ $title }}</h4>
                 </div>
                 <div class="panel-body">
-                    
+
             </div>
         </div>
 
