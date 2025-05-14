@@ -92,12 +92,6 @@
                     <span>Returns</span>
                 </a>
             </li>
-            <li class="@if(in_array( Request::segment(2), array('message')) ) active  @endif">
-                <a href="{{ route('message.index') }}">
-                    <i class="fa fa-envelope"></i>
-                    <span>Messages</span>
-                </a>
-            </li>
             <li class="has-sub @if(in_array( Request::segment(2), array('member')) ) active expand @endif">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -165,12 +159,6 @@
                         </a>
                     </li>
                 </ul>
-            </li>
-            <li class="@if(in_array( Request::segment(2), array('banner')) ) active  @endif">
-                <a href="{{ route('banner.index') }}">
-                    <i class="fa fa-image"></i>
-                    <span>Banners</span>
-                </a>
             </li>
             <li class="@if(in_array( Request::segment(2), array('role')) ) active  @endif">
                 <a href="{{ route('role.index') }}">

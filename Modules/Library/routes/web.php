@@ -55,6 +55,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function (
         //book ret
         Route::get('myform/ajax/{id}', array('as' => 'myform.ajax', 'uses' => 'Dashboard\ReturnController@myformAjax'));
         Route::get('myformQr/ajax/{id}', array('as' => 'myformQr.ajax', 'uses' => 'Dashboard\ReturnController@myformAjaxQr'));
+        Route::get('suggestions', [LibraryController::class, 'suggestions'])->name('library.suggestions');
         Route::resource('return', ReturnController::class);
     });
 
@@ -73,20 +74,19 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function (
         Route::get('library/suggestions/{keyword}', [AjaxController::class, 'suggestion']);
         Route::get('library/item/{id}', [AjaxController::class, 'singleitem']);
         Route::get('library/single/{id}', [AjaxController::class, 'single']);
-        Route::get('member/suggestions', [AjaxController::class, 'member_suggestion']);
-        Route::get('member/suggestions/{keyword}', [AjaxController::class, 'member_suggestion']);
+        Route::get('member/suggestions', [AjaxController::class, 'memberSuggestion']);
         Route::get('member/single/{id}', [AjaxController::class, 'member_single']);
         Route::post('createIssue', [AjaxController::class, 'createIssue']);
         Route::post('extendIssue', [AjaxController::class, 'extendIssue']);
-        Route::post('issue-return', [AjaxController::class, 'issueReturn']);
-        Route::get('dashboard/library/get-all-items', [AjaxController::class, 'getAllItems'])->name('ajax.datatable.items');
-        Route::post('dashboard/library/create', [AjaxController::class, 'create'])->name('dashboard.ajax.create');
-        Route::post('dashboard/library/update', [AjaxController::class, 'update'])->name('dashboard.ajax.update');
-        Route::get('dashboard/library/delete/{id}', [AjaxController::class, 'deleteItem'])->name('dashboard.ajax.delete');
-        Route::post('dashboard/library/lost', [AjaxController::class, 'lostItem'])->name('dashboard.ajax.lost.item');
-        Route::post('dashboard/library/add-copy', [AjaxController::class, 'addMoreCopy'])->name('dashboard.ajax.add.more.copy');
-        Route::post('dashboard/jq-upload', [AjaxController::class, 'jqupload'])->name('dashboard.ajax.jqupload');
-        Route::post('dashboard/author/delete', [AjaxController::class, 'deleteAuthor'])->name('dashboard.ajax.author.delete');
+        Route::post('library/issue-return', [AjaxController::class, 'issueReturn'])->name('issue.ajax.return');
+        Route::get('library/get-all-items', [AjaxController::class, 'getAllItems'])->name('ajax.datatable.items');
+        Route::post('library/create', [AjaxController::class, 'create'])->name('dashboard.ajax.create');
+        Route::post('library/update', [AjaxController::class, 'update'])->name('dashboard.ajax.update');
+        Route::get('library/delete/{id}', [AjaxController::class, 'deleteItem'])->name('dashboard.ajax.delete');
+        Route::post('library/lost', [AjaxController::class, 'lostItem'])->name('dashboard.ajax.lost.item');
+        Route::post('library/add-copy', [AjaxController::class, 'addMoreCopy'])->name('dashboard.ajax.add.more.copy');
+        Route::post('jq-upload', [AjaxController::class, 'jqupload'])->name('dashboard.ajax.jqupload');
+        Route::post('author/delete', [AjaxController::class, 'deleteAuthor'])->name('dashboard.ajax.author.delete');
     });
 
     //library issue
@@ -97,7 +97,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function (
         //book issue
         Route::get('change-copy/ajax/{id}', [IssueController::class, 'myChangeCopyAjax'])->name('issue.copy.ajax');
 
-        Route::get('get_data_by_qr_string/ajax/{string}', [IssueController::class, 'getDataByQrString'])->name('issue.get_data_by_qr_string');
+        Route::get('get_data_by_qr_string/{string}', [IssueController::class, 'getDataByQrString'])->name('issue.get_data_by_qr_string');
 
         //issues expired list
         Route::get('expired', [IssueController::class, 'expiredIndex'])->name('issue.expired');

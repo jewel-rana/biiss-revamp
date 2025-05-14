@@ -2,15 +2,17 @@
 
 namespace Modules\Library\App\Http\Controllers;
 
-use App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Library;
 use App\Models\LibraryIssue;
 use App\Models\LibraryReturn;
 use App\Models\LibraryStock;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Modules\Auth\Entities\User;
 
 class AjaxController extends Controller
@@ -53,7 +55,7 @@ class AjaxController extends Controller
                 $query .= "and exists (select * from `library_authors` where `libraries`.`id` = `library_authors`.`item_id` and `library_authors`.`author_name` like '%$author%') ";
             }
 
-            if($request->filled(['q', 'type', 'author'])) {
+            if ($request->filled(['q', 'type', 'author'])) {
                 $query .= ") ";
             }
 
@@ -599,72 +601,24 @@ class AjaxController extends Controller
         echo json_encode($item);
     }
 
-
-    public function member_suggestion($term = '')
+    public function memberSuggestion(Request $request): JsonResponse
     {
-        $query = User::where('name', 'like', '%' . $term . '%');
-        $query->orWhere('email', 'like', '%' . $term . '%');
-        // $query->orWhere('account_id', $term );
+        $term = $request->term;
+        $query = User::where(function($query) use($term) {
+            $query->where('name', 'like', '%' . $term . '%');
+            $query->orWhere('email', 'like', '%' . $term . '%');
+        });
         $query->orderBy('name', 'asc');
-        $items = $query->get();
+        $items = $query->take(5)->get();
 
         $return_arr = array();
         foreach ($items as $q) {
             $row['level'] = $q->name . ' (' . $q->email . ')';
             $row['value'] = $q->account_id;
-            array_push($return_arr, $row);
+            $return_arr[] = $row;
         }
 
-        echo json_encode($return_arr);
-    }
-
-    public function createIssue(Request $request)
-    {
-        //validation rules
-        $validator = Validator::make($request->all(), [
-            'member_id' => 'required|exists:users,account_id',
-            'book_id' => 'required|exists:libraries,id',
-            'copy_number' => 'required|exists:library_stocks,id'
-        ]);
-
-        //validation fails
-        if ($validator->fails())
-            return response()->json(array('status' => false, 'msg' => $validator->errors()->first()));
-
-        $existing = LibraryIssue::where(['stock_id' => $request->copy_number, 'is_returned' => 0])->first();
-
-        if (!$existing) :
-            $issue = new LibraryIssue();
-            $issue->item_id = $request->book_id;
-            $issue->user_id = $this->getUserIdByMemberID($request->member_id);
-            $issue->admin_id = Auth::user()->id;
-            $issue->stock_id = $request->copy_number;
-            $issue->start_date = date('Y-m-d', strtotime($request->issueDate));
-            $issue->end_date = date('Y-m-d', strtotime("+ {$request->issueDays} Day", strtotime($request->issueDate)));
-            $issue->bundle = ($request->bundle) ? $request->bundle : null;
-
-            $issue->save();
-
-            //update stock status
-            $stock = LibraryStock::findOrFail($request->copy_number);
-            $stock->issued = 1;
-            $stock->save();
-
-            if ($issue->id) :
-                echo json_encode(array('status' => true, 'msg' => 'Your item has been successfully Issued.'));
-            else :
-                echo json_encode(array('status' => false, 'msg' => 'Item cannot be issued.'));
-            endif;
-        else :
-            echo json_encode(array('status' => false, 'msg' => 'Item has already been Issued.'));
-        endif;
-    }
-
-    protected function getUserIdByMemberID($memberId)
-    {
-        $member = User::where('account_id', $memberId)->get();
-
-        return ($member) ? $member[0]->id : 0;
+        return response()->json($return_arr);
     }
 
     public function extendIssue(Request $request)
@@ -781,12 +735,12 @@ class AjaxController extends Controller
         }
     }
 
-    public function lostItem(Request $request)
+    public function lostItem(Request $request): JsonResponse
     {
 
         //validation rules
         $validator = Validator::make($request->all(), [
-            'id' => 'required|integer|exists:libraries,id',
+            'id' => 'required|integer|exists:library_stocks,id',
             'copy' => 'required|exists:library_stocks,copy_number'
         ]);
 
@@ -795,7 +749,7 @@ class AjaxController extends Controller
             return response()->json(['success' => false, 'msg' => $validator->errors()->first()], 403);
 
         //change status to lost
-        $item = LibraryStock::where(['item_id' => $request->id, 'copy_number' => $request->copy])->first();
+        $item = LibraryStock::find($request->id);
         $item->issued = 2;
         $ok = $item->save();
 

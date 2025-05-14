@@ -33,7 +33,7 @@
                 </div>
                 <!-- end input-group -->
                 <hr>
-                <form action="" method="POST" id="submitIssueForm">
+                <form action="{{ route('issue.store') }}" method="POST" id="submitIssueForm">
                     @csrf
 
                     <div class="row" id="issueFormParent">
@@ -66,7 +66,7 @@
                                         <th>Title</th>
                                         <td>
                                             <span id="itemTitle">@if( !empty( $item ) )
-                                                    <a href="/dashboard/library/item/{{ $item->id }}"
+                                                    <a href="{{ route('library.show', $item->id) }}"
                                                        target="_blank">{{ $item->title }}</a>
                                                 @endif</span>
                                         </td>
@@ -506,7 +506,7 @@
                                         <th>Title</th>
                                         <td>
                                             <span id="itemTitle">@if( !empty( $item ) )
-                                                    <a href="/dashboard/library/item/{{ $item->id }}"
+                                                    <a href="{{ route('library.show', $item->id) }}"
                                                        target="_blank">{{ $item->title }}</a>
                                                 @endif</span>
                                         </td>
@@ -543,8 +543,8 @@
 
                             <div class="form-group">
                                 <label>Issue Days (<small>Total Days to Issue</small>)</label>
-                                <input type="text" name="issueDays" placeholder="Exmple: 5" class="form-control"
-                                       required="true">
+                                <input type="number" min="1" max="30" name="issueDays" value="5" placeholder="Example: 5" class="form-control"
+                                       required>
                             </div>
                             @if( !empty( $item ) && strtolower( $item->type ) == 'journal')
                                 <div class="form-group">
@@ -565,7 +565,7 @@
                             <div class="form-group">
                                 <label>Member ID (Assign to Member)</label><br>
                                 <input type="text" name="member_id" id="memberSuggest" class="form-control"
-                                       placeholder="Member Name or ID" required="true">
+                                       placeholder="Member Name or ID" required>
                                 <div id="mInfo">
 
                                 </div>
@@ -644,21 +644,21 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('ajax/createIssue') }}",
+                    url: "{{ route('issue.store') }}",
                     data: $(this).serialize(),
                     dataType: "json",
                     success: function (response) {
                         if (response.status == true) {
                             swal({
                                 title: "Success!",
-                                text: response.msg,
+                                text: response.message,
                                 type: "success",
                             }).then((willDelete) => {
-                                window.location.href = "{{ url('dashboard/issue?type=active') }}";
+                                window.location.href = "{{ route('issue.index', ['type' => 'active']) }}";
                             });
 
                         } else {
-                            swal("Sorry!", response.msg, "error");
+                            swal("Sorry!", response.message, "error");
                         }
                     }
                 });
@@ -667,7 +667,7 @@
             });
 
             $('.swal-button--confirm').on("click", function () {
-                window.location.href = "{{ url('dashboard/issue?type=active') }}";
+                window.location.href = "{{ route('issue.index', ['type' => 'active']) }}";
             });
         });
 
@@ -688,7 +688,7 @@
                 if (code === 37 || code === 38 || code === 39 || code === 40 || code === 27 || code === 13) {
                     return false;
                 } else {
-                    var url = "{{ url('ajax/library/suggestions') }}/" + this.value + "?type=";
+                    var url = "{{ route('library.suggestions') }}?term=" + this.value + "?type={{ $type }}";
 
                     console.log(this.value);
 
@@ -707,7 +707,7 @@
                                 console.log(list);
                                 awesomplete.list = list;
                                 awesomplete.data = function (i, input) {
-                                    return {label: i.level, value: i.value};
+                                    return {label: i.label, value: i.value};
                                 }
                             }
                         }
@@ -724,7 +724,7 @@
             input.addEventListener('awesomplete-selectcomplete', function () {
                 var itemID = this.value;
 
-                window.location.href = "{{ url('dashboard/issue/create') }}/" + itemID;
+                window.location.href = "{{ url('dashboard/issue/create') }}?id=" + itemID;
                 // this.value = this.getAttribute('data-label');
                 // var xhr = new XMLHttpRequest();
                 // xhr.open('GET', "{{ url('ajax/library/single') }}/" + itemID, true);
@@ -763,7 +763,7 @@
 
                     var xhr = getXHR();
                     var value = this.value;
-                    xhr.open("GET", "{{ url('ajax/member/suggestions') }}/" + value, true);
+                    xhr.open("GET", "{{ url('dashboard/ajax/member/suggestions') }}?term=" + value, true);
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState == 4) {
                             if (xhr.status == 200 || xhr.status == 304) {
@@ -787,7 +787,7 @@
             input.addEventListener('awesomplete-selectcomplete', function () {
 
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', "{{ url('ajax/member/single') }}/" + this.value, true);
+                xhr.open('GET', "{{ url('dashboard/ajax/member/single') }}/" + this.value, true);
                 xhr.responseType = 'json';
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4) {
@@ -824,12 +824,12 @@
 
             if (qrString) {
                 $.ajax({
-                    url: '{{ url('dashboard/get_data_by_qr_string/ajax') }}/' + qrString,
+                    url: '{{ url('dashboard/issue/get_data_by_qr_string') }}/' + qrString,
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
 
-                        window.location = "{{ url('/dashboard/issue/create') }}/" + data.id;
+                        window.location = "{{ url('/dashboard/issue/create') }}/?id=" + data.id;
                         // formatData( data, parent );
 
                     }

@@ -7,7 +7,7 @@
                 <a class="btn btn-warning" href="{{ route('library.clone', [$item->id, 'type' => $item->type] )  }}"><i class="fa fa-edit"></i> Clone</a>
                 <a class="btn btn-secondary" href="{{ route('library.edit', [$item->id, 'type' => $item->type] ) }}"><i class="fa fa-edit"></i> Edit</a>
                 <a class="btn btn-danger" onclick="return confirm('Are you sure to delete this item?');" href="{{ route('library.destroy', $item->id) }}"><i class="fa fa-times"></i> Delete</a>
-                <a class="btn btn-success" href="{{ route('issue.create', $item->id) }}" target="_blank"><i class="fa fa-chevron-left"></i> Issue</a>
+                <a class="btn btn-success" href="{{ route('issue.create', ['id' => $item->id]) }}" target="_blank"><i class="fa fa-chevron-left"></i> Issue</a>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -144,7 +144,7 @@
                                 <td>
                                     {{ $cpy->copy_number }}
                                     @if( $cpy->issued !== 2 )
-                                    <a id="lostThisCopy" href="#" data-id="{{ $item->id }}" data-copy="{{ $cpy->copy_number }}"><span class="badge badge-danger">Lost this copy</span></a>
+                                    <a id="lostThisCopy" href="#" data-id="{{ $cpy->id }}" data-copy="{{ $cpy->copy_number }}"><span class="badge badge-danger">Lost this copy</span></a>
                                     @endif
                                 </td>
                                 <td>
@@ -154,16 +154,16 @@
                                             break;
                                             case '0' : echo '<span class="badge badge-success">Available</span>';
                                             break;
-                                            default : echo '<span class="badge badge-info">Unknown / Lost</span>';
+                                            default : echo '<span class="badge badge-danger">Unknown / Lost</span>';
                                             break;
                                         }
                                     @endphp
                                 </td>
                                 <td>
                                     @if( $cpy->issued == 0 )
-                                        <a class="btn btn-success" href="{{ url('dashboard/issue/create/' . $item->id . '/?copy=' . $cpy->copy_number ) }}">Issue</a>
+                                        <a class="btn btn-success" href="{{ route('issue.create', ['id' => $item->id, 'copy' => $cpy->copy_number] ) }}">Issue</a>
                                     @elseif( $cpy->issued == 1)
-                                        <a class="btn btn-warning takeReturn" id="{{ $cpy->id }}" data-copy="{{ $cpy->copy_number }}" href="{{ url('dashboard/issue/return/' . $cpy->id . '/?copy=' . $cpy->copy_number) }}">Take Return</a>
+                                        <a class="btn btn-warning takeReturn" id="{{ $cpy->id }}" data-copy="{{ $cpy->copy_number }}" href="{{ route('issue.ajax.return') }}">Take Return</a>
                                     @else
                                         <span class="">This copy has been lost</span>
                                     @endif
@@ -209,7 +209,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('ajax/issueReturn') }}",
+                    url: "{{ route('issue.ajax.return') }}",
                     data: {id: id, copy: copy},
                     dataType: "json",
                     success: function( response ) {
@@ -229,7 +229,7 @@
 
             $('#addMoreCopy').on("click", async function(e) {
                 var id = $(this).attr('data-id');
-                var url = "{{ url('ajax/dashboard/library/add-copy') }}";
+                var url = "{{ url('dashboard/ajax/library/add-copy') }}";
                 var confirmed = confirm('Are you sure to add 1 more copy in this item?');
 
                 if( confirmed ){
@@ -264,7 +264,7 @@
             $('#lostThisCopy').on("click", async function(e) {
                 var id = $(this).attr('data-id');
                 var copy = $(this).attr('data-copy');
-                var url = "{{ url('ajax/dashboard/library/lost') }}";
+                var url = "{{ url('dashboard/ajax/library/lost') }}";
                 var confirmed = confirm('Are you sure lost this copy of this book?');
 
                 if( confirmed ){

@@ -53,7 +53,7 @@ font-size: 12px;
                   <h4><i class="icon-truck icon-large"></i> General Information </h4>
                   <hr><hr class="hr-dark">
                   <div class="row">
-                      @yield("library::library.form.{$subview}")
+                      @include("library::library.form.{$subview}")
                   </div>
                     <h4><i class="icon-truck icon-large"></i> Author</h4>
                     <hr><hr class="hr-dark">

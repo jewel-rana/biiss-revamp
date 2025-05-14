@@ -6,7 +6,7 @@
                 <a href="{{ url('dashboard/feature/add/' . $item->id . '?type=seminar')}}" class="btn btn-primary" target="_blank"><i class="fa fa-plus"></i> Add to Top Seminar</a>
                 <a class="btn btn-secondary" href="{{ route('library.edit', [$item->id, 'type' => $item->type] ) }}"><i class="fa fa-edit"></i> Edit</a>
                 <a class="btn btn-danger" onclick="return confirm('Are you sure to delete this item?');" href="{{ route('library.destroy', $item->id) }}"><i class="fa fa-times"></i> Delete</a>
-                <a class="btn btn-success" href="{{ route('issue.create', $item->id) }}" target="_blank"><i class="fa fa-chevron-left"></i> Issue</a>
+                <a class="btn btn-success" href="{{ route('issue.create', ['id' => $item->id]) }}" target="_blank"><i class="fa fa-chevron-left"></i> Issue</a>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -152,41 +152,6 @@
                         type: "POST",
                         url: url,
                         data: {id: id},
-                        dataType: "json",
-                        success: function( response ) {
-                            if( response.success == true ) {
-                                $(parent).remove();
-                                swal("Success!", response.msg, "success").then((willDelete) =>{
-                                    window.location.reload();
-                                });
-                            }else {
-                                swal("Sorry!", response.msg, "error");
-                            }
-                        }
-                    });
-                }
-
-                return false;
-
-            });
-
-            $('#lostThisCopy').on("click", async function(e) {
-                var id = $(this).attr('data-id');
-                var copy = $(this).attr('data-copy');
-                var url = "{{ url('ajax/dashboard/library/lost') }}";
-                var confirmed = confirm('Are you sure lost this copy of this book?');
-
-                if( confirmed ){
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: {id: id, copy: copy},
                         dataType: "json",
                         success: function( response ) {
                             if( response.success == true ) {

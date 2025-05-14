@@ -16,7 +16,7 @@ class LibraryStock extends Model
      ];
 
      protected $casts = [
-         'issued' => 'boolean'
+         'issued' => 'int'
      ];
 
      public function item(): BelongsTo

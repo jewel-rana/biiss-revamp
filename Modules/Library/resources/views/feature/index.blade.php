@@ -54,9 +54,6 @@
                                         echo $title . '...';
                                         ?>
                                 </a>
-                                 <p>
-                                    <a href="{{ route('library.edit', [$item->book_id, 'type' => $item->item['type']]) }}" class="btn btn-success btn-xs mt-4"><i class="fa fa-edit"></i> Edit item</a>
-                                </p>
                             </td>
                             <td>
                                 @if( $item->item['authors'] )
@@ -66,16 +63,19 @@
                                 @endif
                             </td>
                             <td>{{ ucwords($item->type) }}</td>
-
                             <td>
                                 <div class="btn-group w-100 d-flex" role="group" aria-label="Basic example"
                                      style="width:100%;">
-                                    <button id="{{ $item->id }}"
-                                            data-url="{{ route('feature.destroy', $item->book_id) }}"
-                                            onclick="return confirm('Are you sure to remove items from featured list?')"
-                                            class="btn btn-xs btn-danger deleteItem">
-                                        <i class="fa fa-times"></i> Delete
-                                    </button>
+                                    <form action="{{ route('feature.destroy', [$item->id, 'type' => $item->type]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button id="{{ $item->id }}"
+                                                data-url="{{ route('feature.destroy', $item->id) }}"
+                                                onclick="return confirm('Are you sure to remove items from featured list?')"
+                                                class="btn btn-xs btn-danger deleteItem">
+                                            <i class="fa fa-times"></i> Delete
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

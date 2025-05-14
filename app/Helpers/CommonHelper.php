@@ -6,6 +6,7 @@ use App\Gateways\NotExist;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Modules\Auth\Entities\Otp;
+use Modules\Auth\Entities\User;
 use Modules\Order\App\Constant\OrderItemConstant;
 use Modules\Order\App\Models\Order;
 use Modules\Order\App\Models\OrderItem;
@@ -14,6 +15,11 @@ use Modules\Voucher\Entities\Voucher;
 
 class CommonHelper
 {
+    public static function getUserIdByMemberID($memberId)
+    {
+        return User::where('account_id', $memberId)->first()->id ?? null;
+    }
+
     public static function buildRefundData(Order $order): array
     {
         return [
