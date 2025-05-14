@@ -371,9 +371,9 @@
                         mRender: function (data, type, row) {
                             var str = '<div class="btn-group">';
                             str += '<a href="/dashboard/issue/create/' + row['id'] + '" onclick="addToplisted(' + row['id'] + ');" target="_blank" class="btn btn-success" target="_blank" id="' + row['id'] + '"><i class="fa fa-plus"></i> Issue</a>';
-                            str += '<a href="/dashboard/library/item/' + row['id'] + '" onclick="viewItem(' + row['id'] + ');" target="_blank" class="btn btn-primary" target="_blank" id="' + row['id'] + '"><i class="fa fa-eye"></i> View</a>';
+                            str += '<a href="/dashboard/library/' + row['id'] + '" onclick="viewItem(' + row['id'] + ');" target="_blank" class="btn btn-primary" target="_blank" id="' + row['id'] + '"><i class="fa fa-eye"></i> View</a>';
 
-                            str += '<a href="/dashboard/library/edit/' + row['id'] + '" class="btn btn-success" target="_blank" id="' + row['id'] + '"><i class="fa fa-edit"></i> Edit</a>';
+                            str += '<a href="/dashboard/library/' + row['id'] + '/edit" class="btn btn-success" target="_blank" id="' + row['id'] + '"><i class="fa fa-edit"></i> Edit</a>';
 
                             str += '<a href="#" class="btn btn-danger deleteItem" id="' + row['id'] + '"><i class="fa fa-times"></i> Delete</a>';
 

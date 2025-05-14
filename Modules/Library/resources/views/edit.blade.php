@@ -49,13 +49,14 @@ font-size: 12px;
         <div class="result-container">
             <form method="POST" action="{{ route('library.store') }}" id="libraryAddNewForm">
             {{ csrf_field() }}
-            {{ Form::hidden('id', $library->id ) }}
-              <div class="row">
+                <input type="hidden" name="id" value="{{ $library->id }}">
+
+                <div class="row">
                 <div class="col-md-12">
                   <h4><i class="icon-truck icon-large"></i> General Information </h4>
                   <hr><hr class="hr-dark">
                   <div class="row">
-                    @include('/dashboard/library/form/edit_' . strtolower( $type ) )
+                    @include('library::library.form.edit_' . strtolower( $type ) )
                   </div>
                     <h4><i class="icon-truck icon-large"></i> Author</h4>
                     <hr><hr class="hr-dark">

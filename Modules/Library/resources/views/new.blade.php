@@ -68,7 +68,7 @@ font-size: 12px;
                   </h4>
                   <hr><hr class="hr-dark">
                   <div class="row">
-                    @include('/dashboard/library/form/' . $type )
+                    @include('library::library.form.' . $type )
                   </div>
                     @if( strtolower( $type ) != 'seminar')
                     <h4><i class="icon-truck icon-large"></i> Author</h4>

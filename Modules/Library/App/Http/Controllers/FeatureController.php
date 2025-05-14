@@ -3,10 +3,12 @@
 
 namespace Modules\Library\App\Http\Controllers;
 
+use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
 use App\Models\Library;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -64,16 +66,16 @@ class FeatureController extends Controller
         return view('library::feature.show', $data );
     }
 
-    public function destroy(Request $request, $id )
+    public function destroy(Request $request, Feature $feature ): JsonResponse
     {
-        $feature = Feature::find($id);
-
-        $feature->delete();
-
-        if($request->ajax()) :
-            echo json_encode(array('success' => true ) );
-        else :
-            return redirect()->route('feature.index')->with('success','Featured item has been deleted successfully.');
-        endif;
+        try {
+            $feature->delete();
+            return response()->json([ 'success' => true, 'message' => __('Success')]);
+        } catch ( \Exception $e ) {
+            LogHelper::exception($e, [
+                'keyword' => 'Feature Destroy exception'
+            ]);
+            return response()->json([ 'success' => false, 'message' => __('Failed')]);
+        }
     }
 }

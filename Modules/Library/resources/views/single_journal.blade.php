@@ -5,8 +5,8 @@
             <div class="pull-right">
                 <a href="{{ url('dashboard/feature/add/' . $item->id . '?type=journal')}}" class="btn btn-primary" target="_blank"><i class="fa fa-plus"></i> Add to Top Journal</a>
                 <a class="btn btn-warning" href="{{ route('library.clone', [$item->id, 'type' => $item->type] )  }}"><i class="fa fa-edit"></i> Clone</a>
-                <a class="btn btn-secondary" href="{{ route('library.edit/' . $item->id . '?type=' . $item->type ) }}"><i class="fa fa-edit"></i> Edit</a>
-                <a class="btn btn-danger" onclick="return confirm('Are you sure to delete this item?');" href="{{ route('library.remove/' . $item->id) }}"><i class="fa fa-times"></i> Delete</a>
+                <a class="btn btn-secondary" href="{{ route('library.edit', [$item->id, 'type' => $item->type] ) }}"><i class="fa fa-edit"></i> Edit</a>
+                <a class="btn btn-danger" onclick="return confirm('Are you sure to delete this item?');" href="{{ route('library.destroy', $item->id) }}"><i class="fa fa-times"></i> Delete</a>
                 <a class="btn btn-success" href="{{ route('issue.create', $item->id) }}" target="_blank"><i class="fa fa-chevron-left"></i> Issue</a>
             </div>
             <div class="clearfix"></div>

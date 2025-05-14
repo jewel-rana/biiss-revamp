@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class LibraryIssue extends Model
 {
@@ -71,5 +72,10 @@ class LibraryIssue extends Model
             }
         }
         return $query;
+    }
+
+    public function lateCount(): int
+    {
+        return (int) $this->end_date->diffInDays(now());
     }
 }

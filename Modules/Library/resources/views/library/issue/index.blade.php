@@ -1,4 +1,5 @@
 @extends("{$theme['default']}::layouts.master")
+
 @section('owncss')
     <link rel="stylesheet" type="text/css"
           href="{{ asset('plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}">
@@ -15,8 +16,8 @@
                         <!-- begin panel-heading -->
                         <div class="panel-heading">
                             <div class="panel-heading-btn">
-                                <a href="{{ url('dashboard/issue/create') }}" class="btn btn-xs btn-circle btn-default"><i
-                                        class="fa fa-plus"></i> Issue new Item</a>
+                                <a href="{{ route('issue.create') }}" class="btn btn-xs btn-circle btn-default"><i
+                                        class="fa fa-plus"></i> Issue new item</a>
                             </div>
                             <h4 class="panel-title">{{ $title }}</h4>
                         </div>
@@ -97,6 +98,7 @@
                                                        class="btn btn-sm btn-block btn-success takeReturn"
                                                        id="{{ $issue->stock?->id }}"
                                                        data-copy="{{ $issue->stock?->copy_number }}"
+                                                       data-url="{{ route('issue.return', $issue->id) }}"
                                                        title="Take Return">
                                                         <i class="fa fa-check"></i> Take Return
                                                     </a>
@@ -132,6 +134,7 @@
                         var id = $(this).attr('id');
                         var copy = $(this).attr('data-copy');
                         var parent = $(this).parents('#parent');
+                        let url = $(this).data('url');
 
                         var confirmed = confirm('Are you sure to take return of this Item.');
 
@@ -144,7 +147,7 @@
 
                             $.ajax({
                                 type: "POST",
-                                url: "{{ url('ajax/issueReturn') }}",
+                                url: url,
                                 data: {id: id, copy: copy},
                                 dataType: "json",
                                 success: function (response) {

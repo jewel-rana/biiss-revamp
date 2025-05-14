@@ -53,4 +53,14 @@ class LibraryReturn extends Model
     {
         return $this->belongsTo(User::class, 'admin_id', 'id');
     }
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->admin_id = auth()->user()->id;
+            $model->return_date = now();
+        });
+    }
 }

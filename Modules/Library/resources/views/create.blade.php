@@ -1,1 +1,1 @@
-@include('dashboard.library.' . $subview )
+@yield('library::' . $subview )

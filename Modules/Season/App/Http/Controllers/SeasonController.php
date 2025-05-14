@@ -4,12 +4,14 @@ namespace Modules\Season\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Modules\Season\App\Models\Season;
+use Illuminate\Support\Facades\Validator;
 
 class SeasonController extends Controller
 {
-
+    use ValidatesRequests;
     public function index(Request $request): View
     {
         $items = Season::filter($request)->orderBy('id','DESC')->paginate(10);

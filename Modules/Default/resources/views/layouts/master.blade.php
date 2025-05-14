@@ -87,12 +87,12 @@
     <!-- begin #content -->
     <div id="content" class="content">
         <!-- begin breadcrumb -->
-        <ol class="breadcrumb pull-right">
-            <li class="breadcrumb-item"><a href="javascript:;">Dashboard</a></li>
-            <li class="breadcrumb-item active">
-                {{ Request::segment(2) }}
-            </li>
-        </ol>
+{{--        <ol class="breadcrumb pull-right">--}}
+{{--            <li class="breadcrumb-item"><a href="javascript:;">Dashboard</a></li>--}}
+{{--            <li class="breadcrumb-item active">--}}
+{{--                {{ Request::segment(2) }}--}}
+{{--            </li>--}}
+{{--        </ol>--}}
         <!-- end breadcrumb -->
         <!-- begin page-header -->
         <h1 class="page-header">
