@@ -30,7 +30,9 @@ class FrontController extends Controller
 
     public function allBooks(): View
     {
-        $query = Library::with('authors')->where('type', 'book');
+        $query = Library::with('authors')
+            ->where('type', 'book')
+            ->where('is_eresource', false);
         if (isset($_GET['letter_sort'])) :
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');
@@ -44,7 +46,9 @@ class FrontController extends Controller
 
     public function allJournals(): View
     {
-        $query = Library::with('authors')->where('type', 'journal');
+        $query = Library::with('authors')
+            ->where('type', 'journal')
+            ->where('is_eresource', false);
         if (isset($_GET['letter_sort'])) :
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');
@@ -58,7 +62,8 @@ class FrontController extends Controller
 
     public function allMagazines(): View
     {
-        $query = Library::with('authors')->where('type', 'magazine');
+        $query = Library::with('authors')->where('type', 'magazine')
+            ->where('is_eresource', false);
         if (isset($_GET['letter_sort'])) :
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');
@@ -72,7 +77,9 @@ class FrontController extends Controller
 
     public function allDocuments(): View
     {
-        $query = Library::with('authors')->where('type', 'document');
+        $query = Library::with('authors')
+            ->where('type', 'document')
+            ->where('is_eresource', false);
         if (isset($_GET['letter_sort'])) :
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');
@@ -86,7 +93,9 @@ class FrontController extends Controller
 
     public function allSeminars(): View
     {
-        $query = Library::with('authors')->where('type', 'seminar');
+        $query = Library::with('authors')
+            ->where('type', 'seminar')
+            ->where('is_eresource', false);
         if (isset($_GET['letter_sort'])) :
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');
@@ -173,7 +182,7 @@ class FrontController extends Controller
         $data['book'] = Library::findOrFail($id);
 
         if (!$data['book'])
-            return redirect()->back()->with('error', 'Item not found.');
+            abort(404);
 
         $data['title'] = $data['book']->title;
         $data['banners'] = Options::where('name', 'banner')->orderBy('id', 'DESC')->limit(3)->get();

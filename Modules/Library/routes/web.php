@@ -4,6 +4,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Modules\Library\App\Http\Controllers\AjaxController;
+use Modules\Library\App\Http\Controllers\EResourceController;
 use Modules\Library\App\Http\Controllers\FeatureController;
 use Modules\Library\App\Http\Controllers\IssueController;
 use Modules\Library\App\Http\Controllers\LibraryController;
@@ -20,6 +21,15 @@ use Modules\Library\App\Http\Controllers\ReturnController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::group(['prefix' => 'e-resource', 'middleware' => ['auth:web']], function () {
+    Route::get('/e-book', [EResourceController::class, 'eBook'])->name('e-book');
+    Route::get('/e-book/{item}', [EResourceController::class, 'show'])->name('e-book.show');
+    Route::get('/e-journal', [EResourceController::class, 'eJournal'])->name('e-journal');
+    Route::get('/e-journal/{item}', [EResourceController::class, 'show'])->name('e-journal.show');
+    Route::get('/e-document', [EResourceController::class, 'eDocument'])->name('e-document');
+    Route::get('/e-document/{item}', [EResourceController::class, 'show'])->name('e-document.show');
+});
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function () {
 
