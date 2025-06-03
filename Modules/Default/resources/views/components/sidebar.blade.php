@@ -53,8 +53,10 @@
                 </ul>
             </li>
 
-            <li class="@if(in_array( Request::segment(2), array('category')) ) active  @endif"><a href="{{ route('category.index') }}"><i class="fa fa-code-branch"></i> Category</a></li>
-            <li class="@if(in_array( Request::segment(2), array('season')) ) active  @endif"><a href="{{ route('season.index') }}"><i class="fa fa-calendar"></i> Seasons</a></li>
+            <li class="@if(in_array( Request::segment(2), array('category')) ) active  @endif"><a
+                    href="{{ route('category.index') }}"><i class="fa fa-code-branch"></i> Category</a></li>
+            <li class="@if(in_array( Request::segment(2), array('season')) ) active  @endif"><a
+                    href="{{ route('season.index') }}"><i class="fa fa-calendar"></i> Seasons</a></li>
 
             <li class="has-sub @if(in_array( Request::segment(2), array('issue')) ) active expand @endif">
                 <a href="javascript:;">
@@ -167,10 +169,13 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url('auth.logout') }}">
-                    <i class="fa fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
+                <form action="{{ route('auth.logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-block">
+                        <i class="fa fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
             </li>
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
