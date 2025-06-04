@@ -46,13 +46,15 @@
             <div class="d-flex align-items-center gap-3">
                 <div class="d-flex gap-2">
                     @if(auth()->guest())
-                    <a href="#" class="btn btn-outline-primary" style=" color: #5592CB; border-color: #5592CB;">
-                        Wishlist (0)
-                    </a>
+                        <a href="#" class="btn btn-outline-primary" style=" color: #5592CB; border-color: #5592CB;">
+                            Wishlist (0)
+                        </a>
 
-                    <a href="{{ route('auth.login') }}" class="btn" style="background-color: #5592CB; color: #FFFFFF;">Login</a>
+                        <a href="{{ route('auth.login') }}" class="btn"
+                           style="background-color: #5592CB; color: #FFFFFF;">Login</a>
                     @else
-                        <a href="{{ route('auth.profile') }}" class="btn btn-default">Welcome {{ auth()->user()->name }}</a>
+                        <a href="{{ route('auth.profile') }}"
+                           class="btn btn-default">Welcome {{ auth()->user()->name }}</a>
                     @endif
                 </div>
             </div>
@@ -65,58 +67,59 @@
     <x-frontend::top-nav></x-frontend::top-nav>
 </header>
 
-@if(!request()->routeIs(['front.search', 'single.show']))
+@if(!request()->routeIs(['front.search', 'single.show', 'e-book.show', 'e-document.show', 'e-journal.show', 'library.reader']))
     <x-frontend::hero></x-frontend::hero>
 @endif
 
 @yield('content')
 
-<!-- Footer Section -->
-<footer class="bg-dark text-white py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 mb-4">
-                <img src="/frontend/images/logo.png" alt="BIISS" class="mb-4" height="60">
+@if(!request()->routeIs(['library.reader']))
+    <!-- Footer Section -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 mb-4">
+                    <img src="/frontend/images/logo.png" alt="BIISS" class="mb-4" height="60">
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled mb-2">
+                        <li class="mb-2"><a href="#">Home</a></li>
+                        <li class="mb-2"><a href="#">New Books</a></li>
+                        <li class="mb-2"><a href="#">Books</a></li>
+                        <li class="mb-2"><a href="#">Journals</a></li>
+                        <li class="mb-2"><a href="#">Magazines</a></li>
+                        <li class="mb-2"><a href="#">Documents</a></li>
+                        <li class="mb-2"><a href="#">Seminar Proceeding</a></li>
+                        <li class="mb-2"><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5>Services</h5>
+                    <ul class="list-unstyled mb-2">
+                        <li class="mb-2"><a href="#">Payment Methods</a></li>
+                        <li class="mb-2"><a href="#">Money-back</a></li>
+                        <li class="mb-2"><a href="#">Shipping</a></li>
+                        <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5>Social</h5>
+                    <ul class="list-unstyled mb-2">
+                        <li class="mb-2"><a href="#" class="text-decoration-underline">Facebook</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-underline">Instagram</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-underline">Twitter</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-underline">LinkedIn</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="col-lg-3 mb-4">
-                <h5>Quick Links</h5>
-                <ul class="list-unstyled mb-2">
-                    <li class="mb-2"><a href="#">Home</a></li>
-                    <li class="mb-2"><a href="#">New Books</a></li>
-                    <li class="mb-2"><a href="#">Books</a></li>
-                    <li class="mb-2"><a href="#">Journals</a></li>
-                    <li class="mb-2"><a href="#">Magazines</a></li>
-                    <li class="mb-2"><a href="#">Documents</a></li>
-                    <li class="mb-2"><a href="#">Seminar Proceeding</a></li>
-                    <li class="mb-2"><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-3 mb-4">
-                <h5>Services</h5>
-                <ul class="list-unstyled mb-2">
-                    <li class="mb-2"><a href="#">Payment Methods</a></li>
-                    <li class="mb-2"><a href="#">Money-back</a></li>
-                    <li class="mb-2"><a href="#">Shipping</a></li>
-                    <li class="mb-2"><a href="#">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-3 mb-4">
-                <h5>Social</h5>
-                <ul class="list-unstyled mb-2">
-                    <li class="mb-2"><a href="#" class="text-decoration-underline">Facebook</a></li>
-                    <li class="mb-2"><a href="#" class="text-decoration-underline">Instagram</a></li>
-                    <li class="mb-2"><a href="#" class="text-decoration-underline">Twitter</a></li>
-                    <li class="mb-2"><a href="#" class="text-decoration-underline">LinkedIn</a></li>
-                </ul>
+            <div class="border-top pt-4 mt-4 d-flex justify-content-between align-items-center">
+                <p class="mb-0 text-center">All Rights Reserved <span id="current-year"></span> | BIISS</p>
+                <p class="mb-0 text-center text-decoration-underline">Terms & Conditions</p>
             </div>
         </div>
-        <div class="border-top pt-4 mt-4 d-flex justify-content-between align-items-center">
-            <p class="mb-0 text-center">All Rights Reserved <span id="current-year"></span> | BIISS</p>
-            <p class="mb-0 text-center text-decoration-underline">Terms & Conditions</p>
-        </div>
-    </div>
-</footer>
-
+    </footer>
+@endif
 <script src="/frontend/js/jquery-3.7.1.min.js"></script>
 <script src="/frontend/owlcarousel/owl.carousel.min.js"></script>
 <script src="/frontend/js/script.js"></script>

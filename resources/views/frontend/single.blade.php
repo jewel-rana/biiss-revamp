@@ -39,11 +39,15 @@
                             {{--                            <span class="fw-semibold">Author Name</span>--}}
                         </h5>
                     </div>
-                    <a href="#" class="hover-effect p-2 rounded">
-                        <img src="/frontend/images/pdf-svgrepo-com.svg" width="80" height="80" class="img-fluid"
-                             style="min-width: 80px !important;"
-                             alt="PDF Icon">
-                    </a>
+                    @if($book->file)
+                        <a href="{{ route('library.reader', [$book->type, $book->id]) }}"
+                           class="hover-effect p-2 rounded">
+                            <img src="/frontend/images/pdf-svgrepo-com.svg" width="80" height="80" class="img-fluid"
+                                 style="min-width: 80px !important;"
+                                 alt="Read e-Resource">
+                            <p>Read e-{{ ucfirst($book->type) }}</p>
+                        </a>
+                    @endif
                 </div>
 
                 <ul class="list-group list-group-flush mt-4">

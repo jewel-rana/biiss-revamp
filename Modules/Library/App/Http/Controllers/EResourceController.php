@@ -58,4 +58,14 @@ class EResourceController extends Controller
     {
         return view('library::e-resource.show', compact('item'));
     }
+
+    public function eBookReader($type, Library $library): View
+    {
+        return view('library::e-resource.reader', compact('type', 'library'));
+    }
+
+    public function pdfViewer(Library $library): View
+    {
+        return view('library::e-resource.pdf', compact('library'));
+    }
 }

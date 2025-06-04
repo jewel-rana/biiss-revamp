@@ -1,315 +1,148 @@
-@extends("{$theme['default']}::layouts.master")
-@section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-right">
-                <a class="btn btn-warning" href="{{ route('library.clone', [$item->id, 'type' => $item->type] )  }}"><i class="fa fa-edit"></i> Clone</a>
-                <a class="btn btn-secondary" href="{{ route('library.edit', $item->id . '?type=' . $item->type ) }}"><i class="fa fa-edit"></i> Edit</a>
-                <a class="btn btn-danger" onclick="return confirm('Are you sure to delete this item?');" href="{{ route('library.destroy', $item->id) }}"><i class="fa fa-times"></i> Delete</a>
-                <a class="btn btn-success" href="{{ route('issue.create', ['id' => $item->id]) }}"><i class="fa fa-chevron-left"></i> Issue</a>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <?php
-                        if( $item->cover_photo == !null){  ?>
-                        <img class="media-object img-thumbnail" src="{{ asset( $item->cover_photo ) }}" style="width:350px">
-                        <?php } else { ?>
-                        <img class="media-object img-thumbnail" src="{{ asset('default/cover/' . strtolower( $item->type ) . '.jpg' ) }}" style="width: 100%">
-                        <?php }?>
-                    </a>
-                    @if( $item->file == !null )
-                        <div>
-                            <a class="btn btn-primary" href="{{ asset( $item->file ) }}" target="_blank"><i class="fa fa-download"></i> Download E-Book</a>
-                        </div>
-                    @endif
-                    <hr>
-                    <h4>Bibliography : </h4>
-                    <div>
-                        <p>{{ $item->bibliography }}</p>
-                    </div>
-                </div>
-                <div class="media-body">
-                    <table class="table table-striped table-bordered">
-                        <tbody>
-                        <tr>
-                            <th>Type</th>
-                            <td>{{ ucwords( $item->type ) }}</td>
-                            <th>FREQ</th>
-                            <td>{{ ucwords( $item->friq ) }}</td>
-                        </tr>
-                        <tr>
-                            <th>Title : </th>
-                            <td colspan="3">{{ $item->title }}</td>
-                        </tr>
-                        <tr>
-                            <th>Authors : </th>
-                            <td colspan="3">
-                                @if( $item->authors )
-                                    <table class="table">
-                                        <tr>
-                                            <th>Author Name</th>
-                                            <th>Subject</th>
-                                            <th>Articles</th>
-                                            <th>Pages</th>
-                                        </tr>
-                                        @foreach( $item->authors as $author )
-                                            <tr>
-                                                <td>{{ $author->author_name }}</td>
-                                                <td>{{ $author->auth_subject }}</td>
-                                                <td>{{ $author->author_article }}</td>
-                                                <td>{{ $author->pagi }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </table>
-                                @endif
-                            </td>
-                        </tr>
-                        @if( strtolower( $item->type ) == 'book')
-                            <tr>
-                                <th>Categories :</th>
-                                <td colspan="3">
-                                    @if( $item->tags )
-                                        @foreach( $item->tags as $tag )
-                                            <span class="badge badge-info">{{ $tag->categories }}</span>
-                                        @endforeach
-                                    @endif
-                                </td>
-                            </tr>
-                        @endif
-                        <tr>
-                            <th>Season : </th>
-                            <td>{{ $item->season }}</td>
-                            <th>Month : </th>
-                            <td>{{ $item->month_of_publish }}</td>
-                        </tr>
-                        <tr>
-                            <th>Authormark : </th>
-                            <td>{{ $item->authormark }}</td>
-                            <th>Pagination (PAGI)</th>
-                            <td>{{ $item->pagination }}</td>
-                        </tr>
-                        <tr>
-                            <th>Call Number : </th>
-                            <td>{{ $item->call_number }}</td>
-                            <th>ISBN</th>
-                            <td>{{ $item->isbn }}</td>
-                        </tr>
-                        <tr>
-                            <th>Accession Date : </th>
-                            <td>{{ $item->accession }}</td>
-                            <th>ACC Number</th>
-                            <td>{{ $item->acc_number }}</td>
-                        </tr>
-                        <tr>
-                            <th>Publisher : </th>
-                            <td>{{ $item->publisher }}</td>
-                            <th>Publication Year</th>
-                            <td>{{ ucwords( $item->publication_year ) }}</td>
-                        </tr>
-                        @if( strtolower( $item->type ) != 'document' )
-                            <tr>
-                                <th>Index : </th>
-                                <td>{{ $item->book_index }}</td>
-                            </tr>
-                        @endif
-                        <tr>
-                            <th>Place</th>
-                            <td>{{ ucwords( $item->place ) }}</td>
-                        </tr>
-                        <tr>
-                            <th>Self : </th>
-                            <td>{{ $item->self }}</td>
-                            <th>Rack</th>
-                            <td>{{ ucwords( $item->rack ) }}</td>
-                        </tr>
-                        <tr>
-                            <th>Volume : </th>
-                            <td>{{ $item->volume_number }}</td>
-                            <th>Number</th>
-                            <td>{{ $item->item_number }}</td>
-                        </tr>
-                        <tr>
-                            <th>Bill & Boucher : </th>
-                            <td>{{ $item->bill_and_voucher }}</td>
-                            <th>Remarks</th>
-                            <td>{{ $item->remarks }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    @if( strtolower( $item->type ) != 'seminar')
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                                <th>Copy</th>
-                                <th>Code</th>
-                                <th>Status</th>
-                                <th>Issue</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if( $item->copies->count() > 0 )
-                                @foreach( $item->copies as $key => $cpy )
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>
-                                            {{ $cpy->copy_number }}
-                                            @if( $cpy->issued !== 2 )
-                                                <a id="lostThisCopy" href="#" data-id="{{ $item->id }}" data-copy="{{ $cpy->copy_number }}"><span class="badge badge-danger">Lost this copy</span></a>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @php
-                                                switch( $cpy->issued ){
-                                                    case '1' : echo '<span class="badge badge-warning">Issued</span>';
-                                                    break;
-                                                    case '0' : echo '<span class="badge badge-success">Available</span>';
-                                                    break;
-                                                    default : echo '<span class="badge badge-info">Unknown / Lost</span>';
-                                                    break;
-                                                }
-                                            @endphp
-                                        </td>
-                                        <td>
-                                            @if( $cpy->issued == 0 )
-                                                <a class="btn btn-success" href="{{ url('dashboard/issue/create/' . $item->id . '/?copy=' . $cpy->copy_number ) }}">Issue</a>
-                                            @elseif( $cpy->issued == 1)
-                                                <a class="btn btn-warning takeReturn" id="{{ $cpy->id }}" data-copy="{{ $cpy->copy_number }}" href="{{ url('dashboard/issue/return/' . $cpy->id . '/?copy=' . $cpy->copy_number) }}">Take Return</a>
-                                            @else
-                                                <span class="">This copy has been lost</span>
-                                            @endif
+@extends("{$theme['frontend']}::layouts.master")
 
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                <tr>
-                                    <td colspan="4">
-                                        <div class="float-right">
-                                            <a href="#" class="btn-xs" id="addMoreCopy" data-id="{{ $item->id }}">Add more copy</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @else
-                                <tr>
-                                    <td colspan="5">
-                                        <div class="alert alert-warning"><strong>Sorry!</strong> No copies found in stock.</div>
-                                    </td>
-                                </tr>
-                            @endif
-                            </tbody>
-                        </table>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
+@section('header')
+
 @endsection
 
-@section('ownjs')
+@section('content')
+    <!-- Book Details Section -->
+    <div class="container py-5">
+        <div class="row g-4">
+            <!-- Book Image -->
+            <div class="col-md-4 text-center">
+                <?php
+                if ($item->cover_photo != null){ ?>
+                <img src="{{ asset( $item->cover_photo ) }}" alt="{{ $item->title }}"
+                     class="img-fluid rounded shadow book-details-image">
+                <?php } else { ?>
+                <img src="{{ asset('default/cover/' . strtolower( $item->type . '.jpg')) }}" alt="book"
+                     class="img-fluid rounded shadow book-details-image">
+                <?php } ?>
+            </div>
 
-    <script>
-        $(document).ready(function() {
-            $('.takeReturn').on("click", function( e ) {
-                var id = $(this).attr('id');
-                var copy = $(this).attr('data-copy');
-                var parent = $(this).parents('#parent');
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+            <!-- Book Properties -->
+            <div class="col-md-8">
+                <div class="d-flex justify-content-between">
+                    <div class="">
+                        <h2 class="fw-bold text-primary">
+                            {{ $item->title }}
+                            @if( $item->volume_number != null )
+                                [{{ $item->volume_number }}]
+                            @endif
+                        </h2>
+                        <h5 class="text-secondary">by
+                            @if( $item->authors )
+                                @foreach( $item->authors as $key => $author )
+                                    <span class="badge badge-success bg-info">{{ $author['author_name'] }}</span>
+                                @endforeach
+                            @endif
+                            {{--                            <span class="fw-semibold">Author Name</span>--}}
+                        </h5>
+                    </div>
+                    @if($item->file)
+                        <a href="{{ route('library.reader', [$item->type, $item->id]) }}"
+                           class="hover-effect p-2 rounded">
+                            <img src="/frontend/images/pdf-svgrepo-com.svg" width="80" height="80" class="img-fluid"
+                                 style="min-width: 80px !important;"
+                                 alt="Read e-Resource">
+                            <p>Read e-{{ ucfirst($item->type) }}</p>
+                        </a>
+                    @endif
+                </div>
 
-                $.ajax({
-                    type: "POST",
-                    url: "{{ url('ajax/issueReturn') }}",
-                    data: {id: id, copy: copy},
-                    dataType: "json",
-                    success: function( response ) {
-                        if( response.status == true ) {
-                            $(parent).remove();
-                            swal("Success!", response.msg, "success").then((willDelete) =>{
-                                window.location.reload();
-                            });
-                        }else {
-                            swal("Sorry!", response.msg, "error");
-                        }
-                    }
-                });
+                <ul class="list-group list-group-flush mt-4">
+                    <li class="list-group-item"><strong>Genre:</strong> {{ ucfirst( $item->type ) }}</li>
+                    <li class="list-group-item"><strong>Publisher:</strong> {{ $item->publisher }}
+                        - {{ $item->publication_year }}</li>
+                    <li class="list-group-item"><strong>Subjects:</strong>
+                        <ul>
+                            @if( $item->authors )
+                                @foreach( $item->authors as $tag )
+                                    @if($tag->auth_subject)
+                                        <li><p>{{ $tag->auth_subject }}</p></li>
+                                    @endif
+                                @endforeach
+                            @endif
+                        </ul>
+                    </li>
+                    @if( in_array( strtolower( $item->type ), array('document', 'magazine', 'journal') ) )
+                        <li class="list-group-item"><strong>Month of Publish:</strong> {{ $item->month_of_publish }}
+                        </li>
+                        <li class="list-group-item"><strong>Year of Publish:</strong> {{ $item->publication_year }}</li>
+                        <li class="list-group-item"><strong>Date of Publish:</strong> {{ $item->month_of_publication }}
+                        </li>
+                        <li class="list-group-item"><strong>Volume Number:</strong> {{ $item->volume_number }}</li>
+                        <li class="list-group-item"><strong>Copy Number:</strong> {{ $item->item_number }}</li>
+                        <li class="list-group-item"><strong>Season:</strong> {{ $item->season }}</li>
 
-                return false;
-            });
+                    @elseif( strtolower( $item->type ) == 'book')
+                        <li class="list-group-item"><strong>Call No. (AUMARK):</strong> {{ $item->call_number }}</li>
+                        <li class="list-group-item"><strong>Author Mark:</strong> {{ $item->authormark }}</li>
+                        <li class="list-group-item"><strong>Accession Number(ACC):</strong> {{ $item->acc_number }}</li>
 
-            $('#addMoreCopy').on("click", async function(e) {
-                var id = $(this).attr('data-id');
-                var url = "{{ url('ajax/dashboard/library/add-copy') }}";
-                var confirmed = confirm('Are you sure to add 1 more copy in this item?');
+                        {{--                        @php--}}
+                        {{--                            $available = 0;--}}
+                        {{--                            if( $item->copies ) :--}}
+                        {{--                                foreach( $item->copies as $copy ) :--}}
+                        {{--                                    if( $copy->issued == 0 ) :--}}
+                        {{--                                        $available = 1;--}}
+                        {{--                                    endif;--}}
+                        {{--                                endforeach;--}}
+                        {{--                            endif;--}}
+                        {{--                        @endphp--}}
+                        {{--                        @if( $available )--}}
+                        {{--                            @php--}}
+                        {{--                                $author = '';--}}
+                        {{--                                if( $item->authors ) :--}}
+                        {{--                                    $count = ( int ) count( $item->authors ) - 1;--}}
+                        {{--                                    foreach( $item->authors as $key => $a ) :--}}
+                        {{--                                        $author .= ( $count == $key ) ? $a['author_name'] . ', ' : $a['author_name'];--}}
+                        {{--                                    endforeach;--}}
+                        {{--                                endif;--}}
 
-                if( confirmed ){
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
+                        {{--                            @endphp--}}
+                        {{--                            <form action="{{ url('/print') }}" method="POST" class="side-by-side">--}}
+                        {{--                                {!! csrf_field() !!}--}}
+                        {{--                                <input type="hidden" name="id" value="{{ $item->id }}">--}}
+                        {{--                                <input type="hidden" name="title" value="{{ $item->title }}">--}}
+                        {{--                                <input type="hidden" name="author" value="{{ $author }}">--}}
+                        {{--                                <input type="hidden" name="type" value="{{ $item->type }}">--}}
+                        {{--                                <button class="btn btn-warning" type="submit">Add to wishlist--}}
+                        {{--                                </button>--}}
+                        {{--                            </form>--}}
+                        {{--                        @endif--}}
+                    @endif
+                </ul>
 
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: {id: id},
-                        dataType: "json",
-                        success: function( response ) {
-                            if( response.success == true ) {
-                                $(parent).remove();
-                                swal("Success!", response.msg, "success").then((willDelete) =>{
-                                    window.location.reload();
-                                });
-                            }else {
-                                swal("Sorry!", response.msg, "error");
-                            }
-                        }
-                    });
-                }
+            </div>
+        </div>
 
-                return false;
+        @if($item->bibliography)
+            <!-- Description -->
+            <div class="row mt-5">
+                <div class="col">
+                    <h4 class="fw-bold px-lg-0 px-1">Bibliography</h4>
+                    <p class="fullTextReading hide">
+                        {{ $item->bibliography }}
+                    </p>
+                </div>
+            </div>
+        @endif
+    </div>
 
-            });
+@endsection
 
-            $('#lostThisCopy').on("click", async function(e) {
-                var id = $(this).attr('data-id');
-                var copy = $(this).attr('data-copy');
-                var url = "{{ url('ajax/dashboard/library/lost') }}";
-                var confirmed = confirm('Are you sure lost this copy of this book?');
+@section('footer')
 
-                if( confirmed ){
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
+    <script type="text/javascript">
+        jQuery(function ($) {
+            $('.readMore').on("click", function (e) {
+                var parent = $(this).parents('.readMoreParent');
+                var parentOfParent = $(this).parents('.details');
 
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: {id: id, copy: copy},
-                        dataType: "json",
-                        success: function( response ) {
-                            if( response.success == true ) {
-                                $(parent).remove();
-                                swal("Success!", response.msg, "success").then((willDelete) =>{
-                                    window.location.reload();
-                                });
-                            }else {
-                                swal("Sorry!", response.msg, "error");
-                            }
-                        }
-                    });
-                }
+                $(parent).hide();
 
-                return false;
+                $(parentOfParent).find('.fullTextReading').removeClass('hide');
 
             });
         });

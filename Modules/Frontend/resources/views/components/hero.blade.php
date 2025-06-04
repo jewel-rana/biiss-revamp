@@ -1,6 +1,6 @@
 <div>
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section class="hero-section mb-5">
         <div class="container py-5">
             <div class="d-flex flex-column align-items-center gap-5">
 

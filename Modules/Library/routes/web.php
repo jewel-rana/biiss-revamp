@@ -29,6 +29,8 @@ Route::group(['prefix' => 'e-resource', 'middleware' => ['auth:web']], function 
     Route::get('/e-journal/{item}', [EResourceController::class, 'show'])->name('e-journal.show');
     Route::get('/e-document', [EResourceController::class, 'eDocument'])->name('e-document');
     Route::get('/e-document/{item}', [EResourceController::class, 'show'])->name('e-document.show');
+    Route::get('/pdf/{library}', [EResourceController::class, 'pdfViewer'])->name('library.pdf');
+    Route::get('/{type}/{library}', [EResourceController::class, 'eBookReader'])->name('library.reader');
 });
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function () {
