@@ -38,6 +38,7 @@
                                     <th>Subject</th>
                                     <th>Articles</th>
                                     <th>Year</th>
+                                    <th style="width: 60px"><i class="fa fa-file-pdf"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -78,6 +79,19 @@
                                         <td>{{ $subjects }}</td>
                                         <td>{{ $articles }}</td>
                                         <td>{{ (int) $book->publication_year }}</td>
+                                        <td>
+                                            @if($book->hasEResource())
+                                                <a href="{{ route('library.reader', [$book->type, $book->id]) }}"
+                                                   target="_blank">
+                                                    <img src="/frontend/images/pdf-svgrepo-com.svg" width="80"
+                                                         height="80" class="img-fluid pdfReaderIcon img-rounded"
+                                                         style="min-width: 40px !important;"
+                                                         title="Read: {{ ucwords($book->title) }}"
+                                                         data-bs-toggle="tooltip" data-bs-placement="top"
+                                                         alt="Read e-{{ ucfirst($book->type) }}">
+                                                </a>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
