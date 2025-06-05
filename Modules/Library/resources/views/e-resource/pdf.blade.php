@@ -94,10 +94,22 @@
             justify-content: center;
             z-index: 10000;
         }
+        .spinner {
+            border: 8px solid #eee;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
-<div id="loading">Loading PDF…</div>
+<div id="loading"><span class="spinner"><i class="fa fa-spinner"></i></span></div>
 <div id="container">
     <div id="sidebar"></div>
     <div id="viewer-container">
@@ -111,7 +123,7 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.min.js"></script>
 <script>
-    const url = "{{ asset($library->file ?? 'storage/pdfs/sample.pdf') }}";
+    const url = "{{ asset($library->file) }}";
     let pdfDoc = null;
     let scale = 1.0;
 
