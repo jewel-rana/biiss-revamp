@@ -2,13 +2,6 @@
 
 @section('header')
     <style>
-        .toolbar {
-            flex: 0 0 auto; /* fixed height */
-            background: #eee;
-            padding: 5px;
-            border-bottom: 1px solid #ccc;
-            z-index: 9999;
-        }
 
         .pdf-container {
             flex: 1 1 auto; /* take remaining space */
@@ -46,12 +39,6 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="toolbar">
-                    <button onclick="zoomIn()">Zoom In</button>
-                    <button onclick="zoomOut()">Zoom Out</button>
-                    <!-- more buttons -->
-                </div>
-
                 <div class="pdf-container">
                     <iframe
                         src="{{ route('library.pdf', $library->id) }}"

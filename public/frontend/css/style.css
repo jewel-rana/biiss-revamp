@@ -30,7 +30,6 @@ body {
 .navbar-brand:img {
   height: 42px;
   width: 75px;
-  object-fit: cover;
   display: block;
   background-position: center;
 }
@@ -69,7 +68,6 @@ body {
 .book-card img {
   height: 300px;
   width: 100%;
-  object-fit: cover;
   display: block;
   background-position: center;
 }
@@ -277,7 +275,7 @@ footer h5 {
 .book-details-image {
   width: 100%;
   height: 400px;
-  object-fit: cover;
+    background-position: center;
 }
 
 .hover-effect {
