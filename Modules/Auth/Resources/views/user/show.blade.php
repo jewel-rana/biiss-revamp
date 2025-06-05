@@ -13,7 +13,7 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs menuTab" id="userTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="info-tab" data-toggle="tab" href="#home" role="tab"
+                        <a class="nav-link active show" id="info-tab" data-toggle="tab" href="#home" role="tab"
                            aria-controls="home" aria-selected="true">Info</a>
                     </li>
                 </ul>

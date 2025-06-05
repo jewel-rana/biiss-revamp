@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Gateways\NotExist;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Modules\Auth\Entities\Otp;
@@ -94,7 +93,7 @@ class CommonHelper
 
     public static function hasPermission(array $permissions): bool
     {
-        $user = request()->user();
+        $user = auth('web')->user();
         return $user->hasRole('admin') || $user->canAny($permissions);
     }
 

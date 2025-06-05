@@ -71,8 +71,8 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a href="{{ url('/') }}" class="dropdown-item">Visit Site</a>
-                    {{-- <a href="{{ url('dashboard/profile') }}" class="dropdown-item">Profile</a> --}}
-                    {{-- <a href="{{ url('dashboard/profile/change-password') }}" class="dropdown-item">Change Password</a> --}}
+                     <a href="{{ route('auth.profile') }}" class="dropdown-item">Profile</a>
+                     <a href="{{ route('auth.change-password') }}" class="dropdown-item">Change Password</a>
                     <div class="dropdown-divider"></div>
                     <form action="{{ route('auth.logout') }}" method="POST">
                         @csrf
