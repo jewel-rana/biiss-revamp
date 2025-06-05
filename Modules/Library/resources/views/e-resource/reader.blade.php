@@ -29,7 +29,7 @@
             <div class="col-md-12">
                 <div class="justify-content-between">
                     <div class="">
-                        <h2 class="fw-bold text-primary">
+                        <h2 class="fw-bold text-primary text-center">
                             {{ $library->title }}
                             @if( $library->volume_number != null )
                                 [{{ $library->volume_number }}]

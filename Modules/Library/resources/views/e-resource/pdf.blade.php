@@ -80,6 +80,10 @@
             display: flex;
             gap: 5px;
             z-index: 9999;
+            font-size: 14px;
+        }
+        #toolbar button{
+            font-size: 20px;
         }
         /* Loader overlay */
         #loading {
@@ -125,7 +129,7 @@
 <script>
     const url = "{{ asset($library->file) }}";
     let pdfDoc = null;
-    let scale = 1.0;
+    let scale = 2.0;
 
     const viewerContainer = document.getElementById('viewer-container');
     const sidebar = document.getElementById('sidebar');
