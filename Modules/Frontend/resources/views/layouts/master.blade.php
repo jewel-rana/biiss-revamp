@@ -46,16 +46,16 @@
             </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="d-flex gap-2">
+                    <a href="#" class="btn btn-outline-primary" style=" color: #5592CB; border-color: #5592CB;">
+                        <i class="fa fa-heart"></i> (0)
+                    </a>
                     @if(auth()->guest())
-                        <a href="#" class="btn btn-outline-primary" style=" color: #5592CB; border-color: #5592CB;">
-                            Wishlist (0)
-                        </a>
 
                         <a href="{{ route('auth.login') }}" class="btn"
                            style="background-color: #5592CB; color: #FFFFFF;">Login</a>
                     @else
                         <a href="{{ route('auth.profile') }}"
-                           class="btn btn-default">Welcome {{ auth()->user()->name }}</a>
+                           class="btn btn-default"><i class="fa fa-user"></i> {{ auth()->user()->name }}</a>
                     @endif
                 </div>
             </div>

@@ -22,4 +22,8 @@ class AuthConstant
     const CUSTOMER_ACTIVE           = 'active';
     const CUSTOMER_INACTIVE           = 'inactive';
     const CUSTOMER_FORGOT_OTP_TYPE  = 'customer.forgot';
+
+    const USER_TYPE_ADMIN           = 'admin';
+
+    const USER_TYPE_MEMBER          = 'member';
 }
