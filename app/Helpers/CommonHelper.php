@@ -15,6 +15,13 @@ use Modules\Voucher\Entities\Voucher;
 
 class CommonHelper
 {
+    public static function isPdf($filePath): bool
+    {
+        $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
+        return $extension === 'pdf';
+    }
+
     public static function getUserIdByMemberID($memberId)
     {
         return User::where('account_id', $memberId)->first()->id ?? null;

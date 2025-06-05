@@ -129,7 +129,7 @@
 <script>
     const url = "{{ asset($library->file) }}";
     let pdfDoc = null;
-    let scale = 2.0;
+    let scale = 1.5;
 
     const viewerContainer = document.getElementById('viewer-container');
     const sidebar = document.getElementById('sidebar');

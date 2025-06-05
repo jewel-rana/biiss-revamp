@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Helpers\CommonHelper;
+use App\Helpers\LogHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -67,7 +69,7 @@ class Library extends Model
 
     public function authors(): HasMany
     {
-    	return $this->hasMany(LibraryAuthor::class, 'item_id', 'id');
+        return $this->hasMany(LibraryAuthor::class, 'item_id', 'id');
     }
 
     public function featured(): HasOne
@@ -82,7 +84,7 @@ class Library extends Model
 
     public function tags(): HasMany
     {
-    	return $this->hasMany(LibraryTag::class, 'item_id', 'id');
+        return $this->hasMany(LibraryTag::class, 'item_id', 'id');
     }
 
     public function copies(): HasMany
@@ -102,25 +104,41 @@ class Library extends Model
 
     public function returns(): HasMany
     {
-    	return $this->hasMany(LibraryIssue::class, 'item_id', 'id');
+        return $this->hasMany(LibraryIssue::class, 'item_id', 'id');
     }
 
     public function getCoverPhotoAttribute($value): string
     {
-        return ( $value != null ) ? asset( $value ) : asset('default/cover/' . strtolower( $this->type ) . '.jpg');
+        return ($value != null) ? asset($value) : asset('default/cover/' . strtolower($this->type) . '.jpg');
+    }
+
+    public function hasEResource(): bool
+    {
+        $hasPdf = false;
+        try {
+            if ($this->file) {
+                $hasPdf = CommonHelper::isPdf($this->file);
+            }
+        } catch (\Throwable $th) {
+            LogHelper::error($th, [
+                'keyword' => 'HAS_E_RESOURCE_EXCEPTION',
+            ]);
+        }
+
+        return $hasPdf;
     }
 
     protected static function boot(): void
     {
         parent::boot();
 
-        static::deleting(function($library) {
+        static::deleting(function ($library) {
             // before delete() method call this
 
             //delete all copies from stock
             $library->copies()->delete();
             //delete all tags / subjects
-             $library->tags()->delete();
+            $library->tags()->delete();
 
             //delete authors
             $library->authors()->delete();

@@ -39,7 +39,7 @@
                             {{--                            <span class="fw-semibold">Author Name</span>--}}
                         </h5>
                     </div>
-                    @if($book->file)
+                    @if($book->hasEResource())
                         <a href="{{ route('library.reader', [$book->type, $book->id]) }}"
                            class="hover-effect p-2 rounded">
                             <img src="/frontend/images/pdf-svgrepo-com.svg" width="80" height="80" class="img-fluid"

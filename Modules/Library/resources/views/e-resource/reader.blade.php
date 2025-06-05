@@ -39,13 +39,15 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="pdf-container">
-                    <iframe
-                        src="{{ route('library.pdf', $library->id) }}"
-                        width="100%"
-                        style="overflow: auto;">
-                    </iframe>
-                </div>
+                @if(auth()->check())
+                    <div class="pdf-container">
+                        <iframe
+                            src="{{ route('library.pdf', $library->id) }}"
+                            width="100%"
+                            style="overflow: auto;">
+                        </iframe>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -56,6 +58,7 @@
 @section('footer')
     <script>
         let scale = 1.5;
+
         function zoomIn() {
             scale += 0.2;
             renderPage(pageNum);

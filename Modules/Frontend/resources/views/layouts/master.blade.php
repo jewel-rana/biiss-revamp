@@ -23,6 +23,7 @@
     <!-- owl-carousel-css-link -->
     <link rel="stylesheet" href="/frontend/owlcarousel/owl.carousel.min.css">
     <link rel="stylesheet" href="/frontend/owlcarousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/frontend/css/custom.css">
 
     @yield('header')
 </head>
@@ -84,14 +85,14 @@
                 <div class="col-lg-3 mb-4">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled mb-2">
-                        <li class="mb-2"><a href="#">Home</a></li>
-                        <li class="mb-2"><a href="#">New Books</a></li>
-                        <li class="mb-2"><a href="#">Books</a></li>
-                        <li class="mb-2"><a href="#">Journals</a></li>
-                        <li class="mb-2"><a href="#">Magazines</a></li>
-                        <li class="mb-2"><a href="#">Documents</a></li>
-                        <li class="mb-2"><a href="#">Seminar Proceeding</a></li>
-                        <li class="mb-2"><a href="#">Contact</a></li>
+                        <li class="mb-2"><a href="/">Home</a></li>
+                        <li class="mb-2"><a href="{{ route('front.newBooks') }}">New Books</a></li>
+                        <li class="mb-2"><a href="{{ route('front.allBooks') }}">Books</a></li>
+                        <li class="mb-2"><a href="{{ route('front.journals') }}">Journals</a></li>
+                        <li class="mb-2"><a href="{{ route('front.magazines') }}">Magazines</a></li>
+                        <li class="mb-2"><a href="{{ route('front.documents') }}">Documents</a></li>
+                        <li class="mb-2"><a href="{{ route('front.seminars') }}">Seminar Proceeding</a></li>
+                        <li class="mb-2"><a href="/contact">Contact</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 mb-4">

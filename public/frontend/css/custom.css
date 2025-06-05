@@ -1,0 +1,10 @@
+.pdfReaderIcon {
+    min-width: 40px !important;
+    border: 1px solid #CCC;
+    padding: 5px;
+    background: #fff;
+}
+.pdfReaderIcon:hover {
+    border: 1px solid #AFBAFB;
+    background: #dee4ff;
+}
