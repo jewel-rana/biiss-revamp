@@ -25,7 +25,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
         $middleware->trustHosts(at: explode(',', env('TRUSTED_HOSTS', 'localhost')));
         $middleware->redirectGuestsTo(fn(Request $request) => route('auth.login'));
-        $middleware->redirectTo(fn(Request $request) => route('dashboard'));
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,

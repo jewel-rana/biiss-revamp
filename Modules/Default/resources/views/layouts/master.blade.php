@@ -74,7 +74,15 @@
                     {{-- <a href="{{ url('dashboard/profile') }}" class="dropdown-item">Profile</a> --}}
                     {{-- <a href="{{ url('dashboard/profile/change-password') }}" class="dropdown-item">Change Password</a> --}}
                     <div class="dropdown-divider"></div>
-                    <a href="{{ url('logout') }}" class="dropdown-item">Log Out</a>
+                    <form action="{{ route('auth.logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-default btn-block dropdown-item"
+                        style="border-radius: initial; background: none; color: darkred"
+                        >
+                            <i class="fa fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </form>
                 </div>
             </li>
         </ul>
