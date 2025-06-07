@@ -16,7 +16,8 @@ class StoreMemberRequest extends FormRequest
             'address' => 'bail|nullable|string',
             'password' => ['bail', 'required', 'min:6', 'required_with:password_confirm', new StrongPasswordRule()],
             'password_confirm' => 'bail|required|same:password',
-            'avatar' => 'bail|nullable|file|mimes:jpeg,jpg,png,gif|max:2000'
+            'avatar' => 'bail|nullable|file|mimes:jpeg,jpg,png,gif|max:2000',
+            'contact_number' => 'bail|nullable|string',
         ];
     }
 

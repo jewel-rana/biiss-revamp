@@ -109,7 +109,18 @@ class Library extends Model
 
     public function getCoverPhotoAttribute($value): string
     {
-        return ($value != null) ? asset($value) : asset('default/cover/' . strtolower($this->type) . '.jpg');
+        $photo = 'default/cover/' . strtolower($this->type) . '.jpg';
+        try {
+            $path = storage_path('app/public/' . $value);
+            if ($value && file_exists($path)) {
+                $photo = 'storage/' . $value;
+            }
+        } catch (\Exception $exception) {
+            LogHelper::error($exception, [
+                'keyword' => 'COVER PHOTO',
+            ]);
+        }
+        return asset($photo);
     }
 
     public function hasEResource(): bool

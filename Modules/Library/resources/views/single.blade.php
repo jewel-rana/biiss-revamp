@@ -16,12 +16,7 @@
             <div class="media">
                 <div class="media-left">
                     <a href="#">
-                        <?php
-                        if( $item->cover_photo == !null){  ?>
-                             <img class="media-object img-thumbnail" src="{{ asset( $item->cover_photo ) }}" style="width:350px">
-                        <?php } else { ?>
-                              <img class="media-object img-thumbnail" src="{{ asset('default/cover/' . strtolower( $item->type ) . '.jpg' ) }}" style="width: 100%">
-                        <?php }?>
+                        <img class="media-object img-thumbnail" src="{{ $item->cover_photo }}" style="width:350px">
                     </a>
                     @if( $item->file == !null )
                     <div>

@@ -40,7 +40,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
                                     </div>
-                                    <input type="text" name="account_id" placeholder="Account Number" class="form-control" required>
+                                    <input type="text" value="{{ old('account_id') }}" name="account_id" placeholder="Account Number" class="form-control" required>
                                 </div>
                             </div>
 
@@ -50,7 +50,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
                                     </div>
-                                    <input type="text" name="name" placeholder="Name" class="form-control" required>
+                                    <input type="text" value="{{ old('name') }}" name="name" placeholder="Name" class="form-control" required>
                                 </div>
                             </div>
 
@@ -60,7 +60,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                                     </div>
-                                    <input type="email" name="email" placeholder="Email" class="form-control" required>
+                                    <input type="email" value="{{ old('email') }}" name="email" placeholder="Email" class="form-control" required>
                                 </div>
                             </div>
 
@@ -80,7 +80,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-key"></i></span>
                                     </div>
-                                    <input type="password" name="confirm-password" placeholder="Confirm Password" class="form-control">
+                                    <input type="password" name="password_confirm" placeholder="Confirm Password" class="form-control">
                                 </div>
                             </div>
 
@@ -90,7 +90,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-phone"></i></span>
                                     </div>
-                                    <input type="text" name="contact_number" placeholder="Contact number" class="form-control" required>
+                                    <input type="text" value="{{ old('contact_number') }}" name="contact_number" placeholder="Contact number" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
                                     </div>
-                                    <textarea name="address" placeholder="Address" rows="6" class="form-control"></textarea>
+                                    <textarea name="address" placeholder="Address" rows="6" class="form-control">{{ old('address') }}</textarea>
                                 </div>
                             </div>
 

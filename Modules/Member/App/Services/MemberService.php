@@ -25,6 +25,18 @@ class MemberService
     {
         try {
             DB::transaction(function () use ($data) {
+
+                if (request()->hasFile('avatar')) {
+                    $profile_image = request()->file('avatar');
+                    $upload = 'uploads/profile';
+
+                    $extension = $profile_image->getClientOriginalExtension();
+                    $profile_image_name = time() . "." . $extension;
+                    $success = $profile_image->move($upload, $profile_image_name);
+
+                    $data['avatar'] = $profile_image_name;
+                }
+
                 $this->memberRepository->create($data +
                     [
                         'type' => AuthConstant::USER_TYPE_MEMBER
@@ -43,6 +55,17 @@ class MemberService
     {
         try {
             DB::transaction(function () use ($data, $id) {
+                if (request()->hasFile('avatar')) {
+                    $profile_image = request()->file('avatar');
+                    $upload = 'uploads/profile';
+
+                    $extension = $profile_image->getClientOriginalExtension();
+                    $profile_image_name = time() . "." . $extension;
+                    $success = $profile_image->move($upload, $profile_image_name);
+
+                    $data['avatar'] = $profile_image_name;
+                }
+
                 $this->memberRepository->update(array_filter($data), $id);
             });
             return redirect()->route('member.index')->with(['status' => true, 'message' => 'Member successfully updated']);

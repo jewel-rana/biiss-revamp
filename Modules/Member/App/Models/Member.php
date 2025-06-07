@@ -49,7 +49,7 @@ class Member extends Model
 
     public function getAvatarAttribute($value): string
     {
-        return $value ? asset('uploads/profile/' . $value) : asset('default/avatar.png');
+        return $value ? asset('storage/uploads/profile/' . $value) : asset('default/avatar.png');
     }
 
     public function scopeFilter($query, $request)
