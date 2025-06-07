@@ -54,8 +54,33 @@
                         <a href="{{ route('auth.login') }}" class="btn"
                            style="background-color: #5592CB; color: #FFFFFF;">Login</a>
                     @else
-                        <a href="{{ route('auth.profile') }}"
-                           class="btn btn-default"><i class="fa fa-user"></i> {{ auth()->user()->name }}</a>
+                        <!-- Profile Dropdown -->
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle d-flex align-items-center profileButton" type="button"
+                                    id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle me-2"></i> <!-- Bootstrap Icons user icon -->
+                                <span>{{ ucwords(auth()->user()->name ?? '') }}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                <li><a class="dropdown-item" href="{{ route('auth.profile') }}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('auth.change-password') }}">Change
+                                        Password</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <form action="{{ route('auth.logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-default btn-block dropdown-item"
+                                                style="border-radius: initial; background: none; color: darkred"
+                                        >
+                                            <i class="fa fa-sign-out-alt"></i>
+                                            <span>Logout</span>
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
                     @endif
                 </div>
             </div>

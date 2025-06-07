@@ -11,5 +11,6 @@
     "Category": true,
     "Stock": true,
     "Season": true,
-    "Member": true
+    "Member": true,
+    "Setting": true
 }

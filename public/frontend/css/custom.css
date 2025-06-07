@@ -8,3 +8,8 @@
     border: 1px solid #AFBAFB;
     background: #dee4ff;
 }
+.profileButton {
+    background: none;
+    border: none;
+    color: #1060DD;
+}

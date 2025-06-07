@@ -133,6 +133,12 @@
                                   </button>
                                 </span>
         </div>
-        <div class="imgPreview"></div>
+        <div class="imgPreview">
+            @if( $library->hasEResource() )
+                <a href="{{ route('library.reader', [$library->type, $library->id] ) }}">
+                    <i class="fa fa-file"></i> View e-book
+                </a>
+            @endif
+        </div>
     </div>
 </fieldset>

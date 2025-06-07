@@ -5,62 +5,67 @@ namespace Modules\Member\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Modules\Auth\Constants\AuthConstant;
+use Modules\Auth\Entities\User;
+use Modules\Member\App\Http\Requests\StoreMemberRequest;
+use Modules\Member\App\Http\Requests\UpdateMemberRequest;
+use Modules\Member\App\Models\Member;
+use Modules\Member\App\Services\MemberService;
 
 class MemberController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    private MemberService $memberService;
+
+    public function __construct(MemberService $memberService)
     {
-        return view('member::index');
+        $this->memberService = $memberService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function index(Request $request)
+    {
+        $search = trim($request->input('search'));
+        $query = Member::with('issuedBooks')
+            ->withCount('issuedBooks')
+            ->where('type', AuthConstant::USER_TYPE_MEMBER);
+        if (isset($_GET['search'])) :
+            $query->where('name', 'like', '%' . $search . '%');
+            $query->orWhere('email', 'like', '%' . $search . '%');
+            $query->orWhere('contact_number', 'like', '%' . $search . '%');
+            $query->orWhere('address', 'like', '%' . $search . '%');
+        endif;
+        $members = $query->orderBy('id', 'DESC')->paginate(10);
+
+        $title = 'All Members';
+        return view('member::index', compact('members', 'title'));
+    }
+
     public function create()
     {
         return view('member::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreMemberRequest $request): RedirectResponse
     {
-        //
+        return $this->memberService->create($request->validated());
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function show(Member $member)
     {
-        return view('member::show');
+        return view('member::show', compact('member'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function edit(Member $member)
     {
-        return view('member::edit');
+        return view('member::edit', compact('member'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(UpdateMemberRequest $request, $id): RedirectResponse
     {
-        //
+        return $this->memberService->update($request->validated(), $id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    public function destroy(Member $member)
     {
         //
     }

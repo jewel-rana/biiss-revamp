@@ -4,6 +4,8 @@ namespace Modules\Member\App\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Member\App\Repositories\MemberRepository;
+use Modules\Member\App\Repositories\MemberRepositoryInterface;
 
 class MemberServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,7 @@ class MemberServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind(MemberRepositoryInterface::class, MemberRepository::class);
     }
 
     /**

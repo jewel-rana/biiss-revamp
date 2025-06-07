@@ -1,7 +1,8 @@
 <fieldset class="col-md-4">
     <div class="form-group">
         <label>Title</label>
-        <input type="text" class="form-control" name="title" value="{{ $library->title }}" placeholder="Title / Name" required>
+        <input type="text" class="form-control" name="title" value="{{ $library->title }}" placeholder="Title / Name"
+               required>
     </div>
 
     <div class="form-group">
@@ -22,17 +23,20 @@
 
     <div class="form-group">
         <label>Volume</label>
-        <input class="form-control" name="volume" type="text" value="{{ $library->volume_number }}" placeholder="Volume">
+        <input class="form-control" name="volume" type="text" value="{{ $library->volume_number }}"
+               placeholder="Volume">
     </div>
 
     <div class="form-group">
         <label>Number</label>
-        <input type="text" name="item_number" class="form-control" value="{{ $library->item_number }}" placeholder="Number">
+        <input type="text" name="item_number" class="form-control" value="{{ $library->item_number }}"
+               placeholder="Number">
     </div>
 
     <div class="form-group">
         <label>Month</label>
-        <input type="text" class="form-control" name="month_of_publish" value="{{ $library->month_of_publish }}" placeholder="Month of Publish">
+        <input type="text" class="form-control" name="month_of_publish" value="{{ $library->month_of_publish }}"
+               placeholder="Month of Publish">
     </div>
 
     <div class="form-group">
@@ -47,7 +51,8 @@
 
     <div class="form-group">
         <label>Year of Publication</label>
-        <input type="text" name="publication_year" placeholder="Publication Year" value="{{ $library->publication_year }}" class="form-control">
+        <input type="text" name="publication_year" placeholder="Publication Year"
+               value="{{ $library->publication_year }}" class="form-control">
     </div>
 </fieldset>
 
@@ -112,6 +117,12 @@
                                   </button>
                                 </span>
         </div>
-        <div class="imgPreview"></div>
+        <div class="imgPreview">
+            @if( $library->hasEResource() )
+                <a href="{{ route('library.reader', [$library->type, $library->id] ) }}">
+                    <i class="fa fa-file"></i> View e-book
+                </a>
+            @endif
+        </div>
     </div>
 </fieldset>

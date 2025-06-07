@@ -1,7 +1,8 @@
 <fieldset class="col-md-4">
     <div class="form-group">
         <label>Title</label>
-        <input type="text" name="title" class="form-control" placeholder="Title / Name" required value="{{ $library->title }}">
+        <input type="text" name="title" class="form-control" placeholder="Title / Name" required
+               value="{{ $library->title }}">
         <input type="hidden" name="id" value="{{ $library->id }}">
         <input type="hidden" name="type" value="{{ $type }}">
     </div>
@@ -10,14 +11,18 @@
         <div class="row">
             <div class="col-md-6">
                 <label>Author Mark</label>
-                <input type="text" name="authormark" class="form-control" placeholder="Authormark" value="{{ $library->authormark }}">
+                <input type="text" name="authormark" class="form-control" placeholder="Authormark"
+                       value="{{ $library->authormark }}">
             </div>
             <div class="col-md-6">
                 <label>Author Status</label>
                 <select name="author_type" class="selectpicker form-control" id="selectbasic">
                     <option value="">Select Author Status</option>
                     <option value="author" {{ $library->author_status == 'author' ? 'selected' : '' }}>Author</option>
-                    <option value="Corporate Author" {{ $library->author_status == 'Corporate Author' ? 'selected' : '' }}>Corporate Author</option>
+                    <option
+                        value="Corporate Author" {{ $library->author_status == 'Corporate Author' ? 'selected' : '' }}>
+                        Corporate Author
+                    </option>
                     <option value="Editor" {{ $library->author_status == 'Editor' ? 'selected' : '' }}>Editor</option>
                     <option value="Others" {{ $library->author_status == 'Others' ? 'selected' : '' }}>Others</option>
                 </select>
@@ -29,11 +34,13 @@
         <div class="row mt-3">
             <div class="col-md-6">
                 <label>Call No.</label>
-                <input type="text" name="call_number" class="form-control" placeholder="CallNO" value="{{ $library->call_number }}">
+                <input type="text" name="call_number" class="form-control" placeholder="CallNO"
+                       value="{{ $library->call_number }}">
             </div>
             <div class="col-md-6">
                 <label>ACCNO</label>
-                <input type="text" name="acc_number" class="form-control" placeholder="ACCNO" value="{{ $library->acc_number }}">
+                <input type="text" name="acc_number" class="form-control" placeholder="ACCNO"
+                       value="{{ $library->acc_number }}">
             </div>
         </div>
     </div>
@@ -48,7 +55,8 @@
             </div>
             <div class="col-md-6">
                 <label>Year of Publication</label>
-                <input type="text" name="publication_year" class="form-control" value="{{ $library->publication_year }}">
+                <input type="text" name="publication_year" class="form-control"
+                       value="{{ $library->publication_year }}">
             </div>
         </div>
 
@@ -123,6 +131,7 @@
             @foreach( $library->tags as $key => $tag )
                 <option selected="selected">{{ $tag->categories }}</option>
 
+
             @endforeach
         @endif
         </select>
@@ -180,8 +189,10 @@
                               </span>
                 </div>
                 <div class="imgPreview">
-                    @if( $library->file )
-                        <a href="{{ asset( $library->file ) }}"><i class="fa fa-file"></i> View e-book</a>
+                    @if( $library->hasEResource() )
+                        <a href="{{ route('library.reader', [$library->type, $library->id] ) }}">
+                            <i class="fa fa-file"></i> View e-book
+                        </a>
                     @endif
                 </div>
             </div>

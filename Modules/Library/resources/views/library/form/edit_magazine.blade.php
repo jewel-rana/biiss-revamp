@@ -122,8 +122,10 @@
                                 </span>
         </div>
         <div class="imgPreview">
-            @if( $library->file )
-                <a href="{{ asset( $library->file ) }}"><i class="fa fa-file"></i> View e-book</a>
+            @if( $library->hasEResource() )
+                <a href="{{ route('library.reader', [$library->type, $library->id] ) }}">
+                    <i class="fa fa-file"></i> View e-book
+                </a>
             @endif
         </div>
     </div>

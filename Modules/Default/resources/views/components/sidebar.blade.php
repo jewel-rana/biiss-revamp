@@ -224,9 +224,9 @@
 
                             @if(\App\Helpers\CommonHelper::hasPermission(['role-list', 'role-create', 'role-update', 'role-action']))
                                 <li class="@if(in_array( Request::segment(2), array('administrator')) ) active  @endif">
-                                    <a href="{{ route('member.index') }}">
+                                    <a href="{{ route('user.index') }}">
                                         <i class="fa fa-user-astronaut"></i>
-                                        Administrators
+                                        Users
                                     </a>
                                 </li>
                             @endif
@@ -244,8 +244,8 @@
                 @endif
 
                 @if(\App\Helpers\CommonHelper::hasPermission(['setting-list', 'setting-create', 'setting-update', 'setting-action']))
-                    <li class="@if(in_array( Request::segment(2), array('return')) ) active  @endif">
-                        <a href="{{ route('return.index') }}">
+                    <li class="@if(in_array( Request::segment(2), array('setting')) ) active  @endif">
+                        <a href="{{ route('setting.index') }}">
                             <i class="fa fa-cogs"></i>
                             <span>Settings</span>
                         </a>

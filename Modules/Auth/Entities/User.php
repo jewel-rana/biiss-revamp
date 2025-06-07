@@ -3,11 +3,14 @@
 namespace Modules\Auth\Entities;
 
 use App\Helpers\CommonHelper;
-use App\Models\UserAccessBlock;
+use App\Models\Library;
+use App\Models\LibraryIssue;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Modules\Activity\App\Traits\ActivityTrait;
+use Modules\Auth\App\Models\UserAccessBlock;
 use Modules\Auth\Constants\AuthConstant;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -24,6 +27,11 @@ class User extends \App\Models\User
     public function getDescriptionForEvent(string $eventName): string
     {
         return "User {$eventName}";
+    }
+
+    public function issuedBooks(): HasManyThrough
+    {
+        return $this->hasManyThrough(Library::class,  LibraryIssue::class, 'item_id', 'id', 'id');
     }
 
     public function userAccessBlock(): HasMany

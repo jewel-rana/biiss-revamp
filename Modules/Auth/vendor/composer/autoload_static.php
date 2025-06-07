@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInita937123613c66ac373f94ade35de9d79
 {
     public static $prefixLengthsPsr4 = array (
-        'M' => 
+        'M' =>
         array (
             'Modules\\Auth\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Modules\\Auth\\' => 
+        'Modules\\Auth\\' =>
         array (
             0 => __DIR__ . '/../..' . '/',
         ),
@@ -85,8 +85,8 @@ class ComposerStaticInita937123613c66ac373f94ade35de9d79
         'Modules\\Auth\\Observers\\RoleObserver' => __DIR__ . '/../..' . '/Observers/RoleObserver.php',
         'Modules\\Auth\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/Providers/AuthServiceProvider.php',
         'Modules\\Auth\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/Providers/RouteServiceProvider.php',
-        'Modules\\Auth\\Repositories\\UserRepository' => __DIR__ . '/../..' . '/Repositories/UserRepository.php',
-        'Modules\\Auth\\Repositories\\UserRepositoryInterface' => __DIR__ . '/../..' . '/Repositories/UserRepositoryInterface.php',
+        'Modules\\Auth\\Repositories\\MemberRepository' => __DIR__ . '/../..' . '/Repositories/UserRepository.php',
+        'Modules\\Auth\\Repositories\\MemberRepositoryInterface' => __DIR__ . '/../..' . '/Repositories/UserRepositoryInterface.php',
         'Modules\\Auth\\Rules\\StrongPasswordRule' => __DIR__ . '/../..' . '/Rules/StrongPasswordRule.php',
         'Modules\\Auth\\Rules\\UserForgotPasswordRule' => __DIR__ . '/../..' . '/Rules/UserForgotPasswordRule.php',
         'Modules\\Auth\\Rules\\UserResetPasswordRule' => __DIR__ . '/../..' . '/Rules/UserResetPasswordRule.php',
