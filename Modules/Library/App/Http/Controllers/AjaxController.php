@@ -811,14 +811,14 @@ class AjaxController extends Controller
         $library->qr_string_unique = time() + mt_rand(100000, 999999);
         $library->cover_photo = ($request->cover_photo) ? $request->cover_photo : null;
         $library->file = ($request->file) ? $request->file : null;
-        $library->has_e_resource = ($request->file) ? true  : false;
-        $library->e_resource_only = ($request->filled('e_resource_only')) ? true : false;
+        $library->has_e_resource = $request->filled('file');
+        $library->e_resource_only = $request->filled('e_resource_only');
         $ok = $library->save();
 
         if ($ok) :
 
             //Add copies to library_stocks table
-            if ($library->copy_number) :
+            if ($library->copy_number && !$request->filled('e_resource_only')) :
                 for ($i = 1; $i <= $library->copy_number; $i++) :
                     $copynumber = 'C-' . $i . '-' . $library->qr_string_unique;
                     $stock = LibraryStock::firstOrNew(['item_id' => $library->id, 'copy_number' => $copynumber]);
@@ -902,6 +902,7 @@ class AjaxController extends Controller
         $library->source = ($request->source) ? $request->source : null;
         $library->cover_photo = ($request->cover_photo) ? $request->cover_photo : $library->cover_photo;
         $library->file = ($request->file) ? $request->file : $library->file;
+        $library->e_resource_only = $request->filled('e_resource_only');
 
         $ok = $library->save();
 
