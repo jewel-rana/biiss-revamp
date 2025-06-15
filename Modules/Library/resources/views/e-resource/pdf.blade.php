@@ -127,7 +127,7 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.min.js"></script>
 <script>
-    const url = "{{ asset($library->file) }}";
+    const url = "{{ asset('storage/' . $library->file) }}";
     let pdfDoc = null;
     let scale = 1.5;
 
