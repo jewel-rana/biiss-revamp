@@ -118,8 +118,8 @@
     <div id="sidebar"></div>
     <div id="viewer-container">
         <div id="toolbar">
-            <button onclick="zoomOut()">-</button>
-            <button onclick="zoomIn()">+</button>
+{{--            <button onclick="zoomOut()">-</button>--}}
+{{--            <button onclick="zoomIn()">+</button>--}}
             <input type="number" id="page-number" min="1" placeholder="Page #">
             <button onclick="goToPage()">Go</button>
         </div>
@@ -129,7 +129,7 @@
 <script>
     const url = "{{ asset('storage/' . $library->file) }}";
     let pdfDoc = null;
-    let scale = 1.5;
+    let scale = 2.0;
 
     const viewerContainer = document.getElementById('viewer-container');
     const sidebar = document.getElementById('sidebar');
@@ -210,14 +210,35 @@
         }
     }
 
+    function rerenderVisiblePages() {
+        const visiblePages = viewerContainer.querySelectorAll('.page-container');
+        visiblePages.forEach((container, index) => {
+            const rect = container.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                const canvas = container.querySelector('canvas');
+                const pageNum = parseInt(container.querySelector('.page-number-label').textContent);
+
+                pdfDoc.getPage(pageNum).then(page => {
+                    const viewport = page.getViewport({ scale });
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    const context = canvas.getContext('2d');
+                    page.render({ canvasContext: context, viewport });
+                });
+            }
+        });
+    }
+
     function zoomIn() {
         scale += 0.1;
-        renderAllPages();
+        rerenderVisiblePages();
     }
+
     function zoomOut() {
         scale = Math.max(0.1, scale - 0.1);
-        renderAllPages();
+        rerenderVisiblePages();
     }
+
     function goToPage() {
         const pageNum = parseInt(document.getElementById('page-number').value);
         if (pageNum >= 1 && pageNum <= pdfDoc.numPages) {
