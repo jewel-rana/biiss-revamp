@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Modules\Library\App\Http\Controllers\AjaxController;
@@ -43,33 +42,30 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function (
     Route::group(['prefix' => 'library'], function () {
         //messaging routes group
         Route::group(['prefix' => 'message', 'middleware' => ['auth:web']], function () {
-            Route::get('reply/{message}', 'Dashboard\MessageController@edit')->name('message.reply');
-            Route::post('reply/{message}', 'Dashboard\MessageController@edit')->name('message.replied');
+            Route::get('reply/{message}', 'MessageController@edit')->name('message.reply');
+            Route::post('reply/{message}', 'MessageController@edit')->name('message.replied');
         });
         Route::resource('message', MessageController::class);
 
-        Route::get('search', [BookController::class, 'search'])->name('book.search');
-        Route::post('create-book', ['as' => 'book.store', 'uses' => 'BooksController@store']);
+        Route::get('search', [LibraryController::class, 'search'])->name('book.search');
 
-        Route::post('create-seminar', [BookController::class, 'createSeminar']);
-        Route::post('create-journal', [BookController::class, 'createJournal']);
         Route::get('clone/{library}', [LibraryController::class, 'clone'])->name('library.clone');
 
-        Route::post('print-qr', 'BookController@printqr')->name('library.print.qr');
+        Route::post('print-qr', 'LibraryController@printqr')->name('library.print.qr');
 
             //search items
-            Route::get('search', [BookController::class, 'index'])->name('library.search');
+            Route::get('search', [LibraryController::class, 'index'])->name('library.search');
 
         //Stock
         Route::group(['prefix' => 'stock', 'middleware' => ['auth']], function () {
-            Route::get('/', ['as' => 'dashboard.stock.index', 'uses' => 'Dashboard\StockController@index', 'middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
-            Route::get('add/{id}', ['as' => 'book.search', 'uses' => 'Dashboard\StockController@search', 'middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
-            Route::get('delete/{id}', ['as' => 'book.search', 'uses' => 'Dashboard\StockController@search', 'middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
+            Route::get('/', ['as' => 'dashboard.stock.index', 'uses' => 'StockController@index', 'middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
+            Route::get('add/{id}', ['as' => 'book.search', 'uses' => 'StockController@search', 'middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
+            Route::get('delete/{id}', ['as' => 'book.search', 'uses' => 'StockController@search', 'middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
         });
 
         //book ret
-        Route::get('myform/ajax/{id}', array('as' => 'myform.ajax', 'uses' => 'Dashboard\ReturnController@myformAjax'));
-        Route::get('myformQr/ajax/{id}', array('as' => 'myformQr.ajax', 'uses' => 'Dashboard\ReturnController@myformAjaxQr'));
+        Route::get('myform/ajax/{id}', array('as' => 'myform.ajax', 'uses' => 'ReturnController@myformAjax'));
+        Route::get('myformQr/ajax/{id}', array('as' => 'myformQr.ajax', 'uses' => 'ReturnController@myformAjaxQr'));
         Route::get('suggestions', [LibraryController::class, 'suggestions'])->name('library.suggestions');
         Route::resource('return', ReturnController::class);
     });
