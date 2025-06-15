@@ -604,7 +604,7 @@ class AjaxController extends Controller
     public function memberSuggestion(Request $request): JsonResponse
     {
         $term = $request->term;
-        $query = User::where(function($query) use($term) {
+        $query = User::where(function ($query) use ($term) {
             $query->where('name', 'like', '%' . $term . '%');
             $query->orWhere('email', 'like', '%' . $term . '%');
         });
@@ -984,6 +984,8 @@ class AjaxController extends Controller
 
     public function jqupload(Request $request)
     {
+        ini_set('upload_max_filesize', '500M');
+        ini_set('post_max_size', '500M');
         //validation rules
         $validator = Validator::make($request->all(), [
             'uploadfile' => 'required|mimes:jpeg,bmp,png,pdf,txt,doc,docx|max:512000',
