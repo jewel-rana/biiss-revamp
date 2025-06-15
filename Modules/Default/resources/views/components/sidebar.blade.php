@@ -8,13 +8,7 @@
                 <a href="javascript:;" data-toggle="nav-profile">
                     <div class="cover with-shadow"></div>
                     <div class="image">
-                        <?php
-
-                        use Modules\Auth\Constants\AuthConstant;
-
-                        $photo = (auth()->check() && auth()->user()->avatar != null) ? asset('uploads/profile/' . auth()->user()->avatar) : asset('default/avatar.png');
-                        ?>
-                        <img src="{{ $photo }}" alt=""/>
+                        <img src="{{ auth()->user()->avatar ?? '' }}" alt=""/>
                     </div>
                     <div class="info">
                         <b class="caret pull-right"></b>
@@ -39,11 +33,11 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-            @if(auth()->user()->type == AuthConstant::USER_TYPE_MEMBER)
+            @if(auth()->user()->type == \Modules\Auth\Constants\AuthConstant::USER_TYPE_MEMBER)
 
             @endif
 
-            @if(auth()->user()->type == AuthConstant::USER_TYPE_ADMIN)
+            @if(auth()->user()->type == \Modules\Auth\Constants\AuthConstant::USER_TYPE_ADMIN)
                 @if(\App\Helpers\CommonHelper::hasPermission(['library-list', 'library-create', 'library-update', 'library-action']))
                     <li class="has-sub @if(in_array( Request::segment(2), array('library')) ) active expand @endif">
                         <a href="javascript:;">

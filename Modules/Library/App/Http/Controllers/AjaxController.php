@@ -811,7 +811,8 @@ class AjaxController extends Controller
         $library->qr_string_unique = time() + mt_rand(100000, 999999);
         $library->cover_photo = ($request->cover_photo) ? $request->cover_photo : null;
         $library->file = ($request->file) ? $request->file : null;
-
+        $library->has_e_resource = ($request->file) ? true  : false;
+        $library->e_resource_only = ($request->filled('e_resource_only')) ? true : false;
         $ok = $library->save();
 
         if ($ok) :
@@ -984,7 +985,7 @@ class AjaxController extends Controller
     {
         //validation rules
         $validator = Validator::make($request->all(), [
-            'uploadfile' => 'required|mimes:jpeg,bmp,png,pdf,txt,doc,docx|max:25000',
+            'uploadfile' => 'required|mimes:jpeg,bmp,png,pdf,txt,doc,docx|max:512000',
         ]);
 
         //validation fails
@@ -995,9 +996,9 @@ class AjaxController extends Controller
         $file = $request->file('uploadfile');
 
         $filename = $request->file('uploadfile')->store('uploads/libraries');
-        $extention = $file->getClientOriginalExtension();
-        $type = (in_array($extention, array('pdf', 'txt', 'doc', 'docs', 'odt', 'xls', 'csv', 'sql'))) ? 'file' : 'image';
+        $extension = $file->getClientOriginalExtension();
+        $type = (in_array($extension, array('pdf', 'txt', 'doc', 'docs', 'odt', 'xls', 'csv', 'sql'))) ? 'file' : 'image';
 
-        return response()->json(['success' => true, 'filename' => $filename, 'filelink' => asset($filename), 'ext' => $extention, 'type' => $type]);
+        return response()->json(['success' => true, 'filename' => $filename, 'filelink' => asset($filename), 'ext' => $extension, 'type' => $type]);
     }
 }

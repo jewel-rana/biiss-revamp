@@ -141,4 +141,9 @@
             @endif
         </div>
     </div>
+
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="e_resource_only" name="e_resource_only" value="1" @if(old('e_resource_only', $library->e_resource_only)) checked @endif>
+        <label class="form-check-label" for="e_resource_only">E-Resource only?</label>
+    </div>
 </fieldset>

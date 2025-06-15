@@ -41,6 +41,11 @@ class User extends \App\Models\User
             ->where('is_blocked', true);
     }
 
+    public function getAvatarAttribute($value): string
+    {
+        return $value ? asset('storage/uploads/profile/' . $value) : asset('default/avatar.png');
+    }
+
     public function getNiceStatusAttribute()
     {
         return config('auth.user.statuses')[$this->status] ?? 'N/A';
@@ -53,14 +58,16 @@ class User extends \App\Models\User
 
     public function scopeFilter($query, $request)
     {
+        $query->where('type', AuthConstant::USER_TYPE_ADMIN);
+
+        if ($request->filled('status') && in_array($request->input('status'), ['active', 'inactive', 'pending'])) {
+            $query->where('status', $request->input('status'));
+        }
+
         if ($request->filled('role_id')) {
             $query->whereHas('roles', function($q) use ($request){
                 $q->where('roles.id', $request->input('role_id'));
             });
-        }
-
-        if ($request->filled('status') && in_array($request->input('status'), ['active', 'inactive', 'pending'])) {
-            $query->where('status', $request->input('status'));
         }
 
         if ($request->filled('keyword')) {

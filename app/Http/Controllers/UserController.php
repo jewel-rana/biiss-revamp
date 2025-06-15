@@ -4,24 +4,11 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\User;
-use App\Employee;
-use Auth;
-use App\Country;
-use App\Role;
-use DB;
-use Hash;
-use App\BookIssue;
+use Modules\Auth\Entities\Role;
+use Modules\Auth\Entities\User;
 
 class UserController extends Controller
 {
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
 
@@ -40,33 +27,15 @@ class UserController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-
-
-
         $roles = Role::pluck('display_name','id');
         $title = 'Add new member';
-
-
         return view('users.create',compact('roles', 'title'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-
-
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -235,6 +204,6 @@ class UserController extends Controller
             return redirect()->route('users.index')
                 ->with('error','Cannot delete user.');
         }
-        
+
     }
 }

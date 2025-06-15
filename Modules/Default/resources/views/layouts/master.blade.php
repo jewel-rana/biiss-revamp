@@ -63,10 +63,8 @@
         <ul class="navbar-nav navbar-right">
             <li class="dropdown navbar-user">
                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                    <?php
-                    $photo = ( auth()->check() && auth()->user()->avatar != null ) ? asset( 'uploads/profile/'. auth()->user()->avatar ) : asset('default/avatar.png');
-                    ?>
-                    <img src="{{ $photo }}" alt="" />
+
+                    <img src="{{ auth()->user()->avatar ?? '' }}" alt="" />
                     <span class="d-none d-md-inline"></span> <b class="caret"></b>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -137,6 +135,8 @@
 <script src="{{ asset('backend/color-admin-v4.2/admin/assets/js/apps.min.js') }}"></script>
 <!-- ================== END BASE JS ================== -->
 <script type="text/javascript" src="{{  asset('backend/color-admin-v4.2/admin/assets/plugins/bootstrap-sweetalert/sweetalert.min.js') }}"></script>
+<script  src="{{ asset('plugins/DataTables/js/jquery.dataTables.js') }}"></script>
+<script  src="{{ asset('plugins/DataTables/js/dataTables.bootstrap4.js') }}"></script>
 <script>
     $(document).ready(function() {
         App.init();
