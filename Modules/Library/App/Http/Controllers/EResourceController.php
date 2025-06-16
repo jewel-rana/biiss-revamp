@@ -13,7 +13,7 @@ class EResourceController extends Controller
     {
         $query = Library::with('authors')
             ->where('type', 'book')
-            ->where('is_eresource', true);
+            ->where('has_e_resource', true);
         if (isset($_GET['letter_sort'])) :
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');
@@ -28,7 +28,7 @@ class EResourceController extends Controller
     {
         $query = Library::with('authors')
             ->where('type', 'journal')
-            ->where('is_eresource', true);
+            ->where('has_e_resource', true);
         if (isset($_GET['letter_sort'])) :
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');
@@ -43,7 +43,7 @@ class EResourceController extends Controller
     {
         $query = Library::with('authors')
             ->where('type', 'document')
-            ->where('is_eresource', true);
+            ->where('has_e_resource', true);
         if (isset($_GET['letter_sort'])) :
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');
