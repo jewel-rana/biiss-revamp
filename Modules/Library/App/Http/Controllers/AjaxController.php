@@ -902,6 +902,7 @@ class AjaxController extends Controller
         $library->source = ($request->source) ? $request->source : null;
         $library->cover_photo = ($request->cover_photo) ? $request->cover_photo : $library->cover_photo;
         $library->file = ($request->file) ? $request->file : $library->file;
+        $library->has_e_resource = $request->filled('file') || $library->file;
         $library->e_resource_only = $request->filled('e_resource_only');
 
         $ok = $library->save();
