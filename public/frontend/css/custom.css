@@ -13,3 +13,6 @@
     border: none;
     color: #1060DD;
 }
+.nav-link.text-white.font-weight-bold.px-3.my-1 {
+    font-size: 18px;
+}
