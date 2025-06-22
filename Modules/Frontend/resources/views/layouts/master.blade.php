@@ -117,16 +117,15 @@
                         <li class="mb-2"><a href="{{ route('front.magazines') }}">Magazines</a></li>
                         <li class="mb-2"><a href="{{ route('front.documents') }}">Documents</a></li>
                         <li class="mb-2"><a href="{{ route('front.seminars') }}">Seminar Proceeding</a></li>
-                        <li class="mb-2"><a href="/contact">Contact</a></li>
+                        <li class="mb-2"><a href="https://biiss.org/contact-us">Contact</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 mb-4">
-                    <h5>Services</h5>
+                    <h5>Other Links</h5>
                     <ul class="list-unstyled mb-2">
-                        <li class="mb-2"><a href="#">Payment Methods</a></li>
-                        <li class="mb-2"><a href="#">Money-back</a></li>
-                        <li class="mb-2"><a href="#">Shipping</a></li>
-                        <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                        <li class="mb-2"><a href="https://biiss.org/view-page/54">BIISS Staff</a></li>
+                        <li class="mb-2"><a href="http://203.76.124.122:6970/">BIISS Archive</a></li>
+                        <li class="mb-2"><a href="https://biiss.org/biiss-at-media">BIISS Media</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 mb-4">
@@ -141,7 +140,7 @@
             </div>
             <div class="border-top pt-4 mt-4 d-flex justify-content-between align-items-center">
                 <p class="mb-0 text-center">All Rights Reserved <span id="current-year"></span> | BIISS</p>
-                <p class="mb-0 text-center text-decoration-underline">Terms & Conditions</p>
+{{--                <p class="mb-0 text-center text-decoration-underline">Terms & Conditions</p>--}}
             </div>
         </div>
     </footer>
