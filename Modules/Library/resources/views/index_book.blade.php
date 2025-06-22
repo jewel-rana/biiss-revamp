@@ -117,7 +117,10 @@
             <div class="col-md-2 columns">
                 <input id="end" type="text" class="form-control accno" placeholder="ACCNO"/>
             </div>
-            <div class="col-md-3 columns">
+            <div class="col-md-2 columns">
+                <input id="end" type="text" class="form-control call_number" placeholder="CALL No."/>
+            </div>
+            <div class="col-md-2 columns">
                 <input id="start" type="text" class="form-control title" placeholder="Search by title"/>
             </div>
             <div class="col-md-3 columns">
@@ -126,7 +129,26 @@
             <div class="col-md-3 columns">
                 <input id="end" type="text" class="form-control subject" placeholder="Search by subject"/>
             </div>
-            <div class="col-md-1 columns">
+
+            <div class="col-md-1 columns mt-3">
+                <input id="minYear" type="text" class="form-control year" placeholder="Year from"/>
+            </div>
+            <div class="col-md-1 columns mt-3">
+                <input id="maxYear" type="text" class="form-control year" placeholder="Year to"/>
+            </div>
+
+            <div class="col-md-2 columns mt-3">
+                <input id="end" type="text" class="form-control publisher" placeholder="Publisher"/>
+            </div>
+            <div class="col-md-2 columns mt-3">
+                <input id="end" type="text" class="form-control place" placeholder="Place"/>
+            </div>
+
+            <div class="col-md-3 columns mt-3">
+                <input id="end" type="text" class="form-control remarks" placeholder="Remarks"/>
+            </div>
+
+            <div class="col-md-1 columns mt-3">
                 <div class="btn-group">
                     <!-- <button id="end" type="button" class="btn btn-primary search"><i class="fa fa-search"></i></button> -->
                     <button type="button" class="btn btn-warning resetBtn"><i class="fa fa-times"></i></button>
@@ -339,6 +361,7 @@
                             autoPrint: true,
                             text: 'Print',
                             pageSize: 'A4',
+                            orientation: 'landscape',
                             customize: function (win) {
                                 $(win.document.body)
                                     .css({'font-size': '10pt', 'padding': '50px 35px'});
@@ -394,10 +417,16 @@
                             data:
 
                                 function (param) {
-                                    param.accno = $('.accno').val() || '0',
-                                        param.title = $('.title').val() || '0',
-                                        param.author = $('.author').val() || '0',
-                                        param.subject = $('.subject').val() || '0'
+                                    param.accno = $('.accno').val() || '0';
+                                    param.call_number = $('.call_number').val() || '0';
+                                    param.title = $('.title').val() || '0';
+                                    param.author = $('.author').val() || '0';
+                                    param.subject = $('.subject').val() || '0';
+                                    param.minYear = $('#minYear').val() || '0';
+                                    param.maxYear = $('#maxYear').val() || '0';
+                                    param.remarks = $('.remarks').val() || '0';
+                                    param.publisher = $('.publisher').val() || '0';
+                                    param.place = $('.place').val() || '0';
                                 }
                         }
                     ,
@@ -548,7 +577,7 @@
                 return false;
             });
 
-            $(document).on('keyup', '.subject, .author, .title, .accno', function () {
+            $(document).on('keyup', '.subject, .author, .title, .accno, .publisher, .place, #minYear,#maxYear, .call_number,.remarks', function () {
                 table.ajax.reload();
             });
             $(document).on('click', '.resetBtn', function () {

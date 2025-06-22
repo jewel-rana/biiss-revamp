@@ -431,6 +431,7 @@
                         autoPrint: true,
                         text: 'Print',
                         pageSize: 'A4',
+                        orientation: 'landscape',
                         customize: function (win) {
                             $(win.document.body)
                                 .css({'font-size': '10pt', 'padding': '50px 35px'});
@@ -476,23 +477,23 @@
                 "ajax": {
                     url: "{{ route('ajax.datatable.items', ['type' => 'journal']) }}",
                     data: function (param) {
-                        param.title = $('.title').val() || '0',
-                            param.friq = $('.friq').val() || '0',
-                            param.volume_number = $('.volume_number').val() || '0',
-                            param.item_number = $('.item_number').val() || '0',
-                            param.month = $('.month').val() || '0',
-                            param.season = $('.season').val() || '0',
-                            param.minYear = $('#minYear').val() || '0',
-                            param.maxYear = $('#maxYear').val() || '0',
-                            param.issn = $('.isbn').val() || '0',
-                            param.publisher = $('.publisher').val() || '0',
-                            param.place = $('.place').val() || '0',
-                            param.author = $('.author').val() || '0',
-                            param.article = $('.article').val() || '0',
-                            param.subject = $('.subject').val() || '0',
-                            param.remarks = $('.remarks').val() || '0',
-                            param.min = $('#min').val() || '0',
-                            param.max = $('#max').val() || '0'
+                        param.title = $('.title').val() || '0';
+                        param.friq = $('.friq').val() || '0';
+                        param.volume_number = $('.volume_number').val() || '0';
+                        param.item_number = $('.item_number').val() || '0';
+                        param.month = $('.month').val() || '0';
+                        param.season = $('.season').val() || '0';
+                        param.minYear = $('#minYear').val() || '0';
+                        param.maxYear = $('#maxYear').val() || '0';
+                        param.issn = $('.isbn').val() || '0';
+                        param.publisher = $('.publisher').val() || '0';
+                        param.place = $('.place').val() || '0';
+                        param.author = $('.author').val() || '0';
+                        param.article = $('.article').val() || '0';
+                        param.subject = $('.subject').val() || '0';
+                        param.remarks = $('.remarks').val() || '0';
+                        param.min = $('#min').val() || '0';
+                        param.max = $('#max').val() || '0';
                     }
                 },
                 "columns": [

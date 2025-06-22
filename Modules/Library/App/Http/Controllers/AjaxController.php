@@ -277,107 +277,111 @@ class AjaxController extends Controller
                       LEFT JOIN `library_authors` ON `libraries`.`id` = `library_authors`.`item_id`
                       WHERE `libraries`.`type` = '$type'";
 
-        if ($request->has('accno') && $request->accno != '0') {
+        if ($request->filled('accno') && $request->accno != '0') {
             $accNo = $request->accno;
             $query .= " AND `libraries`.`acc_number` = '$accNo'";
         }
 
-        if ($request->has('title') && $request->title != '0') {
+        if ($request->filled('title') && $request->title != '0') {
             $title = $request->title;
             $query .= " AND `libraries`.`title` LIKE '%$title%'";
         }
 
-        if ($request->has('author') && $request->author != '0') {
+        if ($request->filled('author') && $request->author != '0') {
             $author = $request->author;
             $query .= " AND `library_authors`.`author_name` LIKE '%$author%'";
         }
 
-        if ($request->has('subject') && $request->subject != '0') {
+        if ($request->filled('subject') && $request->subject != '0') {
             $subject = $request->subject;
             $query .= " AND `library_authors`.`auth_subject` LIKE '%$subject%'";
         }
 
-        if ($request->has('friq') && $request->friq != '0') {
+        if ($request->filled('friq') && $request->friq != '0') {
             $friq = $request->friq;
             $query .= " AND `libraries`.`friq` = '$friq'";
         }
 
-        if ($request->has('volume_number') && $request->volume_number != '0') {
+        if ($request->filled('volume_number') && $request->volume_number != '0') {
             $volume_number = $request->volume_number;
             $query .= " AND `libraries`.`volume_number` = '$volume_number'";
         }
 
-        if ($request->has('item_number') && $request->item_number != '0') {
+        if ($request->filled('item_number') && $request->item_number != '0') {
             $item_number = $request->item_number;
             $query .= " AND `libraries`.`item_number` = '$item_number'";
         }
 
-        if ($request->has('month') && $request->month != '0') {
+        if ($request->filled('month') && $request->month != '0') {
             $season = $request->month;
             $query .= " AND `libraries`.`month_of_publish` LIKE '%$season%'";
         }
 
-        if ($request->has('season') && $request->season != '0') {
+        if ($request->filled('season') && $request->season != '0') {
             $season = $request->season;
             $query .= " AND `libraries`.`season` = '$season'";
         }
-        if ($request->has('minYear') && $request->minYear != '0') {
+        if ($request->filled('minYear') && $request->minYear != '0') {
             $minYear = $request->minYear;
             $query .= " AND `libraries`.`publication_year` >= '$minYear'";
         }
 
-        if ($request->has('maxYear') && $request->maxYear != '0') {
+        if ($request->filled('maxYear') && $request->maxYear != '0') {
             $maxYear = $request->maxYear;
             $query .= " AND `libraries`.`publication_year` <= '$maxYear'";
         }
 
-        if ($request->has('min') && $request->min != '0') {
+        if ($request->filled('min') && $request->min != '0') {
             $min = $request->min;
             $query .= " AND `libraries`.`edate` >= '$min'";
         }
 
-        if ($request->has('max') && $request->max != '0') {
+        if ($request->filled('max') && $request->max != '0') {
             $max = $request->max;
             $query .= " AND `libraries`.`edate` <= '$max'";
         }
 
-        if ($request->has('issn') && $request->issn != '0') {
+        if ($request->filled('issn') && $request->issn != '0') {
             $issn = $request->issn;
             $query .= " AND `libraries`.`issn` = '$issn'";
         }
 
-        if ($request->has('isbn') && $request->isbn != '0') {
+        if ($request->filled('isbn') && $request->isbn != '0') {
             $isbn = $request->isbn;
             $query .= " AND `libraries`.`isbn` = '$isbn'";
         }
-        if ($request->has('publisher') && $request->publisher != '0') {
+        if ($request->filled('publisher') && $request->publisher != '0') {
             $publisher = $request->publisher;
             $query .= " AND `libraries`.`publisher` LIKE '%$publisher%'";
         }
 
-        if ($request->has('place') && $request->place != '0') {
+        if ($request->filled('place') && $request->place != '0') {
             $place = $request->place;
             $query .= " AND `libraries`.`place` LIKE '%$place%'";
         }
 
-        if ($request->has('remarks') && $request->remarks != '0') {
+        if ($request->filled('remarks') && $request->remarks != '0') {
             $remarks = $request->remarks;
             $query .= " AND `libraries`.`remarks` LIKE '%$remarks%'";
         }
 
-        if ($request->has('source') && $request->source != '0') {
+        if ($request->filled('source') && $request->source != '0') {
             $source = $request->source;
             $query .= " AND `libraries`.`source` LIKE '%$source%'";
         }
-        if ($request->has('from') && $request->from != '0') {
+        if ($request->filled('from') && $request->from != '0') {
             $from = $request->from;
             $query .= " AND `libraries`.`from_where` LIKE '%$from%'";
         }
-        if ($request->has('accession') && $request->accession != '0') {
+        if ($request->filled('accession') && $request->accession != '0') {
             $accession = $request->accession;
             $query .= " AND `libraries`.`accession` LIKE '%$accession%'";
         }
-        if ($request->has('document_author') && $request->document_author != '0') {
+        if ($request->filled('call_number') && $request->call_number != '0') {
+            $call_number = $request->call_number;
+            $query .= " AND `libraries`.`call_number` LIKE '%$call_number%'";
+        }
+        if ($request->filled('document_author') && $request->document_author != '0') {
             $document_author = $request->document_author;
             $query .= " AND `libraries`.`document_author` LIKE '%$document_author%'";
         }

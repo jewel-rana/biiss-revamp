@@ -407,6 +407,7 @@ $(document).ready(function() {
                 autoPrint: true,
                 text: 'Print',
                 pageSize: 'A4',
+                orientation: 'landscape',
                 customize: function ( win ) {
                     $(win.document.body)
                         .css({'font-size': '10pt', 'padding':'50px 35px'});
