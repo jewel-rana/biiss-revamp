@@ -17,7 +17,7 @@
                 <div class="col-12">
                     <div class="new_book">
                         <!-- Set up your HTML -->
-                        <h2><span>All Books</span></h2>
+                        <h2><span>BIISS Books</span></h2>
                         <div class="row pt-2">
                             <div class="paginate float-end mb-3">
                                 <?php

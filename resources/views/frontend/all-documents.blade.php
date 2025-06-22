@@ -19,7 +19,7 @@
                 <div class="col-12">
                     <div class="new_book">
                         <!-- Set up your HTML -->
-                        <h2><span>Documents</span></h2>
+                        <h2><span>BIISS Documents</span></h2>
                         <div class="row">
                             <div class="d-flex justify-content-end flex-wrap mb-3">
                                 @for ($i = 65; $i <= 90; $i++)
