@@ -1,7 +1,7 @@
 @extends("{$theme['frontend']}::layouts.master")
 
 @section('content')
-    <x-frontend::popular-books :books="$featuredBooks"></x-frontend::popular-books>
+{{--    <x-frontend::popular-books :books="$featuredBooks"></x-frontend::popular-books>--}}
 
     <x-frontend::new-books :books="$newBooks"></x-frontend::new-books>
 

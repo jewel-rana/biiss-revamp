@@ -3,7 +3,7 @@
     <section class="py-5">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="section-title">Top Books</h2>
+                <h2 class="section-title">BIISS Books</h2>
                 <a href="#" class="view-all">View all</a>
             </div>
             <div class="row g-4">
