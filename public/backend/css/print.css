@@ -22,13 +22,13 @@ page {
 hr{
     border-top: 1px solid #d8cdcd;
 }
-page[size="A4"] {  
+page[size="A4"] {
   width: 21cm;
-  height: 29.7cm; 
+  height: 29.7cm;
 }
 page[size="A4"][layout="landscape"] {
   width: 29.7cm;
-  height: 21cm;  
+  height: 21cm;
 }
 page[size="A3"] {
   width: 29.7cm;
@@ -36,7 +36,7 @@ page[size="A3"] {
 }
 page[size="A3"][layout="landscape"] {
   width: 42cm;
-  height: 29.7cm;  
+  height: 29.7cm;
 }
 page[size="A5"] {
   width: 14.8cm;
@@ -44,7 +44,7 @@ page[size="A5"] {
 }
 page[size="A5"][layout="landscape"] {
   width: 21cm;
-  height: 14.8cm;  
+  height: 14.8cm;
 }
 #printBtn {
   margin: 0 auto;

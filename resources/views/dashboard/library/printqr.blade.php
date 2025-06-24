@@ -22,7 +22,7 @@
 				<td>{{ $item->call_number }}</td>
 				<td>
 					<strong>{{ $item->title }}</strong>
-					<p>by 
+					<p>by
 						<em>
 							@if( $item->type == 'book' )
 								{{ $item->author }}
@@ -32,7 +32,7 @@
 						</em>
 					</p>
 				</td>
-				<td>
+				<td width="180px">
 					@if( $item->copies )
 					@foreach( $item->copies as $key => $copy )
                     <figure class="figure text-center">
@@ -58,7 +58,7 @@
 
 </div>
 
-<button class="btn btn-default" id="printBtn">Print</button>
+<button class="btn btn-default print-btn no-print" id="printBtn">Print</button>
 @endsection
 
 @section('ownjs')

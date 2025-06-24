@@ -222,6 +222,7 @@
                             <th>Author Mark</th>
                             <th>Name</th>
                             <th>Author</th>
+                            <th>Publication Year</th>
                             <th>Subject</th>
                             <th>ISBN</th>
                             <th>Remarks</th>
@@ -239,6 +240,7 @@
                             <th>Author Mark</th>
                             <th>Name</th>
                             <th>Author</th>
+                            <th>Publication Year</th>
                             <th>Subject</th>
                             <th>ISBN</th>
                             <th>Remarks</th>
@@ -341,7 +343,7 @@
                     "bInfo": true,
                     "searching": true,
                     "lengthChange": true,
-                    "dom": '<"top"i>rt<"bottom"flp><"clear">',
+                    "dom": 'Bfrtip',
                     "buttons": [
                         {
                             text: 'Deselect',
@@ -351,12 +353,11 @@
                         },
                         {
                             extend: 'print',
-                            title: function () {
-                                return "<div style='font-size:14px;text-align:center'>Bangladesh Institute of International and Strategic Studies (BIISS)</div>";
-                            },
-                            messageTop: '<div style="font-size:13px;text-align:center">Print Report : Books</div>',
+
+                            title: 'Bangladesh Institute of International and Strategic Studies (BIISS)',
+                            messageTop: 'Resource : Books',
                             exportOptions: {
-                                columns: [1, 2, ':visible']
+                                columns: [1, 2, 3, 4, 5, 6]
                             },
                             autoPrint: true,
                             text: 'Print',
@@ -364,45 +365,115 @@
                             orientation: 'landscape',
                             customize: function (win) {
                                 $(win.document.body)
-                                    .css({'font-size': '10pt', 'padding': '50px 35px'});
+                                    .css({
+                                        'font-size': '10pt',
+                                        'margin': '40px',
+                                        'padding': '20px',
+                                        'color': '#000',
+                                        'font-family': 'Arial, sans-serif'
+                                    });
 
-                                $(win.document.body).find('table')
+                                // Header spacing
+                                $(win.document.body).find('h1').css({
+                                    'font-size': '16pt',
+                                    'text-align': 'center',
+                                    'margin-bottom': '10px'
+                                });
+
+                                // Table styling
+                                const $table = $(win.document.body).find('table');
+
+                                $table
                                     .addClass('compact')
-                                    .css({'font-size': 'inherit', 'color': '#000'});
+                                    .css({
+                                        'width': '100%',
+                                        'font-size': '10pt',
+                                        'border-collapse': 'collapse',
+                                        'margin-top': '20px'
+                                    });
 
-                                // $(win.document.body).find( 'table td' ).css('border', '1px solid #000');
+                                $table.find('th, td')
+                                    .css({
+                                        'border': '1px solid #000',
+                                        'padding': '6px',
+                                        'text-align': 'center',
+                                        'vertical-align': 'middle'
+                                    });
+
+                                $table.find('thead').css({
+                                    'background-color': '#f1f1f1',
+                                    'font-weight': 'bold'
+                                });
+
+                                // Optional: watermark or footer
+                                $(win.document.body).append(`
+            <div style="position: fixed; bottom: 20px; left: 0; width: 100%; text-align: center; font-size: 10px;">
+                Printed by BIISS Library System - ${new Date().toLocaleDateString()}
+            </div>
+        `);
+                                $(win.document.body).find('table td').css('border', '1px solid #000');
+                                // Add a style tag to enforce landscape
+                                const landscapeStyle = `
+            <style>
+                @page { size: landscape; }
+            </style>
+        `;
+                                $(win.document.head).append(landscapeStyle)
                             }
                         },
                         {
                             extend: 'csvHtml5',
                             exportOptions: {
-                                columns: [1, 2, ':visible'],
+                                columns: [1, 2, ':visible:not(:eq(0)):not(:eq(11))'],
                             }
                         },
                         {
                             extend: 'pdfHtml5',
                             text: 'PDF',
                             className: 'btn btn-green',
-                            charset: 'utf8',
                             bom: 'true',
                             exportOptions: {
-                                columns: [1, 2, ':visible'],
-                                modifier: {
-                                    page: 'current'
-                                }
+                                columns: [1, 2, 3, 4, 5, 6]
                             },
                             header: true,
                             charset: 'UTF-8',
                             title: 'Bangladesh Institute of International and Strategic Studies (BIISS)',
-                            messageTop: 'Print Report : Books',
-                            orientation: 'portrate',
+                            messageTop: 'Resource : Books',
+                            orientation: 'landscape',
                             customize: function (doc) {
-                                doc.defaultStyle.alignment = 'center';
-                                doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10
-                                doc.styles.tableHeader.fontSize = 8;
+                                // ✅ Force A4 landscape
+                                doc.pageOrientation = 'landscape';
+
+                                // ✅ Set margins (optional)
+                                doc.pageMargins = [40, 40, 40, 40];
+
+                                // ✅ Set default font size
+                                doc.defaultStyle.fontSize = 9;
+                                doc.styles.tableHeader.fontSize = 10;
                                 doc.styles.tableHeader.alignment = 'center';
-                                doc.styles.tableHeader.charset = 'UTF-8';
-                                // doc.defaultStyle.fontFamily = 'SolaimanLipi';
+
+
+                                // ✅ Set table to 100% width
+                                var tableNode = doc.content.find(function (node) {
+                                    return node.table;
+                                });
+
+                                if (tableNode && tableNode.table && tableNode.table.body.length > 0) {
+                                    var columnCount = tableNode.table.body[0].length;
+                                    tableNode.table.widths = Array(columnCount).fill('*');
+                                }
+
+                                // ✅ Optional table layout
+                                doc.content[1].layout = {
+                                    hLineWidth: function () { return 1; },
+                                    vLineWidth: function () { return 1; },
+                                    hLineColor: function () { return '#000'; },
+                                    vLineColor: function () { return '#000'; },
+                                    paddingLeft: function () { return 4; },
+                                    paddingRight: function () { return 4; },
+                                    paddingTop: function () { return 2; },
+                                    paddingBottom: function () { return 2; }
+                                };
                             }
                         },
                         'colvis'
@@ -442,6 +513,7 @@
                             {"data": "authormark"},
                             {"data": "title"},
                             {"data": "authors"},
+                            {"data": "publication_year"},
                             {"data": "subjects"},
                             {"data": "isbn"},
                             {"data": "remarks"},
@@ -465,6 +537,7 @@
                     "columnDefs":
                         [
                             {"targets": [0], "searchable": false, "orderable": false, "visible": true},
+                            { targets: [0], visible: false },
                             {"type": "num", "targets": 1}
                         ],
                     "order":

@@ -3,7 +3,7 @@
 <head>
 	<title>{{ $title }}</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('plugins/bootstrap/css/bootstrap.min.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ asset('css/print.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('backend/css/print.css') }}">
 </head>
 <body>
 	<page size="A4">

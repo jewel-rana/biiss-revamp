@@ -192,4 +192,20 @@ class LibraryController extends Controller
             return redirect()->route('dashboard.library.index')->with('delete_failed', 'Sorry! cannot delete this item.');
         }
     }
+
+    public function printqr( Request $request )
+    {
+
+        // dd( $request->id );
+        //check request parameter has items ID
+        if( empty( $request->id ) && count( $request->id ) )
+            return redirect()->back()->with('success', 'No Items selected or Supplied.');
+
+        //get items
+        $data['title'] = 'Print QR Codes';
+        $data['items'] = Library::whereIn('id', $request->id )->get();
+
+        //load view
+        return view('dashboard.library.printqr', $data );
+    }
 }
