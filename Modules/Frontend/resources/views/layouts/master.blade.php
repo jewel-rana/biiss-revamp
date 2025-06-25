@@ -9,8 +9,7 @@
 
     <!-- Include Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/frontend/css/style.css">
 
     <!-- font-family -->
@@ -131,10 +130,9 @@
                 <div class="col-lg-3 mb-4">
                     <h5>Social</h5>
                     <ul class="list-unstyled mb-2">
-                        <li class="mb-2"><a href="#" class="text-decoration-underline">Facebook</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-underline">Instagram</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-underline">Twitter</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-underline">LinkedIn</a></li>
+                        <li class="mb-2"><a href="{{ getOption('social_facebook') }}" class="text-decoration-underline"><i class="fa fa-facebook-f"></i> Facebook</a></li>
+                        <li class="mb-2"><a href="{{ getOption('social_twitter') }}" class="text-decoration-underline"><i class="fa fa-twitter"></i> Twitter</a></li>
+                        <li class="mb-2"><a href="{{ getOption('social_linkedin') }}" class="text-decoration-underline"><i class="fa fa-linkedin"></i> LinkedIn</a></li>
                     </ul>
                 </div>
             </div>
