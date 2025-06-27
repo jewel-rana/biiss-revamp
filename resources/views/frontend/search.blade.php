@@ -53,10 +53,10 @@
     /* Suggestion dropdown positioning */
     .awesomplete ul {
         position: absolute;
+        top: 100%; /* place directly below input */
         left: 0;
-        right: 0; /* Prevents full-width overflow */
+        right: 0; /* match container width */
         z-index: 1000;
-        min-width: 100%;
         margin: 0;
         padding: 0;
         list-style: none;
@@ -65,7 +65,7 @@
         border-top: none;
         max-height: 250px;
         overflow-y: auto;
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
     }
 
     /* Suggestion list items */
@@ -101,7 +101,7 @@
                         <div id="customFilters"
                              style="padding:15px 10px;background: #fff;border:1px solid #eee;border-top-left-radius: 4px;border-top-right-radius: 4px;">
                             <div class="row g-2">
-                                <div class="col-md-4">
+                                <div class="col-md-4" style="position: relative;">
                                     <input type="text" id="filterQuery" class="form-control"
                                            value="{{ request()->input('keyword') }}"
                                            autocomplete="off"
@@ -113,7 +113,7 @@
                                         <option value="exact">Exact</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" style="position: relative;">
                                     <input type="text" id="filterAuthor" class="form-control"
                                            value="{{ request()->input('author') }}"
                                            autocomplete="off"

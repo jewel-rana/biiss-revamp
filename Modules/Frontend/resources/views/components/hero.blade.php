@@ -19,17 +19,23 @@
                     <form method="GET" action="{{ route('front.search') }}">
                         <div class="d-flex flex-column flex-lg-row  align-items-center">
                             <!-- First Search -->
-                            <div class="input-group flex-grow-1">
+                            <div class="form-group flex-grow-1">
                                 <input type="search" name="keyword" class="form-control search-input"
+                                       id="keywordSearch"
                                        placeholder="Search Book By Keyword or Title">
                             </div>
 
                             <!-- Second Search -->
-                            <div class="input-group flex-grow-1 mt-lg-0 mt-2">
-                                <input type="search" name="author" class="form-control search-input"
-                                       placeholder="Search books by Author">
-                                <div class="input-group-btn bg-white">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <div class="form-group flex-grow-1 mt-lg-0 mt-2">
+                                <div class="input-group">
+                                    <input type="search" name="author" class="form-control search-input"
+                                           id="authorSearch"
+                                           placeholder="Search books by Author">
+
+                                    <div class="input-group-btn bg-white">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

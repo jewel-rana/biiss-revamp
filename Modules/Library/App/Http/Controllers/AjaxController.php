@@ -199,16 +199,14 @@ class AjaxController extends Controller
 
     public function frontsuggestion(Request $request, $term = ''): JsonResponse
     {
-        $type = $request->input('type');
-
         $query = Library::with('authors')
             ->where(function ($q) use ($term) {
                 $q->where('title', 'like', "%{$term}%")
                     ->orWhere('article', 'like', "%{$term}%");
             });
 
-        if (!empty($type)) {
-            $query->where('type', $type);
+        if ($request->filled('type')) {
+            $query->where('type', $request->input('type'));
         }
 
         $query->orderBy('title', 'asc');
