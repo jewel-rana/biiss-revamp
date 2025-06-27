@@ -4,6 +4,7 @@ namespace Modules\Library\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Library;
+use App\Models\LibraryAuthor;
 use App\Models\LibraryIssue;
 use App\Models\LibraryReturn;
 use App\Models\LibraryStock;
@@ -12,115 +13,73 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\Auth\Entities\User;
+use Yajra\DataTables\Facades\DataTables;
 
 class AjaxController extends Controller
 {
     public function search(Request $request)
     {
-        // return
-        $queryParam = array();
-        if (isset($_GET['search_type']) && $_GET['search_type'] == 'exact') {
+        $query = Library::query()->with(['authors', 'tags']);
 
-            $query = "select * from `libraries` ";
-            if ($request->filled('q')) {
-                $search = trim($_GET['q']);
-                $query .= "where (`title` LIKE '%$search%' ";
+        // Exact match or partial
+        $search = trim($request->get('q'));
+        $searchType = $request->get('search_type');
+
+        if ($searchType === 'exact') {
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                        ->orWhereHas('authors', fn($q) => $q->where('auth_subject', 'like', "%{$search}%"))
+                        ->orWhereHas('tags', fn($q) => $q->where('categories', 'like', "%{$search}%"));
+                });
             }
 
             if ($request->filled('type')) {
-                $type = $_GET['type'];
-                $query .= "and `type` = '$type' ";
+                $query->where('type', $request->get('type'));
             }
-
-            $query .= ") ";
-
-            $query .= "or exists (select * from `library_authors` where `libraries`.`id` = `library_authors`.`item_id` and `auth_subject` LIKE '%$search%') or exists (select * from `library_tags` where `libraries`.`id` = `library_tags`.`item_id` and `categories` LIKE '%$search%') ";
         } else {
-            $query = "select * from `libraries` ";
-            if ($request->filled('q')) {
-                $search = trim($_GET['q']);
-                $query .= "where (`title` LIKE '%$search%' ";
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%");
+                });
             }
 
             if ($request->filled('type')) {
-                $type = $_GET['type'];
-                $query .= "and `type` = '$type' ";
+                $query->where('type', $request->get('type'));
             }
 
             if ($request->filled('author')) {
-                $queryParam['author'] = $_GET['author'];
-                $author = $_GET['author'];
-                $query .= "and exists (select * from `library_authors` where `libraries`.`id` = `library_authors`.`item_id` and `library_authors`.`author_name` like '%$author%') ";
-            }
-
-            if ($request->filled(['q', 'type', 'author'])) {
-                $query .= ") ";
-            }
-
-            // $query.="or exists (select * from `library_authors` where `libraries`.`id` = `library_authors`.`item_id` and `auth_subject` LIKE '%$search%') or exists (select * from `library_tags` where `libraries`.`id` = `library_tags`.`item_id` and `categories` LIKE '%$search%') ";
-        }
-        $queryParam['search'] = $request->get('q');
-
-
-        $offset = ($_GET['start']) ? $_GET['start'] : 0;
-        $limit = $_GET['length'];
-
-        $query .= "limit $limit offset $offset";
-
-        $items = DB::select($query);
-        $count = count($items);
-        $responseArr = array();
-        if ($count > 0) {
-            foreach ($items as $item) {
-                $row['id'] = $item->id;
-                $row['title'] = $item->title;
-                $row['type'] = $item->type;
-                $row['photo'] = (!empty($item->cover_photo)) ? asset($item->cover_photo) : asset('default/cover/' . $item->type . '.jpg');
-                $row['copy_number'] = $item->copy_number;
-                $row['publication_year'] = $item->publication_year;
-                $row['author'] = '';
-                $row['articles'] = '';
-                $row['subjects'] = '';
-
-                $authors = DB::table('library_authors')->select('*')->where('item_id', $item->id)->get();
-                if (count($authors) > 0) {
-                    foreach ($authors as $author) {
-                        $author_name = trim($author->author_name);
-                        $row['author'] .= '<a href="' . route('front.search', array_merge($queryParam, array('author' => $author_name))) . '"><span class="badge badge-default">' . $author_name . '</span></a>';
-                        if (!empty($author->author_article)) {
-                            if (!empty($row['articles'])) {
-                                $row['articles'] .= ', ';
-                            }
-                            $row['articles'] .= $author->author_article;
-                        }
-                        if (!empty($author->auth_subject)) {
-                            if (!empty($row['subjects'])) {
-                                $row['subjects'] .= ', ';
-                            }
-                            $row['subjects'] .= $author->auth_subject;
-                        }
-                    }
-                }
-
-
-                if ($item->type == 'book' && !empty($item->tags)) {
-                    foreach ($item->tags as $tag) {
-                        $row['subjects'] .= $tag['categories'];
-                    }
-                }
-
-                array_push($responseArr, $row);
+                $author = $request->get('author');
+                $query->whereHas('authors', function ($q) use ($author) {
+                    $q->where('author_name', 'like', "%{$author}%");
+                });
             }
         }
 
-        return response()->json([
-            'draw' => (isset($_GET['draw'])) ? $_GET['draw'] : 0,
-            'recordsTotal' => $count,
-            'recordsFiltered' => $count,
-            'data' => $responseArr
-        ]);
+        return DataTables::of($query)
+            ->addColumn('photo', function ($item) {
+                return '<img src="' . asset($item->cover_photo ?? 'default/cover/' . $item->type . '.jpg') . '" width="60">';
+            })
+            ->addColumn('author', function ($item) use ($request) {
+                return $item->authors->map(function ($author) use ($request) {
+                    $params = array_merge($request->only('q', 'type'), ['author' => $author->author_name]);
+                    $url = route('front.search', $params);
+                    return '<a href="' . $url . '" class="text-decoration-none"><span class="badge bg-primary text-white">' . e($author->author_name) . '</span></a>';
+                })->implode(' ');
+            })
+            ->addColumn('articles', function ($item) {
+                return $item->authors->pluck('author_article')->filter()->implode(', ');
+            })
+            ->addColumn('subjects', function ($item) {
+                $authorSubjects = $item->authors->pluck('auth_subject')->filter();
+                $tagSubjects = $item->tags->pluck('categories')->filter();
+                return $authorSubjects->merge($tagSubjects)->implode(', ');
+            })
+            ->rawColumns(['photo', 'author'])
+            ->make(true);
     }
 
     public function search2()
@@ -238,29 +197,47 @@ class AjaxController extends Controller
         echo json_encode($data);
     }
 
-    public function frontsuggestion($term = '')
+    public function frontsuggestion(Request $request, $term = ''): JsonResponse
     {
-        $query = Library::with('authors')->orWhere('title', 'like', '%' . $term . '%')->orWhere('article', 'LIKE', '%' . $term . '%');
-        if (isset($_GET['type']) && $_GET['type'] != '') :
-            $query->where('type', $_GET['type']);
-        endif;
+        $type = $request->input('type');
+
+        $query = Library::with('authors')
+            ->where(function ($q) use ($term) {
+                $q->where('title', 'like', "%{$term}%")
+                    ->orWhere('article', 'like', "%{$term}%");
+            });
+
+        if (!empty($type)) {
+            $query->where('type', $type);
+        }
+
         $query->orderBy('title', 'asc');
 
         $items = $query->get();
 
-        $return_arr = array();
-        foreach ($items as $q) {
-            $row['level'] = ucwords($q->title) . '(' . ucwords($q->article) . ')' . ' (' . $q->author . ')' . '[' . $q->type . ']';
+        $results = $items->map(function ($item) {
+            $title = ucwords($item->title);
+            $article = ucwords($item->article ?? '');
+            $author = $item->author ?? ($item->authors->first()->author_name ?? '');
+            $type = $item->type;
 
-            if ($q->volume != null)
-                $row['level'] .= ' [' . $q->type . '] [VOL-' . $q->volume . ']';
+            $label = "{$title} ({$article}) ({$author}) [{$type}]";
 
-            if ($q->type == 'seminar')
-                $row['level'] .= ' [Year-' . $q->publication_year . ']';
-            $row['value'] = $q->title;
-            array_push($return_arr, $row);
-        }
-        echo json_encode($return_arr);
+            if ($item->volume) {
+                $label .= " [VOL-{$item->volume}]";
+            }
+
+            if ($item->type === 'seminar') {
+                $label .= " [Year-{$item->publication_year}]";
+            }
+
+            return [
+                'level' => $label,
+                'value' => $item->title,
+            ];
+        });
+
+        return response()->json($results);
     }
 
     public function getAllItems(Request $request)
@@ -515,19 +492,20 @@ class AjaxController extends Controller
 
     public function authorsuggestion($term = '')
     {
-        $query = LibraryAuthor::select('author_name', 'id')->where('author_name', 'like', '%' . $term . '%');
-        $query->orderBy('author_name', 'asc');
-        $query->limit(50);
-        $items = $query->get();
+        $authors = LibraryAuthor::select('author_name')
+            ->where('author_name', 'like', '%' . $term . '%')
+            ->orderBy('author_name')
+            ->limit(50)
+            ->pluck('author_name');
 
-        $return_arr = array();
-        foreach ($items as $q) {
-            $row['level'] = ucwords($q->author_name);
-            $row['value'] = $q->author_name;
-            array_push($return_arr, $row);
-        }
+        $suggestions = $authors->map(function ($name) {
+            return [
+                'level' => ucwords($name),
+                'value' => $name,
+            ];
+        });
 
-        echo json_encode($return_arr);
+        return response()->json($suggestions);
     }
 
     public function suggestion($term = '')

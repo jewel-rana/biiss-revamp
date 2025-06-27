@@ -109,24 +109,7 @@ class FrontController extends Controller
 
     public function search(Request $request): View
     {
-        $query = DB::table('libraries');
-        if ($request->filled('keyword')) {
-            $keyword = trim($request->keyword);
-            $query->select('libraries.*')
-                ->orWhere('title', 'LIKE', '%' . $keyword . '%')
-                ->orWhere('article', 'LIKE', '%' . $keyword . '%');
-        }
-
-        if ($request->filled('author')) {
-            $author = trim($request->author);
-            $query->select('libraries.*')
-                ->join('library_authors', 'libraries.id', '=', 'library_authors.item_id')
-                ->where('library_authors.author_name', 'LIKE', '%' . $author . '%')
-                ->distinct();
-        }
-
-        $data['items'] = $query->paginate(12);
-        return view('frontend.search', $data);
+        return view('frontend.search');
     }
 
     public function newBooks(Request $request): View

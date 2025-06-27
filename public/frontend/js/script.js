@@ -68,6 +68,29 @@ $(document).ready(function () {
     owlTopJournals.trigger("next.owl.carousel");
   });
 
+    // TOP Journals Carousel
+    var owlTopPapers = $(".owl-top-papers").owlCarousel({
+        loop: true,
+        margin: 16,
+        responsive: {
+            0: { items: 1 },
+            576: { items: 2 },
+            768: { items: 2 },
+            992: { items: 4 },
+        },
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+    });
+
+    $(".slider-arrow-top-papers.prev").click(function () {
+        owlTopPapers.trigger("prev.owl.carousel");
+    });
+
+    $(".slider-arrow-top-papers.next").click(function () {
+        owlTopPapers.trigger("next.owl.carousel");
+    });
+
   // Seminar Proceeding Carousel
   var owlSeminarProceeding = $(".owl-seminar-proceeding").owlCarousel({
     loop: true,

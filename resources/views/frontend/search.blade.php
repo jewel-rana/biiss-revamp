@@ -35,6 +35,58 @@
             border: 0;
         }
     </style>
+<style>
+    /* Apply Bootstrap's form-control behavior to Awesomplete input */
+    .awesomplete input.form-control {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+
+    /* Suggestion dropdown positioning */
+    .awesomplete ul {
+        position: absolute;
+        left: 0;
+        right: 0; /* Prevents full-width overflow */
+        z-index: 1000;
+        min-width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-top: none;
+        max-height: 250px;
+        overflow-y: auto;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    /* Suggestion list items */
+    .awesomplete li {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        border-bottom: 1px solid #f1f1f1;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Active/hover styling */
+    .awesomplete li:hover,
+    .awesomplete li[aria-selected="true"] {
+        background-color: #e9ecef;
+        color: #212529;
+    }
+</style>
+
 @endsection
 
 @section('content')
@@ -49,20 +101,22 @@
                         <div id="customFilters"
                              style="padding:15px 10px;background: #fff;border:1px solid #eee;border-top-left-radius: 4px;border-top-right-radius: 4px;">
                             <div class="row g-2">
-                                <div class="col-md-5">
-                                    <div class="input-group">
-                                        <input type="text" id="filterQuery" class="form-control"
-                                               value="<?php echo ( isset( $_GET['search'] ) ) ? $_GET['search'] : ''; ?>"
-                                               placeholder="Title">
-                                        <select class="form-select" id="searchType" style="max-width: 100px;">
-                                            <option value="like">Like</option>
-                                            <option value="exact">Exact</option>
-                                        </select>
-                                    </div>
+                                <div class="col-md-4">
+                                    <input type="text" id="filterQuery" class="form-control"
+                                           value="{{ request()->input('keyword') }}"
+                                           autocomplete="off"
+                                           placeholder="Title">
+                                </div>
+                                <div class="col-md-1">
+                                    <select class="form-select" id="searchType" style="max-width: 100px;">
+                                        <option value="like">Match</option>
+                                        <option value="exact">Exact</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
                                     <input type="text" id="filterAuthor" class="form-control"
-                                           value="<?php echo ( isset( $_GET['author'] ) ) ? $_GET['author'] : ''; ?>"
+                                           value="{{ request()->input('author') }}"
+                                           autocomplete="off"
                                            placeholder="Author">
                                 </div>
                                 <div class="col-md-2">
@@ -119,20 +173,18 @@
         var table;
         var customFilter = document.getElementById('customFilters');
 
-
-        var url = "{{ route('datatable.frontend.search') }}";
         $(document).ready(function () {
             table = $('#dataTable').DataTable({
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    'url': url,
+                    'url': "{{ route('datatable.frontend.search') }}",
                     'data': function (data) {
                         // Read values
-                        // data.q = $('#filterQuery').val();
-                        // data.author = $('#filterAuthor').val();
-                        // data.type = $('#filterType').val();
-                        // data.search_type = $('#searchType').val();
+                        data.q = $('#filterQuery').val();
+                        data.author = $('#filterAuthor').val();
+                        data.type = $('#filterType').val();
+                        data.search_type = $('#searchType').val();
                     }
                 },
                 "pageLength": 25,
@@ -142,11 +194,7 @@
                 "dom": '<"top"i>rt<"bottom"flp><"clear">',
                 "lengthChange": true,
                 "columns": [
-                    {
-                        "mRender": function (data, type, row) {
-                            return '<img src="' + row['photo'] + '" class="img-responsive" style="width:60px;" alt="' + row['title'] + '">';
-                        }
-                    },
+                    {"data": "photo"},
                     {
                         "mRender": function (data, type, row) {
                             return '<a href="/single/' + row['id'] + '" title="' + row['title'] + '">' + row['title'] + '</a>';
@@ -165,183 +213,104 @@
 
             //Custom Filters ( title search )
             $(customFilter).find('#filterQuery').click(function (event) {
-                // alert('filterQuery')
-                console.log("filterQuery");
 
                 table.draw();
             });
             $(customFilter).find('#filterAuthor').click(function (event) {
-                // alert('filterAuthor')
-                console.log("ofsdfdsfsdf");
                 table.draw();
             });
 
 
             //Custom Filters ( ISBN search )
             $(customFilter).find('#filterType').change(function () {
-                // alert('filterType')
                 table.draw();
             });
 
             $(customFilters).find('#filterButton').click(function (event) {
-                console.log("hellow, World!");
                 table.draw();
             });
         });
     </script>
     <script>
-
-
-        //carousel
-        addLoadListener(initAwesomplete);
+        function getXHR() {
+            if (window.XMLHttpRequest) return new XMLHttpRequest();
+            return new ActiveXObject("Microsoft.XMLHTTP");
+        }
 
         function initAwesomplete() {
-            var input = document.getElementById("librarySuggest");
-            // var awesomplete = new Awesomplete(input);
-            var value = input.value;
+            const input = document.getElementById("filterQuery");
+            const typeInput = document.getElementById("filterType");
 
-            var awesomplete = new Awesomplete(input);
+            const awesomplete = new Awesomplete(input);
+
             input.onkeyup = function (e) {
-                var code = (e.keyCode || e.which);
+                const code = (e.keyCode || e.which);
 
-                if (code === 37 || code === 38 || code === 39 || code === 40 || code === 27 || code === 13) {
-                    return false;
-                } else {
+                if ([37, 38, 39, 40, 27, 13].includes(code)) return;
 
-                    var xhr = getXHR();
-                    var value = this.value;
-                    xhr.open("GET", "{{ url('ajax/library/front/suggestions') }}/" + value, true);
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState == 4) {
-                            if (xhr.status == 200 || xhr.status == 304) {
-                                // response = xhr.responseText; // or xhr.responseXML;
+                const value = this.value;
+                const type = typeInput.value;
 
-                                var list = JSON.parse(xhr.responseText).map(function (i) {
-                                    return i;
-                                });
-                                awesomplete.list = list;
-                                awesomplete.data = function (i, input) {
-                                    return {label: i.level, value: i.value};
-                                }
+                const xhr = getXHR();
+                const requestUrl = `/ajax/library/front/suggestions/${encodeURIComponent(value)}?type=${encodeURIComponent(type)}`;
+
+                xhr.open("GET", requestUrl, true);
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
+                        try {
+                            const list = JSON.parse(xhr.responseText);
+                            awesomplete.list = list;
+                            awesomplete.data = function (i, input) {
+                                return { label: i.level, value: i.value };
                             }
+                        } catch (e) {
+                            console.error("Invalid JSON returned:", xhr.responseText);
                         }
-                    };
-                    xhr.send();
-
-                }
-            }
-
-            input.addEventListener('awesomplete-selectcomplete', function () {
-
-                // var xhr = new XMLHttpRequest();
-                // xhr.open('GET', "{{ url('ajax/library/item') }}/" + this.value + "/?type=", true);
-                // xhr.onreadystatechange = function()
-                // {
-                //   if(xhr.readyState == 4){
-                //     if(xhr.status == 200 || xhr.status == 304)
-                //     {
-                //         $('.pagination').hide();
-                //         document.getElementById("searchResult").innerHTML = xhr.response;
-                //     }
-                //   }
-                // };
-                // xhr.send();
-            });
+                    }
+                };
+                xhr.send();
+            };
         }
 
-        //carousel
-        addLoadListener(initAuthorAwesomplete);
+
 
         function initAuthorAwesomplete() {
-            var input = document.getElementById("authorSuggest");
-            // var awesomplete = new Awesomplete(input);
-            var value = input.value;
+            const input = document.getElementById("filterAuthor");
 
-            var awesomplete = new Awesomplete(input);
+            const awesomplete = new Awesomplete(input);
+
             input.onkeyup = function (e) {
-                var code = (e.keyCode || e.which);
+                const code = (e.keyCode || e.which);
 
-                if (code === 37 || code === 38 || code === 39 || code === 40 || code === 27 || code === 13) {
-                    return false;
-                } else {
+                if ([37, 38, 39, 40, 27, 13].includes(code)) return;
 
-                    var xhr = getXHR();
-                    var value = this.value;
-                    xhr.open("GET", "{{ url('ajax/library/front/authorsuggestions') }}/" + value, true);
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState == 4) {
-                            if (xhr.status == 200 || xhr.status == 304) {
-                                // response = xhr.responseText; // or xhr.responseXML;
+                const value = this.value;
 
-                                var list = JSON.parse(xhr.responseText).map(function (i) {
-                                    return i;
-                                });
-                                awesomplete.list = list;
-                                awesomplete.data = function (i, input) {
-                                    return {label: i.level, value: i.value};
-                                }
+                const xhr = getXHR();
+                const requestUrl = `/ajax/library/front/author-suggestions/${encodeURIComponent(value)}`;
+
+                xhr.open("GET", requestUrl, true);
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 304)) {
+                        try {
+                            const list = JSON.parse(xhr.responseText);
+                            awesomplete.list = list;
+                            awesomplete.data = function (i, input) {
+                                return { label: i.level, value: i.value };
                             }
+                        } catch (e) {
+                            console.error("Invalid JSON returned:", xhr.responseText);
                         }
-                    };
-                    xhr.send();
-
-                }
-            }
-
-            input.addEventListener('awesomplete-selectcomplete', function () {
-
-                // var xhr = new XMLHttpRequest();
-                // xhr.open('GET', "{{ url('ajax/library/item') }}/" + this.value + "/?type=", true);
-                // xhr.onreadystatechange = function()
-                // {
-                //   if(xhr.readyState == 4){
-                //     if(xhr.status == 200 || xhr.status == 304)
-                //     {
-                //         $('.pagination').hide();
-                //         document.getElementById("searchResult").innerHTML = xhr.response;
-                //     }
-                //   }
-                // };
-                // xhr.send();
-            });
+                    }
+                };
+                xhr.send();
+            };
         }
 
-        function getXHR() {
-            //ajax request
-            var xhr;
-            try {
-                xhr = new XMLHttpRequest();
-            } catch (error) {
-                try {
-                    xhr = new ActiveXObject('Microsoft.XMLHTTP');
-                } catch (error) {
-                    xhr = null;
-                }
-            }
-            return xhr;
-        }
-
-        //Load Listener
-        function addLoadListener(fn) {
-            if (typeof window.addEventListener != 'undefined') {
-                window.addEventListener('load', fn, false);
-            } else if (typeof document.addEventListener != 'undefined') {
-                document.addEventListener('load', fn, false);
-            } else if (typeof window.attachEvent != 'undefined') {
-                window.attachEvent('onload', fn);
-            } else {
-                var oldfn = window.onload;
-                if (typeof window.onload != 'function') {
-                    window.onload = fn;
-                } else {
-                    window.onload = function () {
-                        oldfn();
-                        fn();
-                    };
-                }
-            }
-        }
-
+        // Run when page loads
+        window.addEventListener('load', initAwesomplete);
+        window.addEventListener('load', initAuthorAwesomplete);
     </script>
-
 @endsection

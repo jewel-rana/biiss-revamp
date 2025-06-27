@@ -70,36 +70,6 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function (
         Route::resource('return', ReturnController::class);
     });
 
-    //Ajax Request
-    Route::group(['prefix' => 'ajax'], function () {
-        //search in the front
-        Route::get('library/front/suggestions', [AjaxController::class, 'frontSuggestion']);
-        Route::get('library/front/suggestions/{keyword}', [AjaxController::class, 'frontSuggestion']);
-        Route::get('library/front/author-suggestions', [AjaxController::class, 'authorSuggestion']);
-        Route::get('library/front/author-suggestions/{keyword}', [AjaxController::class, 'authorSuggestion']);
-        Route::get('library/front/category-suggestions', [AjaxController::class, 'catSuggest'])->name('ajax.tags');
-        Route::get('library/front/search', [AjaxController::class, 'search'])->name('datatable.frontend.search');
-
-        //search in the backend
-        Route::get('library/suggestions', [AjaxController::class, 'suggestion']);
-        Route::get('library/suggestions/{keyword}', [AjaxController::class, 'suggestion']);
-        Route::get('library/item/{id}', [AjaxController::class, 'singleitem']);
-        Route::get('library/single/{id}', [AjaxController::class, 'single']);
-        Route::get('member/suggestions', [AjaxController::class, 'memberSuggestion']);
-        Route::get('member/single/{id}', [AjaxController::class, 'member_single']);
-        Route::post('createIssue', [AjaxController::class, 'createIssue']);
-        Route::post('extendIssue', [AjaxController::class, 'extendIssue']);
-        Route::post('library/issue-return', [AjaxController::class, 'issueReturn'])->name('issue.ajax.return');
-        Route::get('library/get-all-items', [AjaxController::class, 'getAllItems'])->name('ajax.datatable.items');
-        Route::post('library/create', [AjaxController::class, 'create'])->name('dashboard.ajax.create');
-        Route::post('library/update', [AjaxController::class, 'update'])->name('dashboard.ajax.update');
-        Route::get('library/delete/{id}', [AjaxController::class, 'deleteItem'])->name('dashboard.ajax.delete');
-        Route::post('library/lost', [AjaxController::class, 'lostItem'])->name('dashboard.ajax.lost.item');
-        Route::post('library/add-copy', [AjaxController::class, 'addMoreCopy'])->name('dashboard.ajax.add.more.copy');
-        Route::post('jq-upload', [AjaxController::class, 'jqupload'])->name('dashboard.ajax.jqupload');
-        Route::post('author/delete', [AjaxController::class, 'deleteAuthor'])->name('dashboard.ajax.author.delete');
-    });
-
     //library issue
     Route::group(['prefix' => 'issue'], function () {
         Route::get('extend/{issue}', [IssueController::class, 'extend'])->name('issue.extend');
@@ -126,3 +96,32 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function (
     Route::resource('library', LibraryController::class);
 });
 
+//Ajax Request
+Route::group(['prefix' => 'ajax'], function () {
+    //search in the front
+    Route::get('library/front/suggestions', [AjaxController::class, 'frontSuggestion']);
+    Route::get('library/front/suggestions/{keyword}', [AjaxController::class, 'frontSuggestion']);
+    Route::get('library/front/author-suggestions', [AjaxController::class, 'authorSuggestion']);
+    Route::get('library/front/author-suggestions/{keyword}', [AjaxController::class, 'authorSuggestion']);
+    Route::get('library/front/category-suggestions', [AjaxController::class, 'catSuggest'])->name('ajax.tags');
+    Route::get('library/front/search', [AjaxController::class, 'search'])->name('datatable.frontend.search');
+
+    //search in the backend
+    Route::get('library/suggestions', [AjaxController::class, 'suggestion']);
+    Route::get('library/suggestions/{keyword}', [AjaxController::class, 'suggestion']);
+    Route::get('library/item/{id}', [AjaxController::class, 'singleitem']);
+    Route::get('library/single/{id}', [AjaxController::class, 'single']);
+    Route::get('member/suggestions', [AjaxController::class, 'memberSuggestion']);
+    Route::get('member/single/{id}', [AjaxController::class, 'member_single']);
+    Route::post('createIssue', [AjaxController::class, 'createIssue']);
+    Route::post('extendIssue', [AjaxController::class, 'extendIssue']);
+    Route::post('library/issue-return', [AjaxController::class, 'issueReturn'])->name('issue.ajax.return');
+    Route::get('library/get-all-items', [AjaxController::class, 'getAllItems'])->name('ajax.datatable.items');
+    Route::post('library/create', [AjaxController::class, 'create'])->name('dashboard.ajax.create');
+    Route::post('library/update', [AjaxController::class, 'update'])->name('dashboard.ajax.update');
+    Route::get('library/delete/{id}', [AjaxController::class, 'deleteItem'])->name('dashboard.ajax.delete');
+    Route::post('library/lost', [AjaxController::class, 'lostItem'])->name('dashboard.ajax.lost.item');
+    Route::post('library/add-copy', [AjaxController::class, 'addMoreCopy'])->name('dashboard.ajax.add.more.copy');
+    Route::post('jq-upload', [AjaxController::class, 'jqupload'])->name('dashboard.ajax.jqupload');
+    Route::post('author/delete', [AjaxController::class, 'deleteAuthor'])->name('dashboard.ajax.author.delete');
+});

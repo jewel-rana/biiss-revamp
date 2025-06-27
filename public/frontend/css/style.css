@@ -41,7 +41,7 @@ body {
 
 /* Hero Section */
 .hero-section {
-  background: url("https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg");
+  background: url("/frontend/images/banner1.jpg");
   /* linear-gradient(
       rgba(255, 255, 255, 0.9),
       rgba(255, 255, 255, 0.9)
