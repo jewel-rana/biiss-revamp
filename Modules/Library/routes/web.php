@@ -59,8 +59,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth:web']], function (
         //Stock
         Route::group(['prefix' => 'stock', 'middleware' => ['auth']], function () {
             Route::get('/', ['as' => 'dashboard.stock.index', 'uses' => 'StockController@index', 'middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
-            Route::get('add/{id}', ['as' => 'book.search', 'uses' => 'StockController@search', 'middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
-            Route::get('delete/{id}', ['as' => 'book.search', 'uses' => 'StockController@search', 'middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
+            Route::get('add/{id}', ['as' => 'book.stock.add', 'uses' => 'StockController@search', 'middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
+            Route::get('delete/{id}', ['as' => 'book.stock.delete', 'uses' => 'StockController@search', 'middleware' => ['permission:book-list|book-create|book-edit|book-delete']]);
         });
 
         //book ret
