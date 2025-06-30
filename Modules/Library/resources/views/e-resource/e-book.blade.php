@@ -39,78 +39,85 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach( $books as $book )
-                                    <tr>
-                                        <td>
-                                            @if( $book->cover_photo != '' )
-                                                <img src="{{ asset($book->cover_photo) }}" class="img-fluid"
-                                                     style="width:60px;" alt="">
-                                            @else
-                                                <img
+                                @if($books->count())
+                                    @foreach( $books as $book )
+                                        <tr>
+                                            <td>
+                                                @if( $book->cover_photo != '' )
+                                                    <img src="{{ asset($book->cover_photo) }}" class="img-fluid"
+                                                         style="width:60px;" alt="">
+                                                @else
+                                                    <img
                                                         src="{{ asset('default/cover/' . strtolower( $book->type ) . '.jpg') }}"
                                                         class="img-fluid" style="width:60px;">
-                                            @endif
-                                        </td>
-                                        <td><a href="{{ route('e-book.show', $book->id ) }}">{{ $book->title }}</a></td>
-                                        <td>
-                                                <?php
-                                                $articles = '';
-                                                $subjects = '';
-                                                if ($book->authors) :
-                                                    foreach ($book->authors as $author) :
-                                                        if (!empty($author['author_name'])) {
-                                                            echo '<span class="badge bg-info me-1">' . $author['author_name'] . '</span>';
-                                                        }
-                                                        if (!empty($author['auth_subject'])) {
-                                                            if (!empty($subjects)) {
-                                                                $subjects .= ', ';
+                                                @endif
+                                            </td>
+                                            <td><a href="{{ route('e-book.show', $book->id ) }}">{{ $book->title }}</a>
+                                            </td>
+                                            <td>
+                                                    <?php
+                                                    $articles = '';
+                                                    $subjects = '';
+                                                    if ($book->authors) :
+                                                        foreach ($book->authors as $author) :
+                                                            if (!empty($author['author_name'])) {
+                                                                echo '<span class="badge bg-info me-1">' . $author['author_name'] . '</span>';
                                                             }
-                                                            $subjects .= $author['auth_subject'];
-                                                        }
-                                                        if (!empty($author['author_article'])) {
-                                                            if (!empty($articles)) {
-                                                                $articles .= ', ';
+                                                            if (!empty($author['auth_subject'])) {
+                                                                if (!empty($subjects)) {
+                                                                    $subjects .= ', ';
+                                                                }
+                                                                $subjects .= $author['auth_subject'];
                                                             }
-                                                            $articles .= $author['author_article'];
-                                                        }
-                                                    endforeach;
-                                                endif;
-                                                ?>
-                                        </td>
-                                        <td>
-                                                <?php
-                                                if (empty($subjects)) {
-                                                    if (!empty($book->tags)) {
-                                                        foreach ($book->tags as $tag) {
-                                                            if (!empty($subjects)) {
-                                                                $subjects .= ', ';
+                                                            if (!empty($author['author_article'])) {
+                                                                if (!empty($articles)) {
+                                                                    $articles .= ', ';
+                                                                }
+                                                                $articles .= $author['author_article'];
                                                             }
-                                                            $subjects .= $tag['categories'];
+                                                        endforeach;
+                                                    endif;
+                                                    ?>
+                                            </td>
+                                            <td>
+                                                    <?php
+                                                    if (empty($subjects)) {
+                                                        if (!empty($book->tags)) {
+                                                            foreach ($book->tags as $tag) {
+                                                                if (!empty($subjects)) {
+                                                                    $subjects .= ', ';
+                                                                }
+                                                                $subjects .= $tag['categories'];
+                                                            }
                                                         }
                                                     }
-                                                }
-                                                echo $subjects;
-                                                ?>
-                                        </td>
-                                        <td>
-                                                <?php echo $articles; ?>
-                                        </td>
-                                        <td>{{ (int) $book->publication_year }}</td>
-                                        <td>
-                                            @if($book->hasEResource())
-                                                <a href="{{ route('library.reader', [$book->type, $book->id]) }}"
-                                                   target="_blank">
-                                                    <img src="/frontend/images/pdf-svgrepo-com.svg" width="80"
-                                                         height="80" class="img-fluid pdfReaderIcon img-rounded"
-                                                         style="min-width: 40px !important;"
-                                                         title="Read: {{ ucwords($book->title) }}"
-                                                         data-bs-toggle="tooltip" data-bs-placement="top"
-                                                         alt="Read e-{{ ucfirst($book->type) }}">
-                                                </a>
-                                            @endif
-                                        </td>
+                                                    echo $subjects;
+                                                    ?>
+                                            </td>
+                                            <td>
+                                                    <?php echo $articles; ?>
+                                            </td>
+                                            <td>{{ (int) $book->publication_year }}</td>
+                                            <td>
+                                                @if($book->hasEResource())
+                                                    <a href="{{ route('library.reader', [$book->type, $book->id]) }}"
+                                                       target="_blank">
+                                                        <img src="/frontend/images/pdf-svgrepo-com.svg" width="80"
+                                                             height="80" class="img-fluid pdfReaderIcon img-rounded"
+                                                             style="min-width: 40px !important;"
+                                                             title="Read: {{ ucwords($book->title) }}"
+                                                             data-bs-toggle="tooltip" data-bs-placement="top"
+                                                             alt="Read e-{{ ucfirst($book->type) }}">
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="7">No resource found!</td>
                                     </tr>
-                                @endforeach
+                                @endif
                                 </tbody>
                             </table>
                             <nav>
