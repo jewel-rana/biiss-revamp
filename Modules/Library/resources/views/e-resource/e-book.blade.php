@@ -22,8 +22,9 @@
                             <div class="paginate float-end mb-3">
                                 <?php
                                 for ($i = 65; $i <= 90; $i++) {
-                                    printf('<a href="' . route('front.allBooks', array_merge(request()->query(), array('letter_sort' => chr($i)))) . '" class="myclass">%1$s</a> ', chr($i));
-                                } ?>
+                                    printf('<a href="' . route('e-book', array_merge(request()->query(), array('letter_sort' => chr($i)))) . '" class="myclass">%1$s</a> ', chr($i));
+                                }
+                                ?>
                             </div>
                             <table class="table table-striped table-bordered">
                                 <thead>
@@ -46,8 +47,8 @@
                                                      style="width:60px;" alt="">
                                             @else
                                                 <img
-                                                    src="{{ asset('default/cover/' . strtolower( $book->type ) . '.jpg') }}"
-                                                    class="img-fluid" style="width:60px;">
+                                                        src="{{ asset('default/cover/' . strtolower( $book->type ) . '.jpg') }}"
+                                                        class="img-fluid" style="width:60px;">
                                             @endif
                                         </td>
                                         <td><a href="{{ route('e-book.show', $book->id ) }}">{{ $book->title }}</a></td>

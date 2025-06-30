@@ -23,7 +23,7 @@
                         <div class="row">
                             <div class="d-flex justify-content-end flex-wrap mb-3">
                                 @for ($i = 65; $i <= 90; $i++)
-                                    <a href="{{ route('front.documents', array_merge(Request::query(), ['letter_sort' => chr($i)])) }}" class="btn btn-sm btn-outline-primary m-1">
+                                    <a href="{{ route('e-book', array_merge(Request::query(), ['letter_sort' => chr($i)])) }}" class="btn btn-sm btn-outline-primary m-1">
                                         {{ chr($i) }}
                                     </a>
                                 @endfor
