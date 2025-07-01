@@ -36,7 +36,7 @@ class EResourceController extends Controller
             $query->orderBy('title', 'ASC');
         endif;
         $books = $query->paginate(25)->withQueryString();
-        return view('library::e-resource.e-book', compact('books'));
+        return view('library::e-resource.e-journal', compact('books'));
     }
 
     public function eDocument(Request $request): View
