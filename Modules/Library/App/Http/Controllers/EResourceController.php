@@ -14,6 +14,17 @@ class EResourceController extends Controller
         $query = Library::with('authors')
             ->where('type', 'book')
             ->where('has_e_resource', true);
+
+        if ($request->filled('keyword')) {
+            $query->where('title', 'LIKE', '%' . $request->get('keyword') . '%');
+        }
+
+        if ($request->filled('author')) {
+            $query->where('authors', function ($query) use ($request) {
+                $query->where('author_name', 'LIKE', '%' . $request->get('keyword') . '%');
+            });
+        }
+
         if (isset($_GET['letter_sort'])) :
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');
@@ -29,6 +40,17 @@ class EResourceController extends Controller
         $query = Library::with('authors')
             ->where('type', 'journal')
             ->where('has_e_resource', true);
+
+        if ($request->filled('keyword')) {
+            $query->where('title', 'LIKE', '%' . $request->get('keyword') . '%');
+        }
+
+        if ($request->filled('author')) {
+            $query->where('authors', function ($query) use ($request) {
+                $query->where('author_name', 'LIKE', '%' . $request->get('keyword') . '%');
+            });
+        }
+
         if (isset($_GET['letter_sort'])) :
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');
@@ -44,6 +66,17 @@ class EResourceController extends Controller
         $query = Library::with('authors')
             ->where('type', 'document')
             ->where('has_e_resource', true);
+
+        if ($request->filled('keyword')) {
+            $query->where('title', 'LIKE', '%' . $request->get('keyword') . '%');
+        }
+
+        if ($request->filled('author')) {
+            $query->where('authors', function ($query) use ($request) {
+                $query->where('author_name', 'LIKE', '%' . $request->get('keyword') . '%');
+            });
+        }
+
         if (isset($_GET['letter_sort'])) :
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');

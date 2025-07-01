@@ -92,7 +92,7 @@
     <x-frontend::top-nav></x-frontend::top-nav>
 </header>
 
-@if(!request()->routeIs(['front.search', 'single.show', 'e-book.show', 'e-document.show', 'e-journal.show', 'library.reader']))
+@if(!request()->routeIs(['front.search', 'e-book', 'e-document', 'e-journal', 'single.show', 'e-book.show', 'e-document.show', 'e-journal.show', 'library.reader']))
     <x-frontend::hero></x-frontend::hero>
 @endif
 

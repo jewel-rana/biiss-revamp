@@ -28,7 +28,31 @@
                                     </a>
                                 @endfor
                             </div>
+                            <div id="customFilters"
+                                 style="padding:15px 10px;background: #fff;border:1px solid #eee;border-top-left-radius: 4px;border-top-right-radius: 4px;">
 
+                                <form method="GET">
+                                    <div class="row g-2">
+                                        <input type="hidden" name="letter_sort" value="{{ request()->get('letter_sort', 'a') }}">
+                                        <div class="col-md-6" style="position: relative;">
+                                            <input type="text" id="filterQuery" class="form-control"
+                                                   name="keyword"
+                                                   value="{{ request()->input('keyword') }}"
+                                                   autocomplete="off"
+                                                   placeholder="Title">
+                                        </div>
+                                        <div class="col-md-5" style="position: relative;">
+                                            <input type="text" id="filterAuthor" name="author" class="form-control"
+                                                   value="{{ request()->input('author') }}"
+                                                   autocomplete="off"
+                                                   placeholder="Author">
+                                        </div>
+                                        <div class="col-md-1 d-grid">
+                                            <button type="submit" class="btn btn-primary" id="filterButton"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                             <table class="table table-striped table-bordered align-middle">
                                 <thead class="table-light">
                                 <tr>
