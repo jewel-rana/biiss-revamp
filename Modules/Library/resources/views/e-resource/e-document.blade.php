@@ -54,7 +54,7 @@
                                                    autocomplete="off"
                                                    placeholder="Subject">
                                         </div>
-                                        <div class="col-md-2" style="position: relative;">
+                                        <div class="col-md-1" style="position: relative;">
                                             <input type="text" id="filterYear" name="year" class="form-control"
                                                    value="{{ request()->input('year') }}"
                                                    autocomplete="off"
