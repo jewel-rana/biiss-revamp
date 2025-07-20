@@ -15,6 +15,16 @@ class EResourceController extends Controller
             ->where('type', 'book')
             ->where('has_e_resource', true);
 
+        if ($request->filled('year')) {
+            $query->where('publication_year', $request->get('year'));
+        }
+
+        if ($request->filled('subject')) {
+            $query->where('authors', function ($query) use ($request) {
+                $query->where('author_subject', 'LIKE', '%' . $request->get('subject') . '%');
+            });
+        }
+
         if ($request->filled('keyword')) {
             $query->where('title', 'LIKE', '%' . $request->get('keyword') . '%');
         }
@@ -41,6 +51,16 @@ class EResourceController extends Controller
             ->where('type', 'journal')
             ->where('has_e_resource', true);
 
+        if ($request->filled('year')) {
+            $query->where('publication_year', $request->get('year'));
+        }
+
+        if ($request->filled('subject')) {
+            $query->where('authors', function ($query) use ($request) {
+                $query->where('author_subject', 'LIKE', '%' . $request->get('subject') . '%');
+            });
+        }
+
         if ($request->filled('keyword')) {
             $query->where('title', 'LIKE', '%' . $request->get('keyword') . '%');
         }
@@ -66,6 +86,16 @@ class EResourceController extends Controller
         $query = Library::with('authors')
             ->where('type', 'document')
             ->where('has_e_resource', true);
+
+        if ($request->filled('year')) {
+            $query->where('publication_year', $request->get('year'));
+        }
+
+        if ($request->filled('subject')) {
+            $query->where('authors', function ($query) use ($request) {
+                $query->where('author_subject', 'LIKE', '%' . $request->get('subject') . '%');
+            });
+        }
 
         if ($request->filled('keyword')) {
             $query->where('title', 'LIKE', '%' . $request->get('keyword') . '%');
