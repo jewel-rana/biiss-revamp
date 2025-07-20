@@ -18,7 +18,7 @@ class LibraryController extends Controller
         $data['pageTitle'] = ucwords($type) . 's';
         $data['type'] = $type;
         $data['seasons'] = Season::pluck('name', 'name');
-        return view('library::index_' . strtolower($type), $data);
+        return view('library::index_' . strtolower(str_replace('e-', '', $type)), $data);
     }
 
     public function create(Request $request)

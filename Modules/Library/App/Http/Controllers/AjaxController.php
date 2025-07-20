@@ -240,8 +240,20 @@ class AjaxController extends Controller
 
     public function getAllItems(Request $request)
     {
-        //        dd($request);
-        $type = (isset($_GET['type'])) ? $_GET['type'] : 'book';
+        $requestType = $request->input('type', 'book');
+        $type = $requestType;
+        if($requestType == 'e-book') {
+            $type = 'book';
+        }
+        if($requestType == 'e-journal') {
+            $type = 'journal';
+        }
+        if($requestType == 'e-magazine') {
+            $type = 'magazine';
+        }
+        if($requestType == 'e-document') {
+            $type = 'document';
+        }
         $query = "SELECT libraries.id, `libraries`.`title`, libraries.document_author, libraries.type, libraries.place, libraries.source,
                     libraries.from_where, `libraries`.`season`, `libraries`.`volume_number`, libraries.item_number, `libraries`.`month_of_publish`,
                      `libraries`.`publication_year`, libraries.accession, `libraries`.`authormark`, `libraries`.`call_number`,
@@ -251,6 +263,12 @@ class AjaxController extends Controller
                       `library_authors`.`author_article` as `articles`, library_authors.pagi FROM `libraries`
                       LEFT JOIN `library_authors` ON `libraries`.`id` = `library_authors`.`item_id`
                       WHERE `libraries`.`type` = '$type'";
+
+        if(in_array($requestType, ['e-journal', 'e-magazine', 'e-document', 'e-book'])) {
+            $query .= " AND `libraries`.`has_e_resource` = 1";
+        } else {
+            $query .= " AND `libraries`.`has_e_resource` = 0";
+        }
 
         if ($request->filled('accno') && $request->accno != '0') {
             $accNo = $request->accno;

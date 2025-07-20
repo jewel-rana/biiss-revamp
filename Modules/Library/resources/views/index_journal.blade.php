@@ -256,6 +256,13 @@
                                 <a class="dropdown-item"
                                    href="{{ route('library.index', ['type' => 'magazine']) }}"><i
                                         class="fa fa-circle-o"></i> Magazines</a>
+                                <span class="divider"></span>
+                                <a class="dropdown-item" href="{{ route('library.index', ['type' => 'e-book']) }}"><i
+                                        class="fa fa-circle-o"></i> E-Book</a>
+                                <a class="dropdown-item" href="{{ route('library.index', ['type' => 'e-journal']) }}"><i
+                                        class="fa fa-circle-o"></i> E-Journal</a>
+                                <a class="dropdown-item" href="{{ route('library.index', ['type' => 'e-document']) }}"><i
+                                        class="fa fa-circle-o"></i> E-Document</a>
                                 {{-- <a class="dropdown-item" href="{{ route('library.index', ['type' => 'seminar']) }}"><i class="fa fa-circle-o"></i> Seminars</a> --}}
                             </div>
                         </div>
