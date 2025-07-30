@@ -20,7 +20,7 @@ class EResourceController extends Controller
         }
 
         if ($request->filled('subject')) {
-            $query->where('authors', function ($query) use ($request) {
+            $query->whereHas('authors', function ($query) use ($request) {
                 $query->where('author_subject', 'LIKE', '%' . $request->get('subject') . '%');
             });
         }
@@ -30,7 +30,7 @@ class EResourceController extends Controller
         }
 
         if ($request->filled('author')) {
-            $query->where('authors', function ($query) use ($request) {
+            $query->whereHas('authors', function ($query) use ($request) {
                 $query->where('author_name', 'LIKE', '%' . $request->get('keyword') . '%');
             });
         }
@@ -56,7 +56,7 @@ class EResourceController extends Controller
         }
 
         if ($request->filled('subject')) {
-            $query->where('authors', function ($query) use ($request) {
+            $query->whereHas('authors', function ($query) use ($request) {
                 $query->where('author_subject', 'LIKE', '%' . $request->get('subject') . '%');
             });
         }
@@ -66,7 +66,7 @@ class EResourceController extends Controller
         }
 
         if ($request->filled('author')) {
-            $query->where('authors', function ($query) use ($request) {
+            $query->whereHas('authors', function ($query) use ($request) {
                 $query->where('author_name', 'LIKE', '%' . $request->get('keyword') . '%');
             });
         }
@@ -92,7 +92,7 @@ class EResourceController extends Controller
         }
 
         if ($request->filled('subject')) {
-            $query->where('authors', function ($query) use ($request) {
+            $query->whereHas('authors', function ($query) use ($request) {
                 $query->where('author_subject', 'LIKE', '%' . $request->get('subject') . '%');
             });
         }
@@ -102,7 +102,7 @@ class EResourceController extends Controller
         }
 
         if ($request->filled('author')) {
-            $query->where('authors', function ($query) use ($request) {
+            $query->whereHas('authors', function ($query) use ($request) {
                 $query->where('author_name', 'LIKE', '%' . $request->get('keyword') . '%');
             });
         }
