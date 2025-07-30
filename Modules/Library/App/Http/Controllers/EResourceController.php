@@ -21,7 +21,7 @@ class EResourceController extends Controller
 
         if ($request->filled('subject')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_subject', 'LIKE', '%' . $request->get('subject') . '%');
+                $query->where('auth_subject', 'LIKE', '%' . $request->get('subject') . '%');
             });
         }
 
@@ -57,7 +57,7 @@ class EResourceController extends Controller
 
         if ($request->filled('subject')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_subject', 'LIKE', '%' . $request->get('subject') . '%');
+                $query->where('auth_subject', 'LIKE', '%' . $request->get('subject') . '%');
             });
         }
 
@@ -93,7 +93,7 @@ class EResourceController extends Controller
 
         if ($request->filled('subject')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_subject', 'LIKE', '%' . $request->get('subject') . '%');
+                $query->where('auth_subject', 'LIKE', '%' . $request->get('subject') . '%');
             });
         }
 
