@@ -16,22 +16,22 @@ class EResourceController extends Controller
             ->where('has_e_resource', true);
 
         if ($request->filled('year')) {
-            $query->where('publication_year', $request->get('year'));
+            $query->where('publication_year', $request->input('year'));
         }
 
         if ($request->filled('subject')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('auth_subject', 'LIKE', '%' . $request->get('subject') . '%');
+                $query->where('auth_subject', 'LIKE', '%' . $request->input('subject') . '%');
             });
         }
 
         if ($request->filled('keyword')) {
-            $query->where('title', 'LIKE', '%' . $request->get('keyword') . '%');
+            $query->where('title', 'LIKE', '%' . $request->input('keyword') . '%');
         }
 
         if ($request->filled('author')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_name', 'LIKE', '%' . $request->get('keyword') . '%');
+                $query->where('author_name', 'LIKE', '%' . $request->input('keyword') . '%');
             });
         }
 
@@ -52,22 +52,22 @@ class EResourceController extends Controller
             ->where('has_e_resource', true);
 
         if ($request->filled('year')) {
-            $query->where('publication_year', $request->get('year'));
+            $query->where('publication_year', $request->input('year'));
         }
 
         if ($request->filled('subject')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('auth_subject', 'LIKE', '%' . $request->get('subject') . '%');
+                $query->where('auth_subject', 'LIKE', '%' . $request->input('subject') . '%');
             });
         }
 
         if ($request->filled('keyword')) {
-            $query->where('title', 'LIKE', '%' . $request->get('keyword') . '%');
+            $query->where('title', 'LIKE', '%' . $request->input('keyword') . '%');
         }
 
         if ($request->filled('author')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_name', 'LIKE', '%' . $request->get('keyword') . '%');
+                $query->where('author_name', 'LIKE', '%' . $request->input('keyword') . '%');
             });
         }
 
@@ -88,22 +88,22 @@ class EResourceController extends Controller
             ->where('has_e_resource', true);
 
         if ($request->filled('year')) {
-            $query->where('publication_year', $request->get('year'));
+            $query->where('publication_year', $request->input('year'));
         }
 
         if ($request->filled('subject')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('auth_subject', 'LIKE', '%' . $request->get('subject') . '%');
+                $query->where('auth_subject', 'LIKE', '%' . $request->input('subject') . '%');
             });
         }
 
         if ($request->filled('keyword')) {
-            $query->where('title', 'LIKE', '%' . $request->get('keyword') . '%');
+            $query->where('title', 'LIKE', '%' . $request->input('keyword') . '%');
         }
 
         if ($request->filled('author')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_name', 'LIKE', '%' . $request->get('keyword') . '%');
+                $query->where('author_name', 'LIKE', '%' . $request->input('keyword') . '%');
             });
         }
 
