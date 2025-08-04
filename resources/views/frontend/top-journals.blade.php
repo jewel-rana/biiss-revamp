@@ -43,7 +43,7 @@ use App\Book;
                                  <p>By -
                                  @if( count( $journal->item['authors'] ) )
                                  @foreach( $journal->item['authors'] as $author )
-                                    <span class="badge badge-info">{{ $author->author_name }}</span>
+                                    <span>{{ $author->author_name }}</span>
                                  @endforeach
                                  @endif
                               </p>

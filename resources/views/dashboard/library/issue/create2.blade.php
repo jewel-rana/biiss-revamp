@@ -65,7 +65,7 @@
                                             <td id="itemAuthor">
                                                 @if( !empty( $stock ) )
                                                 @foreach( $stock->item['authors'] as $author )
-                                                    <span class="badge badge-info">{{ $author->author_name }}</span>
+                                                    <span>{{ $author->author_name }}</span>
                                                 @endforeach
                                                 @endif
                                             </td>

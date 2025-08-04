@@ -35,7 +35,7 @@
                                <p>{{ $book->item['authormark'] }}</p><p>By -
                                  @if( count( $book->item['authors'] ) )
                                  @foreach( $book->item['authors'] as $author )
-                                    <span class="badge badge-info">{{ $author->author_name }}</span>
+                                    <span>{{ $author->author_name }}</span>
                                  @endforeach
                                  @endif
                               </p>

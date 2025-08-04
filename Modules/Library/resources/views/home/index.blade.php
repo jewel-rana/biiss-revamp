@@ -138,7 +138,7 @@
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning"
                             data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                     </div>
-                    <h4 class="panel-title">Issue Statistics <span class="badge badge-info">{{ $issues['total'] }}</span>
+                    <h4 class="panel-title">Issue Statistics <span>{{ $issues['total'] }}</span>
                     </h4>
                 </div>
                 <div class="panel-body">

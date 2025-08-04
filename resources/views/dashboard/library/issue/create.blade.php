@@ -66,7 +66,7 @@
                                             <td id="itemAuthor">
                                                 @if( !empty( $item ) )
                                                 @foreach( $item->authors as $author )
-                                                    <span class="badge badge-info">{{ $author->author_name }}</span>
+                                                    <span>{{ $author->author_name }}</span>
                                                 @endforeach
                                                 @endif
                                             </td>
@@ -303,7 +303,7 @@
                                             <td id="itemAuthor">
                                                 @if( !empty( $item ) )
                                                 @foreach( $item->authors as $author )
-                                                    <span class="badge badge-info">{{ $author->author_name }}</span>
+                                                    <span>{{ $author->author_name }}</span>
                                                 @endforeach
                                                 @endif
                                             </td>

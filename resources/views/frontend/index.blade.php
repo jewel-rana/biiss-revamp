@@ -33,7 +33,7 @@
                               <p>By -
                                  @if( count( $nbook->item['authors'] ) )
                                  @foreach( $nbook->item['authors'] as $author )
-                                    <span class="badge badge-info">{{ $author->author_name }}</span>
+                                    <span>{{ $author->author_name }}</span>
                                  @endforeach
                                  @endif
                               </p>
@@ -90,7 +90,7 @@
                                  <p>By -
                                  @if( count( $fbook->item['authors'] ) )
                                  @foreach( $fbook->item['authors'] as $author )
-                                    <span class="badge badge-info">{{ $author->author_name }}</span>
+                                    <span>{{ $author->author_name }}</span>
                                  @endforeach
                                  @endif
                               </p>
@@ -148,7 +148,7 @@
                                  <p>By -
                                  @if( count( $fjournal->item['authors'] ) )
                                  @foreach( $fjournal->item['authors'] as $author )
-                                    <span class="badge badge-info" style="white-space: nowrap;">{{ $author['author_name'] }}</span>
+                                    <span style="white-space: nowrap;">{{ $author['author_name'] }}</span>
                                  @endforeach
                                  @endif
                               </p>

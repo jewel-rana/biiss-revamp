@@ -79,7 +79,7 @@
                                 <td colspan="3">
                                     @if( $item->tags )
                                     @foreach( $item->tags as $tag )
-                                        <span class="badge badge-info">{{ $tag->categories }}</span>
+                                        <span>{{ $tag->categories }}</span>
                                     @endforeach
                                     @endif
                                 </td>

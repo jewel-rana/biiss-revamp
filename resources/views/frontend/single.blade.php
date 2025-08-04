@@ -33,7 +33,7 @@
                         <h5 class="text-secondary">by
                             @if( $book->authors )
                                 @foreach( $book->authors as $key => $author )
-                                    <span class="badge badge-success bg-info">{{ $author['author_name'] }}</span>
+                                    <span>{{ $author['author_name'] }}</span>
                                 @endforeach
                             @endif
                             {{--                            <span class="fw-semibold">Author Name</span>--}}
@@ -51,7 +51,7 @@
                 </div>
 
                 <ul class="list-group list-group-flush mt-4">
-                    <li class="list-group-item"><strong>Genre:</strong> {{ ucfirst( $book->type ) }}</li>
+{{--                    <li class="list-group-item"><strong>Genre:</strong> {{ ucfirst( $book->type ) }}</li>--}}
                     <li class="list-group-item"><strong>Publisher:</strong> {{ $book->publisher }}
                         - {{ $book->publication_year }}</li>
                     <li class="list-group-item"><strong>Subjects:</strong>
@@ -76,8 +76,8 @@
                         <li class="list-group-item"><strong>Season:</strong> {{ $book->season }}</li>
 
                     @elseif( strtolower( $book->type ) == 'book')
-                        <li class="list-group-item"><strong>Call No. (AUMARK):</strong> {{ $book->call_number }}</li>
-                        <li class="list-group-item"><strong>Author Mark:</strong> {{ $book->authormark }}</li>
+                        <li class="list-group-item"><strong>Call No. :</strong> {{ $book->call_number }} {{ $book->authormark }}</li>
+{{--                        <li class="list-group-item"><strong>Author Mark:</strong> {{ $book->authormark }}</li>--}}
                         <li class="list-group-item"><strong>Accession Number(ACC):</strong> {{ $book->acc_number }}</li>
 
                         {{--                        @php--}}

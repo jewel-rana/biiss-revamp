@@ -154,7 +154,7 @@
                                             break;
                                             case '0' : echo '<span class="badge badge-success">Available</span>';
                                             break;
-                                            default : echo '<span class="badge badge-info">Unknown / Lost</span>';
+                                            default : echo '<span>Unknown / Lost</span>';
                                             break;
                                         }
                                     @endphp
