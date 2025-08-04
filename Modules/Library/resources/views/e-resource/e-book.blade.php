@@ -76,7 +76,6 @@
                                         <th>Title</th>
                                         <th>Author</th>
                                         <th>Subject</th>
-                                        <th>Articles</th>
                                         <th>Year</th>
                                         <th style="width: 60px"><i class="fa fa-file-pdf"></i></th>
                                     </tr>
@@ -125,7 +124,6 @@
                                                             ?>
                                                     </td>
                                                     <td><?php echo $subjects; ?></td>
-                                                    <td><?php echo $articles; ?></td>
                                                     <td>{{ (int) $book->publication_year }}</td>
                                                     <td>
                                                         @if($book->hasEResource())
