@@ -80,7 +80,7 @@
                                         <th>Subject</th>
                                         <th>Articles</th>
                                         <th>Year</th>
-                                        <th style="width: 60px"><i class="fa fa-file-pdf"></i></th>
+                                        <th style="width: 60px"><i class="fa fa-file-pdf-o"></i></th>
                                     </tr>
                                     </thead>
                                     <tbody>

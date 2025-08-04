@@ -33,7 +33,7 @@
                                     <th>Author</th>
                                     <th>Subject</th>
                                     <th>Year</th>
-                                    <th style="width: 60px"><i class="fa fa-file-pdf"></i> E-Book</th>
+                                    <th style="width: 60px"><i class="fa fa-file-pdf-o"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
