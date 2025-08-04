@@ -177,7 +177,7 @@
                                         switch( $cpy->issued ){
                                             case '1' : echo '<span class="badge badge-warning">Issued</span>';
                                             break;
-                                            case '0' : echo '<span class="badge badge-success">Available</span>';
+                                            case '0' : echo '<span>Available</span>';
                                             break;
                                             default : echo '<span class="badge badge-danger">Unknown / Lost</span>';
                                             break;
