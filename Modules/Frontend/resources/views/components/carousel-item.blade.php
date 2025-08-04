@@ -12,7 +12,7 @@
             <div class="card-text text-success">
                 @if(count($book->item['authors']))
                     @foreach($book->item['authors'] as $author)
-                        <span class="badge bg-info text-dark">{{ $author->author_name }}</span>
+                        <span class="text-dark">{{ $author->author_name }}</span>
                     @endforeach
                 @endif
             </div>
