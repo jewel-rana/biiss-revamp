@@ -106,7 +106,7 @@
                                                             if ($book->authors) :
                                                                 foreach ($book->authors as $author) :
                                                                     if (!empty($author['author_name'])) {
-                                                                        echo '<span class="badge bg-info me-1">' . $author['author_name'] . '</span>';
+                                                                        echo '<span class="me-1">' . $author['author_name'] . '</span>';
                                                                     }
                                                                     if (!empty($author['auth_subject'])) {
                                                                         if (!empty($subjects)) {

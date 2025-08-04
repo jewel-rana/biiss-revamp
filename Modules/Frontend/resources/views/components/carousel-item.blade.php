@@ -11,7 +11,7 @@
             <div class="card-title text-primary text-truncate">{{ Str::words($book->item['title'], 4, '...') }}</div>
             <div class="card-text text-success">
                 @if(count($book->item['authors']))
-                    @foreach($book->item['authors'] as $author)
+                    @foreach($book->item['authors'] as $k => $author)
                         <span class="text-dark">{{ $author->author_name }}</span>
                     @endforeach
                 @endif
