@@ -21,17 +21,17 @@ class EResourceController extends Controller
 
         if ($request->filled('subject')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('auth_subject', 'LIKE', '%' . $request->input('subject') . '%');
+                $query->where('auth_subject', 'LIKE', '%' . trim($request->input('subject')) . '%');
             });
         }
 
         if ($request->filled('keyword')) {
-            $query->where('title', 'LIKE', '%' . $request->input('keyword') . '%');
+            $query->where('title', 'LIKE', '%' . trim($request->input('keyword')) . '%');
         }
 
         if ($request->filled('author')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_name', 'LIKE', '%' . $request->input('keyword') . '%');
+                $query->where('author_name', 'LIKE', '%' . trim($request->input('author')) . '%');
             });
         }
 
@@ -41,6 +41,7 @@ class EResourceController extends Controller
         else :
             $query->orderBy('title', 'ASC');
         endif;
+
         $books = $query->paginate(25)->withQueryString();
         return view('library::e-resource.e-book', compact('books'));
     }
@@ -57,17 +58,17 @@ class EResourceController extends Controller
 
         if ($request->filled('subject')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('auth_subject', 'LIKE', '%' . $request->input('subject') . '%');
+                $query->where('auth_subject', 'LIKE', '%' . trim($request->input('subject')) . '%');
             });
         }
 
         if ($request->filled('keyword')) {
-            $query->where('title', 'LIKE', '%' . $request->input('keyword') . '%');
+            $query->where('title', 'LIKE', '%' . trim($request->input('keyword')) . '%');
         }
 
         if ($request->filled('author')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_name', 'LIKE', '%' . $request->input('keyword') . '%');
+                $query->where('author_name', 'LIKE', '%' . trim($request->input('author')) . '%');
             });
         }
 
@@ -93,17 +94,17 @@ class EResourceController extends Controller
 
         if ($request->filled('subject')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('auth_subject', 'LIKE', '%' . $request->input('subject') . '%');
+                $query->where('auth_subject', 'LIKE', '%' . trim($request->input('subject')) . '%');
             });
         }
 
         if ($request->filled('keyword')) {
-            $query->where('title', 'LIKE', '%' . $request->input('keyword') . '%');
+            $query->where('title', 'LIKE', '%' . trim($request->input('keyword')) . '%');
         }
 
         if ($request->filled('author')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_name', 'LIKE', '%' . $request->input('keyword') . '%');
+                $query->where('author_name', 'LIKE', '%' . trim($request->input('author')) . '%');
             });
         }
 
