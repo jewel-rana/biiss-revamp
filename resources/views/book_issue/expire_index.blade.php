@@ -76,9 +76,9 @@ use App\Book;
                                 <?php
                                 $today = date('Y-m-d');
                                 if($today > $item->end_date ){
-                                    echo '<span style="background-color: red" class="badge badge-danger">Expire</span>';
+                                    echo '<span style="background-color: red">Expire</span>';
                                 } else {
-                                    echo '<span style="background-color: green" class="badge badge-danger">Not expire</span>';
+                                    echo '<span style="background-color: green">Not expire</span>';
                                 }
                                 ?>
 

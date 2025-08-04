@@ -169,7 +169,7 @@
                                 <td>
                                     {{ $cpy->copy_number }}
                                     @if( $cpy->issued !== 2 )
-                                    <a id="lostThisCopy" href="#" data-id="{{ $item->id }}" data-copy="{{ $cpy->copy_number }}"><span class="badge badge-danger">Lost this copy</span></a>
+                                    <a id="lostThisCopy" href="#" data-id="{{ $item->id }}" data-copy="{{ $cpy->copy_number }}"><span>Lost this copy</span></a>
                                     @endif
                                 </td>
                                 <td>
@@ -177,7 +177,7 @@
                                         switch( $cpy->issued ){
                                             case '1' : echo '<span class="badge badge-warning">Issued</span>';
                                             break;
-                                            case '0' : echo '<span class="badge badge-success">Available</span>';
+                                            case '0' : echo '<span>Available</span>';
                                             break;
                                             default : echo '<span>Unknown / Lost</span>';
                                             break;

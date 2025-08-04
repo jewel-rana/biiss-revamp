@@ -125,10 +125,10 @@
 	                                    </td>
 	                                    <td>
 	                                    @if( $issue->is_returned  )
-	                                        <span style="background:green" class="badge badge-success">Returned</span>
+	                                        <span style="background:green">Returned</span>
 	                                    @else
 	                                        @if( $issue->end_date > date('Y-md') )
-	                                            <span style="background:red" class="badge badge-danger">Expired</span>
+	                                            <span style="background:red">Expired</span>
 	                                        @else
 	                                            <span style="background:lightgreen;color:#465ddc;" class="badge badge-primary">Not returned</span>
 	                                        @endif

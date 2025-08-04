@@ -64,7 +64,7 @@
 										<td>
 											@if( $issue->item['authors'] )
 											@foreach( $issue->item['authors'] as $author )
-												<span class="badge badge-info mb-2">{{ ucwords( $author->author_name ) }}</span>
+												<span class="mb-2">{{ ucwords( $author->author_name ) }}</span>
 											@endforeach
 											@endif
 										</td>
