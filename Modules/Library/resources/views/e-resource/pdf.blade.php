@@ -190,40 +190,77 @@
         }
     }
 
-    function renderThumbnails() {
+    // function renderThumbnails() {
+    //     sidebar.innerHTML = '';
+    //     for (let num = 1; num <= pdfDoc.numPages; num++) {
+    //         pdfDoc.getPage(num).then(page => {
+    //             const thumbScale = 0.2;
+    //             const viewport = page.getViewport({scale: thumbScale});
+    //             const canvas = document.createElement('canvas');
+    //             const context = canvas.getContext('2d');
+    //             canvas.width = viewport.width;
+    //             canvas.height = viewport.height;
+    //
+    //             page.render({canvasContext: context, viewport: viewport});
+    //
+    //             const thumbContainer = document.createElement('div');
+    //             thumbContainer.className = 'thumbnail-container';
+    //             thumbContainer.appendChild(canvas);
+    //
+    //             const pageNumberLabel = document.createElement('div');
+    //             pageNumberLabel.className = 'thumbnail-page-number';
+    //             pageNumberLabel.textContent = num;
+    //             thumbContainer.appendChild(pageNumberLabel);
+    //
+    //             thumbContainer.addEventListener('click', () => {
+    //                 const mainPageList = viewerContainer.querySelectorAll('.page-container');
+    //                 if (mainPageList[num - 1]) {
+    //                     mainPageList[num - 1].scrollIntoView({behavior: 'smooth'});
+    //                     document.getElementById('page-number').value = num; // update input
+    //                 }
+    //             });
+    //
+    //             sidebar.appendChild(thumbContainer);
+    //         });
+    //     }
+    // }
+
+    async function renderThumbnails() {
         sidebar.innerHTML = '';
         for (let num = 1; num <= pdfDoc.numPages; num++) {
-            pdfDoc.getPage(num).then(page => {
-                const thumbScale = 0.2;
-                const viewport = page.getViewport({scale: thumbScale});
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
+            const page = await pdfDoc.getPage(num);
+            const thumbScale = 0.12; // smaller than before
+            const vp = page.getViewport({ scale: thumbScale });
 
-                page.render({canvasContext: context, viewport: viewport});
+            const c = document.createElement('canvas');
+            c.width = vp.width; c.height = vp.height;
+            await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
 
-                const thumbContainer = document.createElement('div');
-                thumbContainer.className = 'thumbnail-container';
-                thumbContainer.appendChild(canvas);
+            const img = new Image();
+            img.decoding = 'async';
+            img.loading = 'lazy';
+            img.src = c.toDataURL('image/webp', 0.7);
+            img.style.width = '100%';
 
-                const pageNumberLabel = document.createElement('div');
-                pageNumberLabel.className = 'thumbnail-page-number';
-                pageNumberLabel.textContent = num;
-                thumbContainer.appendChild(pageNumberLabel);
+            const wrap = document.createElement('div');
+            wrap.className = 'thumbnail-container';
+            wrap.appendChild(img);
 
-                thumbContainer.addEventListener('click', () => {
-                    const mainPageList = viewerContainer.querySelectorAll('.page-container');
-                    if (mainPageList[num - 1]) {
-                        mainPageList[num - 1].scrollIntoView({behavior: 'smooth'});
-                        document.getElementById('page-number').value = num; // update input
-                    }
-                });
+            const badge = document.createElement('div');
+            badge.className = 'thumbnail-page-number';
+            badge.textContent = num;
+            wrap.appendChild(badge);
 
-                sidebar.appendChild(thumbContainer);
+            wrap.addEventListener('click', () => {
+                const pcs = viewerContainer.querySelectorAll('.page-container');
+                pcs[num - 1]?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('page-number').value = num;
             });
+
+            sidebar.appendChild(wrap);
         }
     }
+
 
     function rerenderVisiblePages() {
         const visiblePages = viewerContainer.querySelectorAll('.page-container');
