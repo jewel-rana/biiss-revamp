@@ -29,12 +29,22 @@
             <div class="col-md-12">
                 <div class="justify-content-between">
                     <div class="">
-                        <h2 class="fw-bold text-primary text-center">
+                        <h6 class="fw-bold  text-center">
                             {{ $library->title }}
-                            @if( $library->volume_number != null )
+                            @if( $library->volume_number)
                                 [{{ $library->volume_number }}]
                             @endif
-                        </h2>
+                            @if( $library->call_number)
+                                [{{ $library->call_number }}]
+                            @endif
+
+                            @if(auth()->check() && auth()->user()->type == 'admin')
+                                <span>
+                                <a href="{{ route('library.edit', $library->id) }}" target="_blank"
+                                   class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i> Edit</a>
+                            </span>
+                            @endif
+                        </h6>
                     </div>
                 </div>
             </div>

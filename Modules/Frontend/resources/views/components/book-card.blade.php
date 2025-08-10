@@ -11,7 +11,7 @@
             <img src="{{ $bookPhoto }}" alt="{{ $book->item['title'] }}" class="w-100"/>
             <div class="p-2">
                 <div
-                    class="card-title text-primary text-truncate">{{ Str::words($book->item['title'], 4, '...') }}</div>
+                    class="card-title  text-truncate">{{ Str::words($book->item['title'], 4, '...') }}</div>
                 <div class="card-text text-success">
                     @if(count($book->item['authors']))
                         @foreach($book->item['authors'] as $author)

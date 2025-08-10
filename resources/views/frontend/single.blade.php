@@ -24,10 +24,18 @@
             <div class="col-md-8">
                 <div class="d-flex justify-content-between">
                     <div class="">
-                        <h2 class="fw-bold text-primary">
+                        <h2 class="fw-bold ">
                             {{ $book->title }}
-                            @if( $book->volume_number != null )
+                            @if( $book->volume_number)
                                 [{{ $book->volume_number }}]
+                            @endif
+                            @if( $book->call_number)
+                                [{{ $book->call_number }}]
+                            @endif
+
+                            @if(auth()->check() && auth()->user()->type == 'admin')
+                                <span><a href="{{ route('library.edit', $book->id) }}" target="_blank"
+                                         class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i> Edit</a> </span>
                             @endif
                         </h2>
                         <h5 class="text-secondary">by
@@ -51,7 +59,7 @@
                 </div>
 
                 <ul class="list-group list-group-flush mt-4">
-{{--                    <li class="list-group-item"><strong>Genre:</strong> {{ ucfirst( $book->type ) }}</li>--}}
+                    {{--                    <li class="list-group-item"><strong>Genre:</strong> {{ ucfirst( $book->type ) }}</li>--}}
                     <li class="list-group-item"><strong>Publisher:</strong> {{ $book->publisher }}
                         - {{ $book->publication_year }}</li>
                     <li class="list-group-item"><strong>Subjects:</strong>
@@ -76,8 +84,9 @@
                         <li class="list-group-item"><strong>Season:</strong> {{ $book->season }}</li>
 
                     @elseif( strtolower( $book->type ) == 'book')
-                        <li class="list-group-item"><strong>Call No. :</strong> {{ $book->call_number }} {{ $book->authormark }}</li>
-{{--                        <li class="list-group-item"><strong>Author Mark:</strong> {{ $book->authormark }}</li>--}}
+                        <li class="list-group-item"><strong>Call No.
+                                :</strong> {{ $book->call_number }} {{ $book->authormark }}</li>
+                        {{--                        <li class="list-group-item"><strong>Author Mark:</strong> {{ $book->authormark }}</li>--}}
                         <li class="list-group-item"><strong>Accession Number(ACC):</strong> {{ $book->acc_number }}</li>
 
                         {{--                        @php--}}

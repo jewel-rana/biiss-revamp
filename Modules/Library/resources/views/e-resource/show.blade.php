@@ -24,7 +24,7 @@
             <div class="col-md-8">
                 <div class="d-flex justify-content-between">
                     <div class="">
-                        <h2 class="fw-bold text-primary">
+                        <h2 class="fw-bold ">
                             {{ $item->title }}
                             @if( $item->volume_number != null )
                                 [{{ $item->volume_number }}]

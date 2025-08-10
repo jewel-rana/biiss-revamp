@@ -49,7 +49,14 @@
         #viewer-container {
             flex: 1;
             overflow-y: auto;
+            overflow-x: hidden;
             background: #ddd;
+        }
+
+        .page-container canvas {
+            width: 100%;   /* canvas scales to container width */
+            height: auto;  /* keep aspect ratio */
+            max-width: 100%;
         }
         .page-container {
             position: relative;
@@ -109,6 +116,14 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        @media (max-width: 768px) {
+            #sidebar {
+                display: none;
+            }
+            #viewer-container {
+                flex: 1 1 100%;
+            }
         }
     </style>
 </head>

@@ -1,6 +1,7 @@
 a {
     text-decoration: none !important;
-    colore: #000 !important;
+    color: #000 !important;
+    font-weight: bold;
 }
 .pdfReaderIcon {
     min-width: 40px !important;
@@ -19,4 +20,7 @@ a {
 }
 .nav-link.text-white.font-weight-bold.px-3.my-1 {
     font-size: 18px;
+}
+.book-card .card-title {
+    color: #121213;
 }

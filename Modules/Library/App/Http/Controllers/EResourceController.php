@@ -35,12 +35,12 @@ class EResourceController extends Controller
             });
         }
 
-        if (isset($_GET['letter_sort'])) :
+        if ($request->filled('letter_sort')) {
             $letter = $_GET['letter_sort'];
             $query->where('title', 'LIKE', $letter . '%');
-        else :
+        } else {
             $query->orderBy('title', 'ASC');
-        endif;
+        }
 
         $books = $query->paginate(25)->withQueryString();
         return view('library::e-resource.e-book', compact('books'));
