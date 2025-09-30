@@ -24,3 +24,6 @@ a {
 .book-card .card-title {
     color: #121213;
 }
+footer a {
+    color: #fff0ff !important;
+}
