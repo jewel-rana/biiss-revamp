@@ -54,12 +54,12 @@ class Otp extends Model
             switch ($otp->type) {
                 case AuthConstant::RESET_OTP_TYPE:
                 case AuthConstant::LOGIN_OTP_TYPE :
-                    User::where('email', $this->decryptToken($otp->reference))->first()
-                        ->notify(new OtpNotification($otp));
+//                    User::where('email', $this->decryptToken($otp->reference))->first()
+//                        ->notify(new OtpNotification($otp));
                     break;
                 default:
-                    Customer::where('email', $this->decryptToken($otp->reference))->first()
-                        ->notify(new OtpNotification($otp));
+//                    Customer::where('email', $this->decryptToken($otp->reference))->first()
+//                        ->notify(new OtpNotification($otp));
                     break;
             }
         }

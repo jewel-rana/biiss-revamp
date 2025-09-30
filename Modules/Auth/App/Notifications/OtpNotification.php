@@ -27,7 +27,7 @@ class OtpNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject(config('app.name') . ' - OTP')
-            ->view('mail.otp', [
+            ->view('auth::mail.otp', [
                 'name' => $notifiable->name,
                 'otp' => str_split($this->otp->code)
             ]);

@@ -22,7 +22,7 @@
                             <div class="form-group flex-grow-1 position-relative">
                                 <input type="search" name="keyword" class="form-control search-input"
                                        id="keywordSearch"
-                                       placeholder="Search Book By Keyword or Title">
+                                       placeholder="Keyword or Title">
                             </div>
 
                             <!-- Second Search -->
@@ -30,7 +30,7 @@
                                 <div class="input-group position-relative">
                                     <input type="search" name="author" class="form-control search-input"
                                            id="authorSearch"
-                                           placeholder="Search books by Author">
+                                           placeholder="Author">
 
                                     <div class="input-group-btn bg-white">
                                         <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
