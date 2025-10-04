@@ -122,7 +122,7 @@
                 <div class="col-lg-3 mb-4">
                     <h5>Other Links</h5>
                     <ul class="list-unstyled mb-2">
-                        <li class="mb-2"><a href="https://biiss.org/view-page/54">BIISS Staff</a></li>
+                        <li class="mb-2"><a href="{{ route('frontend.staff') }}">BIISS Library Staff</a></li>
                         <li class="mb-2"><a href="http://203.76.124.122:6970/">BIISS Archive</a></li>
                         <li class="mb-2"><a href="https://biiss.org/biiss-at-media">BIISS Media</a></li>
                     </ul>

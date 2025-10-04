@@ -14,6 +14,6 @@ use Modules\Frontend\App\Http\Controllers\FrontendController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('frontend', FrontendController::class)->names('frontend');
+Route::group(['/'], function () {
+    Route::get('library-staff', [FrontendController::class, 'index'])->name('frontend.staff');
 });

@@ -46,6 +46,7 @@ class FrontController extends Controller
 
     public function featured(Request $request, $type = 'book'): View
     {
+        $data['type'] = $type;
         $query = Feature::with(['item' => function ($query) {
             if (isset($_GET['letter_sort'])) :
                 $letter = $_GET['letter_sort'];
