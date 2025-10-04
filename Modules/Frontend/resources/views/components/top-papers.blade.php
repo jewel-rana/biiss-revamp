@@ -4,7 +4,7 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="section-title">BIISS Papers</h2>
-                <a href="{{ route('front.documents') }}" class="view-all">View all</a>
+                <a href="{{ route('book.featured', 'document') }}" class="view-all">View all</a>
             </div>
             <div class="row g-4">
                 <div class="col-12 position-relative">

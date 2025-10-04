@@ -5,9 +5,9 @@
             <div class="d-flex flex-column align-items-center gap-5">
 
                 <!-- Logos Row -->
-                <div class="d-flex justify-content-center align-items-end mb-0" style="height: 80px;">
-                    <img src="/frontend/images/logo.png" alt="BIISS Logo" height="80" class="me-3">
-                    <img src="/frontend/images/bd_logo.png" alt="Bangladesh Logo" height="80">
+                <div class="d-flex justify-content-center align-items-end mb-0" style="height: 80px;width: 100% !important">
+                    <img src="/frontend/images/logo.png" alt="BIISS Logo" height="80" class="me-3" style="margin-right: 33% !important;">
+                    <img src="/frontend/images/bd_logo.png" alt="Bangladesh Logo" height="90">
                 </div>
 
                 <!-- Search Bar Row -->

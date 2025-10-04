@@ -28,6 +28,8 @@ Route::get('/top-journals', [FrontController::class, 'topJournals']);
 Route::get('/import-book', [BookController::class, 'import_book'])->name('book.import');
 Route::post('/import-book', [BookController::class, 'import_book_upload'])->name('book.import.upload');
 
+Route::get('/feature/{type}', [FrontController::class, 'featured'])->name('book.featured');
+
 //top seminar router
 Route::get('/top-seminars', [FrontController::class, 'topSeminars']);
 Route::get('/contact', [FrontController::class, 'contact'])->name('front.contact');

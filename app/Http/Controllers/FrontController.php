@@ -44,6 +44,23 @@ class FrontController extends Controller
         return view('frontend.all-books', $data);
     }
 
+    public function featured(Request $request, $type = 'book'): View
+    {
+        $query = Feature::with(['item' => function ($query) {
+            if (isset($_GET['letter_sort'])) :
+                $letter = $_GET['letter_sort'];
+                $query->where('title', 'LIKE', $letter . '%');
+            else :
+                $query->orderBy('title', 'ASC');
+            endif;
+        }])->where('type', $type);
+
+
+        $data['featured'] = $query->orderBy('created_at', 'desc')->paginate(25)->withQueryString();
+
+        return view('frontend.featured-books', $data);
+    }
+
     public function allJournals(): View
     {
         $query = Library::with('authors')
