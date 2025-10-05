@@ -18,7 +18,7 @@
                 'name' => 'Md. Emdadul Islam',
                 'designation' => 'Assistant Director',
                 'department' => 'Lib. & Doc.',
-                'photo' => asset('default/staff/shaheenul.jpg'),
+                'photo' => asset('default/staff/emdad.jpg'),
                 'email' => 'emdadul@biiss.org',
                 'phone' => '02-48315808',
                 'profile_url' => 'https://biiss.org/view-page/54',
