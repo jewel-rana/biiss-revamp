@@ -2,6 +2,7 @@
 
 namespace Modules\Library\App\Http\Controllers;
 
+use App\Helpers\CommonHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Library;
 use Illuminate\Contracts\View\View;
@@ -9,9 +10,10 @@ use Illuminate\Http\Request;
 
 class EResourceController extends Controller
 {
-    public function eBook(Request $request): View
+    public function eBook(Request $request)
     {
-        $query = Library::with('authors')
+        $query = Library::query()
+            ->with('authors')
             ->where('type', 'book')
             ->where('has_e_resource', true);
 
@@ -20,24 +22,37 @@ class EResourceController extends Controller
         }
 
         if ($request->filled('subject')) {
-            $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('auth_subject', 'LIKE', '%' . trim($request->input('subject')) . '%');
+            $subject = trim($request->input('subject'));
+            $query->whereHas('authors', function ($q) use ($subject) {
+                $q->where('auth_subject', 'LIKE', '%' . CommonHelper::likeEscape($subject) . '%');
             });
         }
 
         if ($request->filled('keyword')) {
-            $query->where('title', 'LIKE', '%' . trim($request->input('keyword')) . '%');
+            // Normalize spaces and require all words to appear somewhere in the title
+            $term = preg_replace('/\s+/', ' ', trim($request->input('keyword')));
+            $words = array_filter(explode(' ', $term));
+            $query->where(function ($q) use ($words) {
+                foreach ($words as $w) {
+                    $q->where('title', 'LIKE', '%' . CommonHelper::likeEscape($w) . '%');
+                }
+            });
         }
 
         if ($request->filled('author')) {
-            $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_name', 'LIKE', '%' . trim($request->input('author')) . '%');
+            $author = trim($request->input('author'));
+            $query->whereHas('authors', function ($q) use ($author) {
+                $q->where('author_name', 'LIKE', '%' . CommonHelper::likeEscape($author) . '%');
             });
         }
 
         if ($request->filled('letter_sort')) {
-            $letter = $_GET['letter_sort'];
-            $query->where('title', 'LIKE', $letter . '%');
+            $letter = $request->input('letter_sort'); // no $_GET
+            if ($letter !== null && $letter !== '') {
+                $query->where('title', 'LIKE', CommonHelper::likeEscape($letter) . '%');
+            } else {
+                $query->orderBy('title', 'ASC');
+            }
         } else {
             $query->orderBy('title', 'ASC');
         }
@@ -58,17 +73,17 @@ class EResourceController extends Controller
 
         if ($request->filled('subject')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('auth_subject', 'LIKE', '%' . trim($request->input('subject')) . '%');
+                $query->where('auth_subject', 'LIKE', '%' . CommonHelper::likeEscape(trim($request->input('subject'))) . '%');
             });
         }
 
         if ($request->filled('keyword')) {
-            $query->where('title', 'LIKE', '%' . trim($request->input('keyword')) . '%');
+            $query->where('title', 'LIKE', '%' . CommonHelper::likeEscape(trim($request->input('keyword'))) . '%');
         }
 
         if ($request->filled('author')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_name', 'LIKE', '%' . trim($request->input('author')) . '%');
+                $query->where('author_name', 'LIKE', '%' . CommonHelper::likeEscape(trim($request->input('author'))) . '%');
             });
         }
 
@@ -94,17 +109,17 @@ class EResourceController extends Controller
 
         if ($request->filled('subject')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('auth_subject', 'LIKE', '%' . trim($request->input('subject')) . '%');
+                $query->where('auth_subject', 'LIKE', '%' . CommonHelper::likeEscape(trim($request->input('subject'))) . '%');
             });
         }
 
         if ($request->filled('keyword')) {
-            $query->where('title', 'LIKE', '%' . trim($request->input('keyword')) . '%');
+            $query->where('title', 'LIKE', '%' . CommonHelper::likeEscape(trim($request->input('keyword'))) . '%');
         }
 
         if ($request->filled('author')) {
             $query->whereHas('authors', function ($query) use ($request) {
-                $query->where('author_name', 'LIKE', '%' . trim($request->input('author')) . '%');
+                $query->where('author_name', 'LIKE', '%' . CommonHelper::likeEscape(trim($request->input('author'))) . '%');
             });
         }
 

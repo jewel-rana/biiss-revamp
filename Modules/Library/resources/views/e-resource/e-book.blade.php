@@ -23,11 +23,12 @@
                         </h2>
                         <div class="row pt-2">
                             <div class="paginate float-end mb-3">
-                                <?php
-                                for ($i = 65; $i <= 90; $i++) {
-                                    printf('<a href="' . route('e-book', array_merge(request()->query(), array('letter_sort' => chr($i)))) . '" class="myclass">%1$s</a> ', chr($i));
-                                }
-                                ?>
+                                @for ($i = 65; $i <= 90; $i++)
+                                    <a href="{{ route('e-book', array_merge(request()->query(), ['letter_sort' => chr($i)])) }}" class="myclass">
+                                        {{ chr($i) }}
+                                    </a>
+                                @endfor
+
                             </div>
                             <div id="customFilters"
                                  style="padding:15px 10px;background: #fff;border:1px solid #eee;border-top-left-radius: 4px;border-top-right-radius: 4px;">

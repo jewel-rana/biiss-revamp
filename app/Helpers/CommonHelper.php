@@ -14,6 +14,11 @@ use Modules\Voucher\Entities\Voucher;
 
 class CommonHelper
 {
+    public static function likeEscape(string $s): string {
+        // Escape LIKE wildcards: %, _, \
+        return str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $s);
+    }
+
     public static function isPdf($filePath): bool
     {
         $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
