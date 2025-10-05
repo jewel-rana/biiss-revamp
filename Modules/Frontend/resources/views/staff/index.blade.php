@@ -15,21 +15,21 @@
         // Static staff data
         $staff = [
             [
-                'name' => 'Major General Md Shaheenul Haque, ndc, psc',
-                'designation' => 'Director General',
-                'department' => 'Administration',
+                'name' => 'Md. Emdadul Islam',
+                'designation' => 'Assistant Director',
+                'department' => 'Lib. & Doc.',
                 'photo' => asset('default/staff/shaheenul.jpg'),
-                'email' => 'dg@biiss.org',
-                'phone' => '+8802-222288491',
+                'email' => 'emdadul@biiss.org',
+                'phone' => '02-48315808',
                 'profile_url' => 'https://biiss.org/view-page/54',
             ],
             [
-                'name' => 'MD. Emdadul Islam',
+                'name' => 'Md. Mustafizur Rahman',
                 'designation' => 'Library Officer',
                 'department' => 'Library',
-                'photo' => asset('default/staff/emdad.jpg'),
-                'email' => 'emdad@biiss.org',
-                'phone' => '+8802-222288492',
+                'photo' => asset('default/staff/mustafiz.jpg'),
+                'email' => 'mustafizur@biiss.org',
+                'phone' => '02-48315808',
                 'profile_url' => 'https://biiss.org/view-page/54',
             ],
             [
@@ -38,18 +38,9 @@
                 'department' => 'Library',
                 'photo' => asset('default/staff/nazmul.jpg'),
                 'email' => 'nazmul@biiss.org',
-                'phone' => '+8802-222288490',
+                'phone' => '02-48315808',
                 'profile_url' => 'https://biiss.org/view-page/54',
-            ],
-            [
-                'name' => 'MD. Mr...',
-                'designation' => 'Library Officer',
-                'department' => 'Library',
-                'photo' => asset('default/staff/shamsul.jpg'),
-                'email' => 'shamsul@biiss.org',
-                'phone' => '+8802-222288493',
-                'profile_url' => 'https://biiss.org/view-page/54',
-            ],
+            ]
         ];
     @endphp
 
