@@ -30,13 +30,7 @@ class EResourceController extends Controller
 
         if ($request->filled('keyword')) {
             // Normalize spaces and require all words to appear somewhere in the title
-            $term = preg_replace('/\s+/', ' ', trim($request->input('keyword')));
-            $words = array_filter(explode(' ', $term));
-            $query->where(function ($q) use ($words) {
-                foreach ($words as $w) {
-                    $q->where('title', 'LIKE', '%' . CommonHelper::likeEscape($w) . '%');
-                }
-            });
+            $query->where('title', 'LIKE', '%' . stripcslashes($request->input('keyword')) . '%');
         }
 
         if ($request->filled('author')) {
@@ -46,10 +40,14 @@ class EResourceController extends Controller
             });
         }
 
-        if ($request->filled('letter_sort')) {
-            $letter = $request->input('letter_sort'); // no $_GET
-            if ($letter !== null && $letter !== '') {
-                $query->where('title', 'LIKE', CommonHelper::likeEscape($letter) . '%');
+        if (!$request->filled(['author', 'subject', 'keyword', 'year'])) {
+            if ($request->filled('letter_sort')) {
+                $letter = $request->input('letter_sort'); // no $_GET
+                if ($letter !== null && $letter !== '') {
+                    $query->where('title', 'LIKE', CommonHelper::likeEscape($letter) . '%');
+                } else {
+                    $query->orderBy('title', 'ASC');
+                }
             } else {
                 $query->orderBy('title', 'ASC');
             }
@@ -87,12 +85,20 @@ class EResourceController extends Controller
             });
         }
 
-        if (isset($_GET['letter_sort'])) :
-            $letter = $_GET['letter_sort'];
-            $query->where('title', 'LIKE', $letter . '%');
-        else :
+        if (!$request->filled(['author', 'subject', 'keyword', 'year'])) {
+            if ($request->filled('letter_sort')) {
+                $letter = $request->input('letter_sort'); // no $_GET
+                if ($letter !== null && $letter !== '') {
+                    $query->where('title', 'LIKE', CommonHelper::likeEscape($letter) . '%');
+                } else {
+                    $query->orderBy('title', 'ASC');
+                }
+            } else {
+                $query->orderBy('title', 'ASC');
+            }
+        } else {
             $query->orderBy('title', 'ASC');
-        endif;
+        }
         $books = $query->paginate(25)->withQueryString();
         return view('library::e-resource.e-journal', compact('books'));
     }
@@ -123,12 +129,20 @@ class EResourceController extends Controller
             });
         }
 
-        if (isset($_GET['letter_sort'])) :
-            $letter = $_GET['letter_sort'];
-            $query->where('title', 'LIKE', $letter . '%');
-        else :
+        if (!$request->filled(['author', 'subject', 'keyword', 'year'])) {
+            if ($request->filled('letter_sort')) {
+                $letter = $request->input('letter_sort'); // no $_GET
+                if ($letter !== null && $letter !== '') {
+                    $query->where('title', 'LIKE', CommonHelper::likeEscape($letter) . '%');
+                } else {
+                    $query->orderBy('title', 'ASC');
+                }
+            } else {
+                $query->orderBy('title', 'ASC');
+            }
+        } else {
             $query->orderBy('title', 'ASC');
-        endif;
+        }
         $books = $query->paginate(25)->withQueryString();
         return view('library::e-resource.e-document', compact('books'));
     }
