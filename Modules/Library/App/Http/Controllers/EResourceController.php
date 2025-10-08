@@ -40,7 +40,7 @@ class EResourceController extends Controller
             });
         }
 
-        if (!$request->filled(['author', 'subject', 'keyword', 'year'])) {
+        if ((!$request->filled('author') && !$request->filled('subject') && !$request->filled('keyword') && !$request->filled('year')) && $request->filled('letter_sort')) {
             if ($request->filled('letter_sort')) {
                 $letter = $request->input('letter_sort'); // no $_GET
                 if ($letter !== null && $letter !== '') {
@@ -85,7 +85,7 @@ class EResourceController extends Controller
             });
         }
 
-        if (!$request->filled(['author', 'subject', 'keyword', 'year'])) {
+        if ((!$request->filled('author') && !$request->filled('subject') && !$request->filled('keyword') && !$request->filled('year')) && $request->filled('letter_sort')) {
             if ($request->filled('letter_sort')) {
                 $letter = $request->input('letter_sort'); // no $_GET
                 if ($letter !== null && $letter !== '') {
@@ -129,7 +129,7 @@ class EResourceController extends Controller
             });
         }
 
-        if (!$request->filled(['author', 'subject', 'keyword', 'year'])) {
+        if ((!$request->filled('author') && !$request->filled('subject') && !$request->filled('keyword') && !$request->filled('year')) && $request->filled('letter_sort')) {
             if ($request->filled('letter_sort')) {
                 $letter = $request->input('letter_sort'); // no $_GET
                 if ($letter !== null && $letter !== '') {
