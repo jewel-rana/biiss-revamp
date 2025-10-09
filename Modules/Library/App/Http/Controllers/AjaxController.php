@@ -984,7 +984,7 @@ class AjaxController extends Controller
         return json_encode(array('results' => $return_arr));
     }
 
-    public function jqupload(Request $request)
+    public function jqupload(Request $request): JsonResponse
     {
         try {
             ini_set('upload_max_filesize', '500M');
