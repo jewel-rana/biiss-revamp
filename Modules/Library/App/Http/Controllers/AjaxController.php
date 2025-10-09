@@ -14,8 +14,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Modules\Auth\Entities\User;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Process\Process;
 use Yajra\DataTables\Facades\DataTables;
 
 class AjaxController extends Controller
@@ -242,16 +245,16 @@ class AjaxController extends Controller
     {
         $requestType = $request->input('type', 'book');
         $type = $requestType;
-        if($requestType == 'e-book') {
+        if ($requestType == 'e-book') {
             $type = 'book';
         }
-        if($requestType == 'e-journal') {
+        if ($requestType == 'e-journal') {
             $type = 'journal';
         }
-        if($requestType == 'e-magazine') {
+        if ($requestType == 'e-magazine') {
             $type = 'magazine';
         }
-        if($requestType == 'e-document') {
+        if ($requestType == 'e-document') {
             $type = 'document';
         }
         $query = "SELECT libraries.id, `libraries`.`title`, libraries.document_author, libraries.type, libraries.place, libraries.source,
@@ -264,7 +267,7 @@ class AjaxController extends Controller
                       LEFT JOIN `library_authors` ON `libraries`.`id` = `library_authors`.`item_id`
                       WHERE `libraries`.`type` = '$type'";
 
-        if(in_array($requestType, ['e-journal', 'e-magazine', 'e-document', 'e-book'])) {
+        if (in_array($requestType, ['e-journal', 'e-magazine', 'e-document', 'e-book'])) {
             $query .= " AND `libraries`.`has_e_resource` = 1";
         } else {
             $query .= " AND `libraries`.`has_e_resource` = 0";
@@ -983,24 +986,84 @@ class AjaxController extends Controller
 
     public function jqupload(Request $request)
     {
-        ini_set('upload_max_filesize', '500M');
-        ini_set('post_max_size', '500M');
-        //validation rules
-        $validator = Validator::make($request->all(), [
-            'uploadfile' => 'required|mimes:jpeg,bmp,png,pdf,txt,doc,docx|max:512000',
-        ]);
+        try {
+            ini_set('upload_max_filesize', '500M');
+            ini_set('post_max_size', '500M');
+            ini_set('max_execution_time', '300');
+            ini_set('max_input_time', '300');
+            //validation rules
+            $validator = Validator::make($request->all(), [
+                'uploadfile' => 'required|mimes:jpeg,bmp,png,pdf,txt,doc,docx|max:512000',
+            ]);
 
-        //validation fails
-        if ($validator->fails())
-            return response()->json(['success' => false, 'msg' => $validator->errors()->first()], 401);
+            //validation fails
+            if ($validator->fails())
+                return response()->json(['success' => false, 'msg' => $validator->errors()->first()], 401);
 
-        //upload file
-        $file = $request->file('uploadfile');
+            //upload file
+            $file = $request->file('uploadfile');
 
-        $filename = $request->file('uploadfile')->store('uploads/libraries');
-        $extension = $file->getClientOriginalExtension();
-        $type = (in_array($extension, array('pdf', 'txt', 'doc', 'docs', 'odt', 'xls', 'csv', 'sql'))) ? 'file' : 'image';
+            $extension = $file->getClientOriginalExtension();
+            $type = (in_array($extension, array('pdf', 'txt', 'doc', 'docs', 'odt', 'xls', 'csv', 'sql'))) ? 'file' : 'image';
 
-        return response()->json(['success' => true, 'filename' => $filename, 'filelink' => asset($filename), 'ext' => $extension, 'type' => $type]);
+            if ($extension == 'pdf') {
+                $tmpPath = $file->store('tmp');
+                $input = Storage::path($tmpPath);
+
+                // Compressed file path
+                $compressedRel = 'tmp/' . pathinfo($tmpPath, PATHINFO_FILENAME) . '-compressed.pdf';
+                $output = Storage::path($compressedRel);
+
+                $pdfSettings = '/ebook';
+
+                // Run Ghostscript using PATH binary
+                $args = [
+                    'gs',
+                    '-sDEVICE=pdfwrite',
+                    '-dCompatibilityLevel=1.6',
+                    "-dPDFSETTINGS={$pdfSettings}",
+                    '-dDetectDuplicateImages=true',
+                    '-dDownsampleColorImages=true',
+                    '-dColorImageResolution=144',
+                    '-dDownsampleGrayImages=true',
+                    '-dGrayImageResolution=144',
+                    '-dDownsampleMonoImages=true',
+                    '-dMonoImageResolution=144',
+                    '-dNOPAUSE',
+                    '-dQUIET',
+                    '-dBATCH',
+                    "-sOutputFile={$output}",
+                    $input,
+                ];
+
+                $process = new Process($args);
+                $process->setTimeout(120);
+                $process->run();
+
+                if (!$process->isSuccessful()) {
+                    Storage::delete([$tmpPath, $compressedRel]);
+                    throw new HttpException(422, "PDF compression failed: " . $process->getErrorOutput());
+                }
+
+                // Compare sizes, keep smaller
+                $inSize = filesize($input);
+                $outSize = @filesize($output) ?: $inSize;
+
+                $finalRel = $outSize < $inSize
+                    ? Storage::putFileAs('uploads', new \Illuminate\Http\File($output), $file->hashName())
+                    : Storage::putFileAs('uploads', new \Illuminate\Http\File($input), $file->hashName());
+
+                // Clean temp files
+                Storage::delete([$tmpPath, $compressedRel]);
+                $filename = $finalRel;
+            } else {
+                $filename = $request->file('uploadfile')->store('uploads/libraries');
+            }
+            return response()->json(['success' => true, 'filename' => $filename, 'filelink' => asset($filename), 'ext' => $extension, 'type' => $type]);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            dd($exception);
+            return response()->json(['success' => false, 'message' => $exception->getMessage()]);
+        }
     }
 }
