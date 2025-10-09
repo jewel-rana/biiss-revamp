@@ -400,8 +400,6 @@ class AjaxController extends Controller
         $items = Library::select('id', 'title', 'authormark', 'isbn', 'call_number', 'acc_number', 'item_number', 'type', 'publisher', 'friq')->with(['authors', 'tags'])->where('type', $type)->get();
 
         $map = $items->map(function ($item) {
-            $data->checkboxes = '<input type="checkbox" name="id[]" value="' . $item->id . '" class="itemcheckbox">';
-
             $str = '<div class="btn-group">';
             if (strtolower($item->type) == 'book') {
                 $str .= '<a href="' . route('issue.create', $item->id) . '" onclick="addToplisted(' . $item->id . ');" target="_blank" class="btn btn-success" target="_blank" id="' . $item->id . '"><i class="fa fa-plus"></i> Issue</a>';
@@ -414,13 +412,14 @@ class AjaxController extends Controller
 
             $str .= '</div>';
 
-            $data->action = $str;
-
-            $data->authors = $this->_createCommaSeperatedAuthors($item->authors);
-            $data->subjects = $this->_createCommaSeperatedSubjects($item->authors);
-            $data->articles = $this->_createCommaSeperatedArticles($item->authors);
-            $data->tags = $this->_createCommaSeperatedTags($item->tags);
-            return $data;
+            return [
+                'checkboxes' => '<input type="checkbox" name="id[]" value="' . $item->id . '" class="itemcheckbox">',
+                'action' => $str,
+                'authors' => $this->_createCommaSeperatedAuthors($item->authors),
+                'subjects' => $this->_createCommaSeperatedSubjects($item->authors),
+                'articles' => $this->_createCommaSeperatedArticles($item->authors),
+                'tags' => $this->_createCommaSeperatedTags($item->tags)
+            ];
         });
 
         return json_encode(array('data' => $map));
