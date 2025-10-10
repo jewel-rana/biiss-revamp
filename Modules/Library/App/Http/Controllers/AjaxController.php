@@ -1006,62 +1006,103 @@ class AjaxController extends Controller
             $type = (in_array($extension, array('pdf', 'txt', 'doc', 'docs', 'odt', 'xls', 'csv', 'sql'))) ? 'file' : 'image';
 
             if ($extension == 'pdf') {
-                $tmpPath = $file->store('tmp');
-                $input = Storage::path($tmpPath);
+                $preset = $request->input('preset', 'ebook');
+                $pdf    = $request->file('uploadfile');;
 
-                // Compressed file path
-                $compressedRel = 'tmp/' . pathinfo($tmpPath, PATHINFO_FILENAME) . '-compressed.pdf';
-                $output = Storage::path($compressedRel);
+                // Save original to local disk first
+                $tmpRel = $pdf->store('tmp');                // e.g. storage/app/tmp/xyz.pdf
+                $input  = Storage::path($tmpRel);            // absolute path to input
 
-                $pdfSettings = '/ebook';
+                // Ghostscript will write to system /tmp (avoids AppArmor/SAFER issues)
+                $tmpOut = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR)
+                    . DIRECTORY_SEPARATOR
+                    . pathinfo($input, PATHINFO_FILENAME).'-compressed.pdf';
 
-                // Run Ghostscript using PATH binary
+                $presetMap = [
+                    'screen'  => '/screen',
+                    'ebook'   => '/ebook',
+                    'printer' => '/printer',
+                    'prepress'=> '/prepress',
+                    'default' => '/default',
+                ];
+                $pdfSettings = $presetMap[$preset] ?? '/ebook';
+
+                // 1) First pass (balanced)
                 $args = [
                     'gs',
                     '-sDEVICE=pdfwrite',
                     '-dCompatibilityLevel=1.6',
                     "-dPDFSETTINGS={$pdfSettings}",
                     '-dDetectDuplicateImages=true',
-                    '-dDownsampleColorImages=true',
-                    '-dColorImageResolution=144',
-                    '-dDownsampleGrayImages=true',
-                    '-dGrayImageResolution=144',
-                    '-dDownsampleMonoImages=true',
-                    '-dMonoImageResolution=144',
-                    '-dNOPAUSE',
-                    '-dQUIET',
-                    '-dBATCH',
-                    "-sOutputFile={$output}",
+                    '-dDownsampleColorImages=true', '-dColorImageResolution=144',
+                    '-dDownsampleGrayImages=true',  '-dGrayImageResolution=144',
+                    '-dDownsampleMonoImages=true',  '-dMonoImageResolution=300',
+                    '-dNOPAUSE', '-dBATCH', // (omit -dQUIET for troubleshooting)
+                    "-sOutputFile={$tmpOut}",
                     $input,
                 ];
 
-                $process = new Process($args);
-                $process->setTimeout(120);
-                $process->run();
+                $p = new Process($args);
+                $p->setTimeout(600);
+                $p->run();
 
-                if (!$process->isSuccessful()) {
-                    Storage::delete([$tmpPath, $compressedRel]);
-                    throw new HttpException(422, "PDF compression failed: " . $process->getErrorOutput());
+                if (!file_exists($tmpOut)) {
+                    // If /tmp was blocked for some reason, show stderr to logs and fail
+                    Log::warning('GS first pass failed', ['exit'=>$p->getExitCode(),'stderr'=>$p->getErrorOutput()]);
+                    Storage::delete($tmpRel);
+                    throw new HttpException(422, 'PDF compression failed (no output).');
                 }
 
-                // Compare sizes, keep smaller
-                $inSize = filesize($input);
-                $outSize = @filesize($output) ?: $inSize;
+                $inSize  = filesize($input);
+                $outSize = filesize($tmpOut);
 
-                $finalRel = $outSize < $inSize
-                    ? Storage::putFileAs('uploads', new \Illuminate\Http\File($output), $file->hashName())
-                    : Storage::putFileAs('uploads', new \Illuminate\Http\File($input), $file->hashName());
+                // 2) If shrink <5%, try aggressive pass (forces re-encode)
+                if ($outSize >= 0.90 * $inSize) {
+                    $tmpOut2 = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR)
+                        . DIRECTORY_SEPARATOR
+                        . pathinfo($input, PATHINFO_FILENAME).'-aggressive.pdf';
 
-                // Clean temp files
-                Storage::delete([$tmpPath, $compressedRel]);
-                $filename = $finalRel;
+                    $aggr = [
+                        'gs','-sDEVICE=pdfwrite','-dCompatibilityLevel=1.6',
+                        '-dPDFSETTINGS=/screen',
+                        '-dAutoFilterColorImages=false','-dColorImageFilter=/DCTEncode','-dJPEGQ=60',
+                        '-dAutoFilterGrayImages=false','-dGrayImageFilter=/DCTEncode',
+                        '-dMonoImageFilter=/CCITTFaxEncode',
+                        '-dDownsampleColorImages=true','-dColorImageDownsampleType=/Bicubic','-dColorImageResolution=120',
+                        '-dDownsampleGrayImages=true','-dGrayImageDownsampleType=/Bicubic','-dGrayImageResolution=120',
+                        '-dDownsampleMonoImages=true','-dMonoImageDownsampleType=/Subsample','-dMonoImageResolution=300',
+                        '-dDetectDuplicateImages=true','-dCompressFonts=true','-dSubsetFonts=true',
+                        '-dNOPAUSE','-dBATCH',
+                        "-sOutputFile={$tmpOut2}", $input,
+                    ];
+
+                    $p2 = new Process($aggr);
+                    $p2->setTimeout(900);
+                    $p2->run();
+
+                    if (file_exists($tmpOut2) && filesize($tmpOut2) < $outSize) {
+                        @unlink($tmpOut);
+                        $tmpOut = $tmpOut2;
+                        $outSize = filesize($tmpOut2);
+                    } else {
+                        @unlink($tmpOut2);
+                    }
+                }
+
+                // 3) Move the better file into your storage uploads
+                $filename = 'uploads/'.$pdf->hashName(); // storage/app/uploads/<hash>.pdf
+                $srcFile  = new \Illuminate\Http\File($outSize < $inSize ? $tmpOut : $input);
+                Storage::putFileAs('uploads', $srcFile, basename($filename));
+
+                // cleanup
+                @unlink($tmpOut);
+                Storage::delete($tmpRel);
             } else {
                 $filename = $request->file('uploadfile')->store('uploads/libraries');
             }
             return response()->json(['success' => true, 'filename' => $filename, 'filelink' => asset($filename), 'ext' => $extension, 'type' => $type]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            dd($exception);
             return response()->json(['success' => false, 'message' => $exception->getMessage()]);
         }
     }
