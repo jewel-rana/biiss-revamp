@@ -32,6 +32,7 @@ Route::group(['prefix' => 'e-resource'], function () {
     Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/pdf/{library}', [EResourceController::class, 'pdfViewer'])->name('library.pdf');
         Route::get('/{type}/{library}', [EResourceController::class, 'eBookReader'])->name('library.reader');
+        Route::get('/{type}/{library}/download', [EResourceController::class, 'download'])->name('library.download');
     });
 });
 

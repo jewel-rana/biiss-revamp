@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Library;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class EResourceController extends Controller
 {
@@ -160,5 +163,28 @@ class EResourceController extends Controller
     public function pdfViewer(Library $library): View
     {
         return view('library::e-resource.pdf', compact('library'));
+    }
+
+    public function download($type, Library $library): BinaryFileResponse
+    {
+        $path = storage_path('app/public/' . $library->file);
+
+        if (!file_exists($path)) {
+            abort(404, 'File not found.');
+        }
+
+        $filename = Str::slug($library->title) . '.pdf';
+
+        // Create a BinaryFileResponse
+        $response = response()->download($path, $filename, [
+            'Content-Type'        => 'application/octet-stream', // use generic type, not 'application/pdf'
+            'Cache-Control'       => 'no-cache, must-revalidate',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"', // forces download
+        ]);
+
+        // Just to be absolutely sure:
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
+
+        return $response;
     }
 }

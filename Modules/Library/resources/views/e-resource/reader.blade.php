@@ -38,10 +38,14 @@
                                 [{{ $library->call_number }}]
                             @endif
 
-                            @if(auth()->check() && auth()->user()->type == 'admin')
+                            @if(auth()->check())
                                 <span>
-                                <a href="{{ route('library.edit', $library->id) }}" target="_blank"
-                                   class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i> Edit</a>
+                                    @if(auth()->user()->type == 'admin')
+                                        <a href="{{ route('library.edit', $library->id) }}" target="_blank"
+                                           class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i> Edit</a>
+                                    @endif
+                                <a href="{{ route('library.download', [$library->type, $library->id]) }}"
+                                   class="btn btn-sm btn-outline-secondary"><i class="fa fa-download"></i> Download</a>
                             </span>
                             @endif
                         </h6>
