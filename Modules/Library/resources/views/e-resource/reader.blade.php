@@ -56,10 +56,15 @@
                 @if(auth()->check())
                     <div class="pdf-container">
                         <iframe
-                            src="{{ route('library.pdf', $library->id) }}"
+                            src="{{ asset('storage/' . $library->file) }}"
                             width="100%"
                             style="overflow: auto;">
                         </iframe>
+{{--                        <iframe--}}
+{{--                            src="{{ route('library.pdf', $library->id) }}"--}}
+{{--                            width="100%"--}}
+{{--                            style="overflow: auto;">--}}
+{{--                        </iframe>--}}
                     </div>
                 @endif
             </div>
